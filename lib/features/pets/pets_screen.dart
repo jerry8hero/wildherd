@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
@@ -389,7 +388,7 @@ class _AddReptileSheetState extends State<AddReptileSheet> {
       );
 
       final reptile = Reptile(
-        id: const Uuid().v4(),
+        id: '${DateTime.now().millisecondsSinceEpoch}_${_nameController.text}',
         name: _nameController.text,
         species: _speciesController.text,
         speciesChinese: species['name'],

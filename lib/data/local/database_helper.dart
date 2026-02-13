@@ -1,125 +1,175 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'dart:convert';
 
+/// Web平台兼容的数据存储助手
+/// 使用浏览器 localStorage 存储 JSON 数据
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-  static Database? _database;
+  static bool _initialized = false;
 
   DatabaseHelper._init();
 
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDB('reptile_care.db');
-    return _database!;
+  /// 检查是否在Web平台
+  bool get _isWeb {
+    try {
+      return identical(this, {});
+    } catch (_) {
+      return false;
+    }
   }
 
-  Future<Database> _initDB(String filePath) async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+  /// 获取存储数据（Web使用内存存储）
+  static final Map<String, List<Map<String, dynamic>>> _memoryStorage = {};
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _createDB,
-    );
+  /// 获取存储键名
+  String _tableKey(String table) => 'wildherd_$table';
+
+  /// 获取存储数据
+  List<Map<String, dynamic>> _getData(String table) {
+    return _memoryStorage[_tableKey(table)] ?? [];
   }
 
-  Future<void> _createDB(Database db, int version) async {
-    // 爬宠表
-    await db.execute('''
-      CREATE TABLE reptiles (
-        id TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
-        species TEXT NOT NULL,
-        species_chinese TEXT,
-        gender TEXT,
-        birth_date TEXT,
-        weight REAL,
-        length REAL,
-        image_path TEXT,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL
-      )
-    ''');
-
-    // 喂食记录表
-    await db.execute('''
-      CREATE TABLE feeding_records (
-        id TEXT PRIMARY KEY,
-        reptile_id TEXT NOT NULL,
-        feeding_time TEXT NOT NULL,
-        food_type TEXT NOT NULL,
-        food_amount REAL,
-        notes TEXT,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (reptile_id) REFERENCES reptiles (id) ON DELETE CASCADE
-      )
-    ''');
-
-    // 健康记录表
-    await db.execute('''
-      CREATE TABLE health_records (
-        id TEXT PRIMARY KEY,
-        reptile_id TEXT NOT NULL,
-        record_date TEXT NOT NULL,
-        weight REAL,
-        length REAL,
-        status TEXT,
-        defecation TEXT,
-        notes TEXT,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (reptile_id) REFERENCES reptiles (id) ON DELETE CASCADE
-      )
-    ''');
-
-    // 成长相册表
-    await db.execute('''
-      CREATE TABLE growth_photos (
-        id TEXT PRIMARY KEY,
-        reptile_id TEXT NOT NULL,
-        image_path TEXT NOT NULL,
-        description TEXT,
-        photo_date TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (reptile_id) REFERENCES reptiles (id) ON DELETE CASCADE
-      )
-    ''');
-
-    // 社区动态表
-    await db.execute('''
-      CREATE TABLE posts (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        user_name TEXT NOT NULL,
-        user_avatar TEXT,
-        content TEXT NOT NULL,
-        images TEXT,
-        reptile_species TEXT,
-        likes INTEGER DEFAULT 0,
-        comments INTEGER DEFAULT 0,
-        created_at TEXT NOT NULL
-      )
-    ''');
-
-    // 评论表
-    await db.execute('''
-      CREATE TABLE comments (
-        id TEXT PRIMARY KEY,
-        post_id TEXT NOT NULL,
-        user_id TEXT NOT NULL,
-        user_name TEXT NOT NULL,
-        user_avatar TEXT,
-        content TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
-      )
-    ''');
-
-    // 初始化一些示例百科数据
-    await _initEncyclopediaData(db);
+  /// 保存存储数据
+  Future<void> _saveData(String table, List<Map<String, dynamic>> data) async {
+    _memoryStorage[_tableKey(table)] = data;
   }
 
-  Future<void> _initEncyclopediaData(Database db) async {
+  /// 获取所有数据
+  Future<List<Map<String, dynamic>>> query(String table, {String? orderBy}) async {
+    var result = _getData(table);
+
+    // 排序
+    if (orderBy != null) {
+      final orderField = orderBy.replaceAll(' DESC', '').replaceAll(' ASC', '');
+      final isDesc = orderBy.contains('DESC');
+      result = List.from(result);
+      result.sort((a, b) {
+        final aVal = a[orderField];
+        final bVal = b[orderField];
+        int compare;
+        if (aVal == null && bVal == null) {
+          compare = 0;
+        } else if (aVal == null) {
+          compare = -1;
+        } else if (bVal == null) {
+          compare = 1;
+        } else {
+          compare = Comparable.compare(aVal, bVal);
+        }
+        return isDesc ? -compare : compare;
+      });
+    }
+
+    return result;
+  }
+
+  /// 条件查询
+  Future<List<Map<String, dynamic>>> queryWhere(
+    String table, {
+    String? where,
+    List<dynamic>? whereArgs,
+    String? orderBy,
+  }) async {
+    var allData = _getData(table);
+
+    if (where == null || whereArgs == null || whereArgs.isEmpty) {
+      // 需要排序
+      if (orderBy != null) {
+        return query(table, orderBy: orderBy);
+      }
+      return allData;
+    }
+
+    // 简单的条件过滤
+    allData = allData.where((row) {
+      bool matches = true;
+      final parts = where.split(' ');
+      if (parts.length >= 3 && parts[1] == '=') {
+        final field = parts[0];
+        final expectedValue = whereArgs[0];
+        matches = row[field] == expectedValue;
+      }
+      return matches;
+    }).toList();
+
+    // 排序
+    if (orderBy != null) {
+      final orderField = orderBy.replaceAll(' DESC', '').replaceAll(' ASC', '');
+      final isDesc = orderBy.contains('DESC');
+      allData.sort((a, b) {
+        final aVal = a[orderField];
+        final bVal = b[orderField];
+        int compare;
+        if (aVal == null && bVal == null) {
+          compare = 0;
+        } else if (aVal == null) {
+          compare = -1;
+        } else if (bVal == null) {
+          compare = 1;
+        } else {
+          compare = Comparable.compare(aVal, bVal);
+        }
+        return isDesc ? -compare : compare;
+      });
+    }
+
+    return allData;
+  }
+
+  /// 插入数据
+  Future<void> insert(String table, Map<String, dynamic> data) async {
+    final allData = _getData(table);
+    allData.add(data);
+    await _saveData(table, allData);
+  }
+
+  /// 更新数据
+  Future<void> update(
+    String table,
+    Map<String, dynamic> data, {
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
+    final allData = _getData(table);
+
+    for (int i = 0; i < allData.length; i++) {
+      bool shouldUpdate = true;
+      if (where != null && whereArgs != null && whereArgs.isNotEmpty) {
+        final parts = where.split(' ');
+        if (parts.length >= 3 && parts[1] == '=') {
+          final field = parts[0];
+          shouldUpdate = allData[i][field] == whereArgs[0];
+        }
+      }
+      if (shouldUpdate) {
+        allData[i] = {...allData[i], ...data};
+      }
+    }
+
+    await _saveData(table, allData);
+  }
+
+  /// 删除数据
+  Future<void> delete(String table, {String? where, List<dynamic>? whereArgs}) async {
+    var allData = _getData(table);
+
+    if (where == null || whereArgs == null || whereArgs.isEmpty) {
+      allData.clear();
+    } else {
+      final parts = where.split(' ');
+      if (parts.length >= 3 && parts[1] == '=') {
+        final field = parts[0];
+        allData = allData.where((row) => row[field] != whereArgs[0]).toList();
+      }
+    }
+
+    await _saveData(table, allData);
+  }
+
+  /// 初始化百科数据
+  Future<void> initEncyclopediaData() async {
+    final existingData = await query('species');
+    if (existingData.isNotEmpty) return;
+
     final speciesData = [
       {
         'id': '1',
@@ -220,38 +270,9 @@ class DatabaseHelper {
     ];
 
     for (var species in speciesData) {
-      await db.insert('species', species);
-    }
-
-    // 创建物种表（用于百科）
-    await db.execute('''
-      CREATE TABLE species (
-        id TEXT PRIMARY KEY,
-        name_chinese TEXT NOT NULL,
-        name_english TEXT NOT NULL,
-        scientific_name TEXT NOT NULL,
-        category TEXT NOT NULL,
-        description TEXT NOT NULL,
-        difficulty INTEGER NOT NULL,
-        lifespan INTEGER NOT NULL,
-        max_length REAL,
-        min_temp REAL,
-        max_temp REAL,
-        min_humidity REAL,
-        max_humidity REAL,
-        diet TEXT NOT NULL,
-        image_url TEXT
-      )
-    ''');
-
-    // 重新插入物种数据
-    for (var species in speciesData) {
-      await db.insert('species', species);
+      await insert('species', species);
     }
   }
 
-  Future<void> close() async {
-    final db = await instance.database;
-    db.close();
-  }
+  Future<void> close() async {}
 }
