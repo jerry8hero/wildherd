@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+// Web平台使用 localStorage
+import 'dart:html' if (dart.library.html) 'dart:html';
+
 /// Web平台兼容的数据存储助手
 /// 使用浏览器 localStorage 存储 JSON 数据
 class DatabaseHelper {
@@ -11,13 +14,13 @@ class DatabaseHelper {
   /// 检查是否在Web平台
   bool get _isWeb {
     try {
-      return identical(this, {});
+      return window.localStorage != null;
     } catch (_) {
       return false;
     }
   }
 
-  /// 获取存储数据（Web使用内存存储）
+  /// 获取存储数据（Web使用 localStorage，App使用内存存储）
   static final Map<String, List<Map<String, dynamic>>> _memoryStorage = {};
 
   /// 获取存储键名
@@ -25,12 +28,35 @@ class DatabaseHelper {
 
   /// 获取存储数据
   List<Map<String, dynamic>> _getData(String table) {
-    return _memoryStorage[_tableKey(table)] ?? [];
+    final key = _tableKey(table);
+
+    // Web平台使用 localStorage
+    if (_isWeb) {
+      try {
+        final stored = window.localStorage[key];
+        if (stored != null) {
+          final decoded = jsonDecode(stored) as List;
+          return decoded.cast<Map<String, dynamic>>();
+        }
+      } catch (_) {}
+    }
+
+    return _memoryStorage[key] ?? [];
   }
 
   /// 保存存储数据
   Future<void> _saveData(String table, List<Map<String, dynamic>> data) async {
-    _memoryStorage[_tableKey(table)] = data;
+    final key = _tableKey(table);
+
+    // Web平台使用 localStorage
+    if (_isWeb) {
+      try {
+        window.localStorage[key] = jsonEncode(data);
+        return;
+      } catch (_) {}
+    }
+
+    _memoryStorage[key] = data;
   }
 
   /// 获取所有数据
