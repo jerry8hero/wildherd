@@ -10,11 +10,12 @@ class AppTheme {
 
   // 爬宠类别颜色
   static const Map<String, Color> categoryColors = {
-    'snake': Color(0xFF7E57C2), // 紫色 - 蛇
-    'lizard': Color(0xFF4CAF50), // 绿色 - 蜥蜴
-    'turtle': Color(0xFF03A9F4), // 蓝色 - 龟
-    'gecko': Color(0xFFFF9800), // 橙色 - 守宫
+    'snake': Color(0xFF7E57C2),     // 紫色 - 蛇
+    'lizard': Color(0xFF4CAF50),    // 绿色 - 蜥蜴
+    'turtle': Color(0xFF03A9F4),    // 蓝色 - 龟
+    'gecko': Color(0xFFFF9800),     // 橙色 - 守宫
     'amphibian': Color(0xFF26A69A), // 青色 - 两栖
+    'arachnid': Color(0xFFE91E63),  // 粉色 - 蜘蛛
   };
 
   static ThemeData get lightTheme {

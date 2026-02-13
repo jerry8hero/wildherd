@@ -231,14 +231,46 @@ class _AddReptileSheetState extends State<AddReptileSheet> {
 
   // 常见爬宠种类
   final List<Map<String, String>> _commonSpecies = [
+    // 蛇类
     {'species': 'corn_snake', 'name': '玉米蛇'},
     {'species': 'ball_python', 'name': '球蟒'},
+    {'species': 'black_rat_snake', 'name': '黑王蛇'},
+    {'species': 'milk_snake', 'name': '奶蛇'},
+    {'species': 'hognose_snake', 'name': '猪鼻蛇'},
+    // 守宫类
     {'species': 'leopard_gecko', 'name': '豹纹守宫'},
+    {'species': 'crested_gecko', 'name': '睫角守宫'},
+    {'species': 'giant_gecko', 'name': '巨人守宫'},
+    // 蜥蜴类
     {'species': 'bearded_dragon', 'name': '鬃狮蜥'},
     {'species': 'green_iguana', 'name': '绿鬣蜥'},
-    {'species': 'red_eared_slider', 'name': '红耳龟'},
-    {'species': 'crested_gecko', 'name': '睫角守宫'},
     {'species': 'blue_tongue_skink', 'name': '蓝舌石龙子'},
+    {'species': 'chameleon', 'name': '高冠变色龙'},
+    // 龟类 - 水龟
+    {'species': 'red_eared_slider', 'name': '红耳龟 (水龟)'},
+    {'species': 'musk_turtle', 'name': '麝香龟 (水龟)'},
+    {'species': 'map_turtle', 'name': '地图龟 (水龟)'},
+    {'species': 'chinese_pond_turtle', 'name': '草龟 (水龟)'},
+    {'species': 'yellow_bellied_slider', 'name': '巴西龟 (水龟)'},
+    // 龟类 - 半水龟
+    {'species': 'chinese_box_turtle', 'name': '黄缘闭壳龟 (半水龟)'},
+    {'species': 'keeled_box_turtle', 'name': '锯缘摄龟 (半水龟)'},
+    {'species': 'three_striped_box_turtle', 'name': '三线闭壳龟 (半水龟)'},
+    {'species': 'japanese_pond_turtle', 'name': '日本石龟 (半水龟)'},
+    // 龟类 - 陆龟
+    {'species': 'radiated_tortoise', 'name': '辐射陆龟 (陆龟)'},
+    {'species': 'leopard_tortoise', 'name': '豹纹陆龟 (陆龟)'},
+    {'species': 'hermann_tortoise', 'name': '赫曼陆龟 (陆龟)'},
+    {'species': 'indian_star_tortoise', 'name': '印度星龟 (陆龟)'},
+    {'species': 'red_footed_tortoise', 'name': '红腿陆龟 (陆龟)'},
+    // 两栖类
+    {'species': 'horned_frog', 'name': '角蛙'},
+    {'species': 'axolotl', 'name': '蝾螈'},
+    // 蜘蛛类
+    {'species': 'chilean_rose', 'name': '智利红玫瑰'},
+    {'species': 'mexican_red_knee', 'name': '墨西哥红膝'},
+    {'species': 'white_knee_tarantula', 'name': '巴西白膝'},
+    // 其他
     {'species': 'other', 'name': '其他'},
   ];
 

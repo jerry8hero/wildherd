@@ -4,7 +4,8 @@ class ReptileSpecies {
   final String nameChinese;
   final String nameEnglish;
   final String scientificName;
-  final String category; // 类别: snake, lizard, turtle, gecko, amphibian
+  final String category; // 类别: snake, lizard, turtle, gecko, amphibian, arachnid
+  final String? subCategory; // 子分类: aquatic, semi_aquatic, terrestrial (用于龟类)
   final String description;
   final int difficulty; // 饲养难度 1-5
   final int lifespan; // 预期寿命(年)
@@ -22,6 +23,7 @@ class ReptileSpecies {
     required this.nameEnglish,
     required this.scientificName,
     required this.category,
+    this.subCategory,
     required this.description,
     required this.difficulty,
     required this.lifespan,
@@ -41,6 +43,7 @@ class ReptileSpecies {
       'name_english': nameEnglish,
       'scientific_name': scientificName,
       'category': category,
+      'sub_category': subCategory,
       'description': description,
       'difficulty': difficulty,
       'lifespan': lifespan,
@@ -61,6 +64,7 @@ class ReptileSpecies {
       nameEnglish: map['name_english'],
       scientificName: map['scientific_name'],
       category: map['category'],
+      subCategory: map['sub_category'],
       description: map['description'],
       difficulty: map['difficulty'],
       lifespan: map['lifespan'],

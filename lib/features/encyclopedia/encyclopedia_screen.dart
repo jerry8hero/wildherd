@@ -24,12 +24,13 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     {'id': 'turtle', 'name': '龟类', 'icon': Icons.emoji_nature},
     {'id': 'gecko', 'name': '守宫', 'icon': Icons.bug_report},
     {'id': 'amphibian', 'name': '两栖', 'icon': Icons.water},
+    {'id': 'arachnid', 'name': '蜘蛛', 'icon': Icons.pest_control_rodent},
   ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
     _loadData();
   }
 
@@ -314,6 +315,8 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
               if (species.maxLength != null)
                 _buildInfoRow('最大长度', '${species.maxLength} cm'),
               _buildInfoRow('食性', _getDietText(species.diet)),
+              if (species.subCategory != null)
+                _buildInfoRow('类型', _getSubCategoryText(species.subCategory!)),
               const SizedBox(height: 24),
 
               // 环境要求
@@ -371,6 +374,19 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
         return '杂食性';
       default:
         return diet;
+    }
+  }
+
+  String _getSubCategoryText(String subCategory) {
+    switch (subCategory) {
+      case 'aquatic':
+        return '水龟';
+      case 'semi_aquatic':
+        return '半水龟';
+      case 'terrestrial':
+        return '陆龟';
+      default:
+        return subCategory;
     }
   }
 }
