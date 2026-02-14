@@ -1,0 +1,16 @@
+# shellcheck shell=dash disable=SC2016,SC2317
+
+###
+ # 创建或进入 tmux 环境，本环境主要提供给延迟发布脚本的运行
+ #
+ # @usage: `xw t` - 进入
+###
+
+(
+    TMUX_SESSION_NAME="_delay${1}"
+    if x tmux list-sessions | command grep "${TMUX_SESSION_NAME}" >/dev/null; then
+        x tmux attach -t "${TMUX_SESSION_NAME}"
+    else
+        x tmux new -s "${TMUX_SESSION_NAME}"
+    fi
+)
