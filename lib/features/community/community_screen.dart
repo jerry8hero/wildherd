@@ -122,7 +122,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     child: Text(
                       post.reptileSpecies!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppTheme.primaryColor,
                         fontSize: 12,
                       ),

@@ -7,7 +7,7 @@ import 'dart:html' if (dart.library.html) 'dart:html';
 /// 使用浏览器 localStorage 存储 JSON 数据
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-  static bool _initialized = false;
+  static final bool _initialized = false;
 
   DatabaseHelper._init();
 
