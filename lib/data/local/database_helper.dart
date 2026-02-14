@@ -7,12 +7,19 @@ import 'dart:html' if (dart.library.html) 'dart:html';
 /// 使用浏览器 localStorage 存储 JSON 数据
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-  static final bool _initialized = false;
 
   DatabaseHelper._init();
 
-  /// 检查是否在Web平台
+  /// 缓存平台检测结果
+  bool? _isWebCached;
+
+  /// 检查是否在Web平台（缓存结果）
   bool get _isWeb {
+    _isWebCached ??= _detectWebPlatform();
+    return _isWebCached!;
+  }
+
+  bool _detectWebPlatform() {
     try {
       return window.localStorage != null;
     } catch (_) {
@@ -25,6 +32,32 @@ class DatabaseHelper {
 
   /// 获取存储键名
   String _tableKey(String table) => 'wildherd_$table';
+
+  /// 对数据进行排序
+  List<Map<String, dynamic>> _sortData(
+    List<Map<String, dynamic>> data,
+    String orderBy,
+  ) {
+    final orderField = orderBy.replaceAll(' DESC', '').replaceAll(' ASC', '');
+    final isDesc = orderBy.contains('DESC');
+    final result = List<Map<String, dynamic>>.from(data);
+    result.sort((a, b) {
+      final aVal = a[orderField];
+      final bVal = b[orderField];
+      int compare;
+      if (aVal == null && bVal == null) {
+        compare = 0;
+      } else if (aVal == null) {
+        compare = -1;
+      } else if (bVal == null) {
+        compare = 1;
+      } else {
+        compare = Comparable.compare(aVal, bVal);
+      }
+      return isDesc ? -compare : compare;
+    });
+    return result;
+  }
 
   /// 获取存储数据
   List<Map<String, dynamic>> _getData(String table) {
@@ -65,24 +98,7 @@ class DatabaseHelper {
 
     // 排序
     if (orderBy != null) {
-      final orderField = orderBy.replaceAll(' DESC', '').replaceAll(' ASC', '');
-      final isDesc = orderBy.contains('DESC');
-      result = List.from(result);
-      result.sort((a, b) {
-        final aVal = a[orderField];
-        final bVal = b[orderField];
-        int compare;
-        if (aVal == null && bVal == null) {
-          compare = 0;
-        } else if (aVal == null) {
-          compare = -1;
-        } else if (bVal == null) {
-          compare = 1;
-        } else {
-          compare = Comparable.compare(aVal, bVal);
-        }
-        return isDesc ? -compare : compare;
-      });
+      result = _sortData(result, orderBy);
     }
 
     return result;
@@ -97,45 +113,19 @@ class DatabaseHelper {
   }) async {
     var allData = _getData(table);
 
-    if (where == null || whereArgs == null || whereArgs.isEmpty) {
-      // 需要排序
-      if (orderBy != null) {
-        return query(table, orderBy: orderBy);
-      }
-      return allData;
-    }
-
     // 简单的条件过滤
-    allData = allData.where((row) {
-      bool matches = true;
+    if (where != null && whereArgs != null && whereArgs.isNotEmpty) {
       final parts = where.split(' ');
       if (parts.length >= 3 && parts[1] == '=') {
         final field = parts[0];
         final expectedValue = whereArgs[0];
-        matches = row[field] == expectedValue;
+        allData = allData.where((row) => row[field] == expectedValue).toList();
       }
-      return matches;
-    }).toList();
+    }
 
     // 排序
     if (orderBy != null) {
-      final orderField = orderBy.replaceAll(' DESC', '').replaceAll(' ASC', '');
-      final isDesc = orderBy.contains('DESC');
-      allData.sort((a, b) {
-        final aVal = a[orderField];
-        final bVal = b[orderField];
-        int compare;
-        if (aVal == null && bVal == null) {
-          compare = 0;
-        } else if (aVal == null) {
-          compare = -1;
-        } else if (bVal == null) {
-          compare = 1;
-        } else {
-          compare = Comparable.compare(aVal, bVal);
-        }
-        return isDesc ? -compare : compare;
-      });
+      allData = _sortData(allData, orderBy);
     }
 
     return allData;
