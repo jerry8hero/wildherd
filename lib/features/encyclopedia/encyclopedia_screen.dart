@@ -14,7 +14,6 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final EncyclopediaRepository _repository = EncyclopediaRepository();
-  List<ReptileSpecies> _allSpecies = [];
   Map<String, List<ReptileSpecies>> _categorySpecies = {};
   bool _isLoading = true;
 
@@ -53,7 +52,6 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
       }
 
       setState(() {
-        _allSpecies = species;
         _categorySpecies = grouped;
         _isLoading = false;
       });

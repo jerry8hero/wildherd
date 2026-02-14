@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-// Web平台使用 localStorage
-import 'dart:html' if (dart.library.html) 'dart:html';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+// Web平台使用 localStorage，非Web平台使用条件导入
+import 'dart:html' if (dart.library.html) 'dart:html' as html;
 
 /// Web平台兼容的数据存储助手
 /// 使用浏览器 localStorage 存储 JSON 数据
@@ -10,24 +12,7 @@ class DatabaseHelper {
 
   DatabaseHelper._init();
 
-  /// 缓存平台检测结果
-  bool? _isWebCached;
-
-  /// 检查是否在Web平台（缓存结果）
-  bool get _isWeb {
-    _isWebCached ??= _detectWebPlatform();
-    return _isWebCached!;
-  }
-
-  bool _detectWebPlatform() {
-    try {
-      return window.localStorage != null;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  /// 获取存储数据（Web使用 localStorage，App使用内存存储）
+  /// 获取存储数据（Web使用 localStorage，其他平台使用内存存储）
   static final Map<String, List<Map<String, dynamic>>> _memoryStorage = {};
 
   /// 获取存储键名
@@ -64,9 +49,9 @@ class DatabaseHelper {
     final key = _tableKey(table);
 
     // Web平台使用 localStorage
-    if (_isWeb) {
+    if (kIsWeb) {
       try {
-        final stored = window.localStorage[key];
+        final stored = html.window.localStorage[key];
         if (stored != null) {
           final decoded = jsonDecode(stored) as List;
           return decoded.cast<Map<String, dynamic>>();
@@ -82,9 +67,9 @@ class DatabaseHelper {
     final key = _tableKey(table);
 
     // Web平台使用 localStorage
-    if (_isWeb) {
+    if (kIsWeb) {
       try {
-        window.localStorage[key] = jsonEncode(data);
+        html.window.localStorage[key] = jsonEncode(data);
         return;
       } catch (_) {}
     }

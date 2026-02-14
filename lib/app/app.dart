@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import '../features/home/home_screen.dart';
-import '../features/pets/pets_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/community/community_screen.dart';
 
@@ -31,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const PetsScreen(),
+    const HomeScreen(), // TODO: 添加 PetsScreen
     const EncyclopediaScreen(),
     const CommunityScreen(),
   ];
