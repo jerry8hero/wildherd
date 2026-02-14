@@ -3,6 +3,170 @@ import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
 
+// 爬宠分类数据模型
+class ReptileCategory {
+  final String name;
+  final String icon;
+  final List<Map<String, String>> species;
+
+  const ReptileCategory({
+    required this.name,
+    required this.icon,
+    required this.species,
+  });
+}
+
+// 爬宠种类分类（按大类分组）
+final List<ReptileCategory> reptileCategories = [
+  // 蛇类
+  ReptileCategory(
+    name: '蛇类',
+    icon: '🐍',
+    species: [
+      {'species': 'corn_snake', 'name': '玉米蛇'},
+      {'species': 'ball_python', 'name': '球蟒'},
+      {'species': 'black_rat_snake', 'name': '黑王蛇'},
+      {'species': 'milk_snake', 'name': '奶蛇'},
+      {'species': 'hognose_snake', 'name': '猪鼻蛇'},
+      {'species': 'king_snake', 'name': '国王蛇'},
+      {'species': 'gopher_snake', 'name': '草原鼠蛇'},
+      {'species': 'bull_snack', 'name': '牛蛇'},
+      {'species': 'pine_snake', 'name': '松蛇'},
+      {'species': 'other_snake', 'name': '其他蛇类'},
+    ],
+  ),
+  // 守宫类
+  ReptileCategory(
+    name: '守宫类',
+    icon: '🦎',
+    species: [
+      {'species': 'leopard_gecko', 'name': '豹纹守宫'},
+      {'species': 'crested_gecko', 'name': '睫角守宫'},
+      {'species': 'giant_gecko', 'name': '巨人守宫'},
+      {'species': 'leachie_gecko', 'name': '盖勾亚守宫'},
+      {'species': 'satanic_leaf_gecko', 'name': '撒旦叶尾守宫'},
+      {'species': 'frog_eyed_gecko', 'name': '猫守宫'},
+      {'species': 'other_gecko', 'name': '其他守宫'},
+    ],
+  ),
+  // 蜥蜴类
+  ReptileCategory(
+    name: '蜥蜴类',
+    icon: '🦎',
+    species: [
+      {'species': 'bearded_dragon', 'name': '鬃狮蜥'},
+      {'species': 'green_iguana', 'name': '绿鬣蜥'},
+      {'species': 'blue_tongue_skink', 'name': '蓝舌石龙子'},
+      {'species': 'chameleon', 'name': '变色龙'},
+      {'species': 'uromastyx', 'name': '王者蜥'},
+      {'species': 'water_dragon', 'name': '水龙'},
+      {'species': 'chinese_water_dragon', 'name': '中国水龙'},
+      {'species': 'monitor_lizard', 'name': '巨蜥'},
+      {'species': 'gila_monster', 'name': '毒蜥'},
+      {'species': 'other_lizard', 'name': '其他蜥蜴'},
+    ],
+  ),
+  // 龟类 - 水龟
+  ReptileCategory(
+    name: '水龟',
+    icon: '🐢',
+    species: [
+      {'species': 'red_eared_slider', 'name': '红耳龟'},
+      {'species': 'yellow_bellied_slider', 'name': '巴西龟'},
+      {'species': 'musk_turtle', 'name': '麝香龟'},
+      {'species': 'map_turtle', 'name': '地图龟'},
+      {'species': 'painted_turtle', 'name': '锦龟'},
+      {'species': 'chinese_pond_turtle', 'name': '草龟'},
+      {'species': 'reeves_turtle', 'name': '巴西斑龟'},
+      {'species': 'snake_neck_turtle', 'name': '蛇颈龟'},
+      {'species': 'side_neck_turtle', 'name': '侧颈龟'},
+      {'species': 'softshell_turtle', 'name': '鳖/软壳龟'},
+      {'species': 'other_water_turtle', 'name': '其他水龟'},
+    ],
+  ),
+  // 龟类 - 半水龟
+  ReptileCategory(
+    name: '半水龟',
+    icon: '🐢',
+    species: [
+      {'species': 'chinese_box_turtle', 'name': '黄缘闭壳龟'},
+      {'species': 'keeled_box_turtle', 'name': '锯缘摄龟'},
+      {'species': 'three_striped_box_turtle', 'name': '三线闭壳龟'},
+      {'species': 'japanese_pond_turtle', 'name': '日本石龟'},
+      {'species': 'chinese_softshell_turtle', 'name': '中华鳖'},
+      {'species': 'golden_turtle', 'name': '金龟'},
+      {'species': 'other_semi_terrestrial', 'name': '其他半水龟'},
+    ],
+  ),
+  // 龟类 - 陆龟
+  ReptileCategory(
+    name: '陆龟',
+    icon: '🐢',
+    species: [
+      {'species': 'radiated_tortoise', 'name': '辐射陆龟'},
+      {'species': 'leopard_tortoise', 'name': '豹纹陆龟'},
+      {'species': 'hermann_tortoise', 'name': '赫曼陆龟'},
+      {'species': 'indian_star_tortoise', 'name': '印度星龟'},
+      {'species': 'red_footed_tortoise', 'name': '红腿陆龟'},
+      {'species': 'yellow_footed_tortoise', 'name': '黄腿陆龟'},
+      {'species': 'sulcata_tortoise', 'name': '苏卡达陆龟'},
+      {'species': 'african_spurred_tortoise', 'name': '非洲盾臂龟'},
+      {'species': 'chinese_tortoise', 'name': '中华草龟'},
+      {'species': 'greek_tortoise', 'name': '希腊陆龟'},
+      {'species': 'other_tortoise', 'name': '其他陆龟'},
+    ],
+  ),
+  // 两栖类
+  ReptileCategory(
+    name: '两栖类',
+    icon: '🐸',
+    species: [
+      {'species': 'horned_frog', 'name': '角蛙'},
+      {'species': 'pacman_frog', 'name': 'pacman蛙'},
+      {'species': 'white_tree_frog', 'name': '白树蛙'},
+      {'species': 'red_eye_tree_frog', 'name': '红眼树蛙'},
+      {'species': 'dart_frog', 'name': '箭毒蛙'},
+      {'species': 'axolotl', 'name': '蝾螈'},
+      {'species': 'fire_belly_newt', 'name': '火焰蝾螈'},
+      {'species': 'chinese_fire_belly', 'name': '中国火龙'},
+      {'species': 'other_amphibian', 'name': '其他两栖类'},
+    ],
+  ),
+  // 蜘蛛类
+  ReptileCategory(
+    name: '蜘蛛类',
+    icon: '🕷️',
+    species: [
+      {'species': 'chilean_rose', 'name': '智利红玫瑰'},
+      {'species': 'mexican_red_knee', 'name': '墨西哥红膝'},
+      {'species': 'white_knee_tarantula', 'name': '巴西白膝'},
+      {'species': 'mexican_blonde', 'name': '墨西哥金毛'},
+      {'species': 'brazilian_black', 'name': '巴西黑丝绒'},
+      {'species': 'greenbottle_blue', 'name': '蓝瓶'},
+      {'species': 'cobalt_blue', 'name': '钴蓝'},
+      {'species': 'gooty_sapphire', 'name': '圭亚那蓝宝石'},
+      {'species': 'other_tarantula', 'name': '其他捕鸟蛛'},
+    ],
+  ),
+  // 其他
+  ReptileCategory(
+    name: '其他',
+    icon: '🔍',
+    species: [
+      {'species': 'scorpion', 'name': '蝎子'},
+      {'species': 'centipede', 'name': '蜈蚣'},
+      {'species': 'mantis', 'name': '螳螂'},
+      {'species': 'beetle', 'name': '甲虫'},
+      {'species': 'other', 'name': '其他'},
+    ],
+  ),
+];
+
+// 扁平化的种类列表（用于快速查找）
+List<Map<String, String>> get allSpecies {
+  return reptileCategories.expand((category) => category.species).toList();
+}
+
 class PetsScreen extends StatefulWidget {
   const PetsScreen({super.key});
 
@@ -228,51 +392,17 @@ class _AddReptileSheetState extends State<AddReptileSheet> {
   String? _selectedGender;
   DateTime? _selectedDate;
   final _weightController = TextEditingController();
+  String? _selectedCategory; // 当前选中的分类
+  String? _selectedSpecies; // 当前选中的具体种类
 
-  // 常见爬宠种类
-  final List<Map<String, String>> _commonSpecies = [
-    // 蛇类
-    {'species': 'corn_snake', 'name': '玉米蛇'},
-    {'species': 'ball_python', 'name': '球蟒'},
-    {'species': 'black_rat_snake', 'name': '黑王蛇'},
-    {'species': 'milk_snake', 'name': '奶蛇'},
-    {'species': 'hognose_snake', 'name': '猪鼻蛇'},
-    // 守宫类
-    {'species': 'leopard_gecko', 'name': '豹纹守宫'},
-    {'species': 'crested_gecko', 'name': '睫角守宫'},
-    {'species': 'giant_gecko', 'name': '巨人守宫'},
-    // 蜥蜴类
-    {'species': 'bearded_dragon', 'name': '鬃狮蜥'},
-    {'species': 'green_iguana', 'name': '绿鬣蜥'},
-    {'species': 'blue_tongue_skink', 'name': '蓝舌石龙子'},
-    {'species': 'chameleon', 'name': '高冠变色龙'},
-    // 龟类 - 水龟
-    {'species': 'red_eared_slider', 'name': '红耳龟 (水龟)'},
-    {'species': 'musk_turtle', 'name': '麝香龟 (水龟)'},
-    {'species': 'map_turtle', 'name': '地图龟 (水龟)'},
-    {'species': 'chinese_pond_turtle', 'name': '草龟 (水龟)'},
-    {'species': 'yellow_bellied_slider', 'name': '巴西龟 (水龟)'},
-    // 龟类 - 半水龟
-    {'species': 'chinese_box_turtle', 'name': '黄缘闭壳龟 (半水龟)'},
-    {'species': 'keeled_box_turtle', 'name': '锯缘摄龟 (半水龟)'},
-    {'species': 'three_striped_box_turtle', 'name': '三线闭壳龟 (半水龟)'},
-    {'species': 'japanese_pond_turtle', 'name': '日本石龟 (半水龟)'},
-    // 龟类 - 陆龟
-    {'species': 'radiated_tortoise', 'name': '辐射陆龟 (陆龟)'},
-    {'species': 'leopard_tortoise', 'name': '豹纹陆龟 (陆龟)'},
-    {'species': 'hermann_tortoise', 'name': '赫曼陆龟 (陆龟)'},
-    {'species': 'indian_star_tortoise', 'name': '印度星龟 (陆龟)'},
-    {'species': 'red_footed_tortoise', 'name': '红腿陆龟 (陆龟)'},
-    // 两栖类
-    {'species': 'horned_frog', 'name': '角蛙'},
-    {'species': 'axolotl', 'name': '蝾螈'},
-    // 蜘蛛类
-    {'species': 'chilean_rose', 'name': '智利红玫瑰'},
-    {'species': 'mexican_red_knee', 'name': '墨西哥红膝'},
-    {'species': 'white_knee_tarantula', 'name': '巴西白膝'},
-    // 其他
-    {'species': 'other', 'name': '其他'},
-  ];
+  // 根据分类获取种类列表
+  List<Map<String, String>> _getSpeciesForCategory(String categoryName) {
+    final category = reptileCategories.firstWhere(
+      (c) => c.name == categoryName,
+      orElse: () => reptileCategories.last,
+    );
+    return category.species;
+  }
 
   @override
   void dispose() {
@@ -317,23 +447,64 @@ class _AddReptileSheetState extends State<AddReptileSheet> {
               ),
               const SizedBox(height: 16),
 
-              // 种类
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: '种类',
-                  prefixIcon: Icon(Icons.category),
-                ),
-                items: _commonSpecies.map((species) {
-                  return DropdownMenuItem(
-                    value: species['species'],
-                    child: Text(species['name']!),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  _speciesController.text = value ?? '';
-                },
-                validator: (value) =>
-                    value?.isEmpty == true ? '请选择种类' : null,
+              // 种类 - 两级选择（先选大类，再选具体种类）
+              Row(
+                children: [
+                  // 第一级：选择分类
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(
+                        labelText: '分类',
+                        prefixIcon: Icon(Icons.category),
+                      ),
+                      value: _selectedCategory,
+                      items: reptileCategories.map((category) {
+                        return DropdownMenuItem(
+                          value: category.name,
+                          child: Text('${category.icon} ${category.name}'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCategory = value;
+                          _selectedSpecies = null;
+                          _speciesController.text = '';
+                        });
+                      },
+                      validator: (value) =>
+                          value?.isEmpty == true ? '请选择分类' : null,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // 第二级：选择具体种类
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(
+                        labelText: '具体种类',
+                        prefixIcon: Icon(Icons.pets),
+                      ),
+                      value: _selectedSpecies,
+                      items: _selectedCategory != null
+                          ? _getSpeciesForCategory(_selectedCategory!)
+                              .map((species) {
+                                  return DropdownMenuItem(
+                                    value: species['species'],
+                                    child: Text(species['name']!),
+                                  );
+                                })
+                                .toList()
+                          : [],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedSpecies = value;
+                          _speciesController.text = value ?? '';
+                        });
+                      },
+                      validator: (value) =>
+                          value?.isEmpty == true ? '请选择种类' : null,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
 
@@ -414,9 +585,9 @@ class _AddReptileSheetState extends State<AddReptileSheet> {
 
   void _submit() {
     if (_formKey.currentState?.validate() == true) {
-      final species = _commonSpecies.firstWhere(
+      final species = allSpecies.firstWhere(
         (s) => s['species'] == _speciesController.text,
-        orElse: () => _commonSpecies.last,
+        orElse: () => {'species': 'other', 'name': '其他'},
       );
 
       final reptile = Reptile(
