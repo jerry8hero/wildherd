@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
+import '../../utils/image_utils.dart';
+import '../../widgets/empty_state.dart';
 import 'reptile_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,15 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final ReptileRepository _repository = ReptileRepository();
   List<Reptile> _reptiles = [];
   bool _isLoading = true;
-
-  // 根据图片路径类型返回对应的 ImageProvider
-  ImageProvider _getImageProvider(String? imagePath) {
-    if (imagePath == null || imagePath.isEmpty) return AssetImage('assets/images/default_avatar.png');
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return NetworkImage(imagePath);
-    }
-    return AssetImage(imagePath);
-  }
 
   @override
   void initState() {
@@ -217,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   radius: 30,
                   backgroundColor: AppTheme.getCategoryColor(reptile.species),
                   backgroundImage: reptile.imagePath != null && reptile.imagePath!.isNotEmpty
-                      ? _getImageProvider(reptile.imagePath)
+                      ? ImageUtils.getImageProvider(reptile.imagePath)
                       : null,
                   child: reptile.imagePath == null || reptile.imagePath!.isEmpty
                       ? const Icon(Icons.pets, color: Colors.white, size: 30)

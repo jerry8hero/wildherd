@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../data/models/community.dart';
 import '../../app/theme.dart';
+import '../../utils/image_utils.dart';
+import '../../utils/date_utils.dart' as app_date;
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -10,23 +12,6 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-  // 根据图片路径类型返回对应的 ImageProvider
-  ImageProvider _getAvatarImageProvider(String? avatarUrl) {
-    if (avatarUrl == null || avatarUrl.isEmpty) return AssetImage('assets/images/default_avatar.png');
-    if (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) {
-      return NetworkImage(avatarUrl);
-    }
-    return AssetImage(avatarUrl);
-  }
-
-  // 根据图片URL类型返回对应的 ImageProvider
-  ImageProvider _getImageProvider(String imageUrl) {
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-      return NetworkImage(imageUrl);
-    }
-    return AssetImage(imageUrl);
-  }
-
   // 模拟数据 - 实际应从数据库获取
   final List<Post> _posts = [
     Post(
@@ -104,7 +89,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 CircleAvatar(
                   backgroundColor: AppTheme.primaryColor,
                   backgroundImage: post.userAvatar != null && post.userAvatar!.isNotEmpty
-                      ? _getAvatarImageProvider(post.userAvatar)
+                      ? ImageUtils.getImageProvider(post.userAvatar)
                       : null,
                   child: post.userAvatar == null || post.userAvatar!.isEmpty
                       ? Text(
@@ -123,7 +108,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        _formatTime(post.createdAt),
+                        app_date.DateTimeUtils.formatRelativeTime(post.createdAt),
                         style: TextStyle(
                           color: Colors.grey[500],
                           fontSize: 12,
@@ -174,7 +159,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image(
-                          image: _getImageProvider(post.images[index]),
+                          image: ImageUtils.getImageProvider(post.images[index]),
                           width: 200,
                           height: 200,
                           fit: BoxFit.cover,
@@ -242,19 +227,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ],
       ),
     );
-  }
-
-  String _formatTime(DateTime time) {
-    final diff = DateTime.now().difference(time);
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}分钟前';
-    } else if (diff.inHours < 24) {
-      return '${diff.inHours}小时前';
-    } else if (diff.inDays < 7) {
-      return '${diff.inDays}天前';
-    } else {
-      return '${time.month}-${time.day}';
-    }
   }
 
   void _createPost() {

@@ -2,29 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
-
-class EncyclopediaScreen extends StatefulWidget {
-  const EncyclopediaScreen({super.key});
-
-  @override
-  State<EncyclopediaScreen> createState() => _EncyclopediaScreenState();
-}
-
-class _EncyclopediaScreenState extends State<EncyclopediaScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final EncyclopediaRepository _repository = EncyclopediaRepository();
-  Map<String, List<ReptileSpecies>> _categorySpecies = {};
-  bool _isLoading = true;
-
-  // 根据图片URL类型返回对应的 ImageProvider
-  ImageProvider _getImageProvider(String? imageUrl) {
-    if (imageUrl == null || imageUrl.isEmpty) return AssetImage('assets/images/default_avatar.png');
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-      return NetworkImage(imageUrl);
-    }
-    return AssetImage(imageUrl);
-  }
+import '../../utils/image_utils.dart';
 
 class EncyclopediaScreen extends StatefulWidget {
   const EncyclopediaScreen({super.key});
@@ -159,7 +137,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image(
-                          image: _getImageProvider(species.imageUrl),
+                          image: ImageUtils.getImageProvider(species.imageUrl),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return const Icon(
@@ -284,7 +262,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(16),
                             child: Image(
-                              image: _getImageProvider(species.imageUrl),
+                              image: ImageUtils.getImageProvider(species.imageUrl),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(

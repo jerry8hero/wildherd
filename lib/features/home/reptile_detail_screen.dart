@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
+import '../../utils/image_utils.dart';
+import '../../utils/date_utils.dart';
+import '../../utils/gender_utils.dart';
+import '../../widgets/info_row.dart';
 
 class ReptileDetailScreen extends StatefulWidget {
   final Reptile reptile;
@@ -21,8 +25,6 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
   final _speciesController = TextEditingController();
   String? _selectedGender;
   DateTime? _selectedBirthDate;
-
-  final List<String> _genderOptions = ['雄性', '雌性', '未知'];
 
   @override
   void initState() {
@@ -74,28 +76,6 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
       setState(() {
         _selectedBirthDate = picked;
       });
-    }
-  }
-
-  String _getGenderText(String? gender) {
-    switch (gender) {
-      case '雄性':
-        return '雄性';
-      case '雌性':
-        return '雌性';
-      default:
-        return '未知';
-    }
-  }
-
-  IconData _getGenderIcon(String? gender) {
-    switch (gender) {
-      case '雄性':
-        return Icons.male;
-      case '雌性':
-        return Icons.female;
-      default:
-        return Icons.help_outline;
     }
   }
 
@@ -203,25 +183,7 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
                       child: _isEditing
                           ? DropdownButton<String>(
                               value: _selectedGender ?? '未知',
-                              items: _genderOptions.map((gender) {
-                                return DropdownMenuItem(
-                                  value: gender,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        _getGenderIcon(gender),
-                                        color: gender == '雄性'
-                                            ? Colors.blue
-                                            : gender == '雌性'
-                                                ? Colors.pink
-                                                : Colors.grey,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(gender),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
+                              items: GenderUtils.getDropdownItems(),
                               onChanged: (value) {
                                 setState(() {
                                   _selectedGender = value;
@@ -231,15 +193,11 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
                           : Row(
                               children: [
                                 Icon(
-                                  _getGenderIcon(_reptile.gender),
-                                  color: _reptile.gender == '雄性'
-                                      ? Colors.blue
-                                      : _reptile.gender == '雌性'
-                                          ? Colors.pink
-                                          : Colors.grey,
+                                  GenderUtils.getIcon(_reptile.gender),
+                                  color: GenderUtils.getColor(_reptile.gender),
                                 ),
                                 const SizedBox(width: 8),
-                                Text(_getGenderText(_reptile.gender)),
+                                Text(GenderUtils.getText(_reptile.gender)),
                               ],
                             ),
                     ),
@@ -262,7 +220,7 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
                                   children: [
                                     Text(
                                       _selectedBirthDate != null
-                                          ? '${_selectedBirthDate!.year}-${_selectedBirthDate!.month.toString().padLeft(2, '0')}-${_selectedBirthDate!.day.toString().padLeft(2, '0')}'
+                                          ? DateTimeUtils.formatDate(_selectedBirthDate)
                                           : '选择日期',
                                     ),
                                     const Icon(Icons.calendar_today, size: 20),
@@ -271,9 +229,7 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
                               ),
                             )
                           : Text(
-                              _reptile.birthDate != null
-                                  ? '${_reptile.birthDate!.year}-${_reptile.birthDate!.month.toString().padLeft(2, '0')}-${_reptile.birthDate!.day.toString().padLeft(2, '0')}'
-                                  : '未设置',
+                              DateTimeUtils.formatDate(_reptile.birthDate),
                               style: TextStyle(
                                 color: _reptile.birthDate != null ? null : Colors.grey,
                               ),
