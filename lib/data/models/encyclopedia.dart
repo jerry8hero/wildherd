@@ -4,7 +4,7 @@ class ReptileSpecies {
   final String nameChinese;
   final String nameEnglish;
   final String scientificName;
-  final String category; // 类别: snake, lizard, turtle, gecko, amphibian, arachnid
+  final String category; // 类别: snake, lizard, turtle, gecko, amphibian, arachnid, insect
   final String? subCategory; // 子分类: aquatic, semi_aquatic, terrestrial (用于龟类)
   final String description;
   final int difficulty; // 饲养难度 1-5
