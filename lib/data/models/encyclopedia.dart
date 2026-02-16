@@ -5,7 +5,7 @@ class ReptileSpecies {
   final String nameEnglish;
   final String scientificName;
   final String category; // 类别: snake, lizard, turtle, gecko, amphibian, arachnid, insect
-  final String? subCategory; // 子分类: aquatic, semi_aquatic, terrestrial (用于龟类)
+  final String? subCategory; // 子分类: 龟类使用科学分类 - chelidae(蛇颈龟科), podocnemididae(侧颈龟科), testudinidae(陆龟科), emydidae(泽龟科), geoemydidae(地龟科), chelydridae(鳄龟科), cheloniidae(海龟科), dermochelyidae(棱皮龟科), trionychidae(鳖科), kinosternidae(动胸龟科), platysternidae(平胸龟科), carettochelyidae(两爪鳖科); 非龟类使用 aquatic, semi_aquatic, terrestrial
   final String description;
   final int difficulty; // 饲养难度 1-5
   final int lifespan; // 预期寿命(年)
