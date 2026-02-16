@@ -17,6 +17,29 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   Map<String, List<ReptileSpecies>> _categorySpecies = {};
   bool _isLoading = true;
 
+  // 根据图片URL类型返回对应的 ImageProvider
+  ImageProvider _getImageProvider(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) return AssetImage('assets/images/default_avatar.png');
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      return NetworkImage(imageUrl);
+    }
+    return AssetImage(imageUrl);
+  }
+
+class EncyclopediaScreen extends StatefulWidget {
+  const EncyclopediaScreen({super.key});
+
+  @override
+  State<EncyclopediaScreen> createState() => _EncyclopediaScreenState();
+}
+
+class _EncyclopediaScreenState extends State<EncyclopediaScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final EncyclopediaRepository _repository = EncyclopediaRepository();
+  Map<String, List<ReptileSpecies>> _categorySpecies = {};
+  bool _isLoading = true;
+
   final List<Map<String, dynamic>> _categories = [
     {'id': 'snake', 'name': '蛇类', 'icon': Icons.pest_control},
     {'id': 'lizard', 'name': '蜥蜴', 'icon': Icons.pets},
@@ -132,11 +155,26 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                   color: AppTheme.getCategoryColor(species.category),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  Icons.pets,
-                  color: Colors.white,
-                  size: 30,
-                ),
+                child: species.imageUrl != null && species.imageUrl!.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image(
+                          image: _getImageProvider(species.imageUrl),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(
+                              Icons.pets,
+                              color: Colors.white,
+                              size: 30,
+                            );
+                          },
+                        ),
+                      )
+                    : const Icon(
+                        Icons.pets,
+                        color: Colors.white,
+                        size: 30,
+                      ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -242,11 +280,26 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                       color: AppTheme.getCategoryColor(species.category),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Icon(
-                      Icons.pets,
-                      color: Colors.white,
-                      size: 40,
-                    ),
+                    child: species.imageUrl != null && species.imageUrl!.isNotEmpty
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image(
+                              image: _getImageProvider(species.imageUrl),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.pets,
+                                  color: Colors.white,
+                                  size: 40,
+                                );
+                              },
+                            ),
+                          )
+                        : const Icon(
+                            Icons.pets,
+                            color: Colors.white,
+                            size: 40,
+                          ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(

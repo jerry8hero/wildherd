@@ -10,6 +10,23 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
+  // 根据图片路径类型返回对应的 ImageProvider
+  ImageProvider _getAvatarImageProvider(String? avatarUrl) {
+    if (avatarUrl == null || avatarUrl.isEmpty) return AssetImage('assets/images/default_avatar.png');
+    if (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) {
+      return NetworkImage(avatarUrl);
+    }
+    return AssetImage(avatarUrl);
+  }
+
+  // 根据图片URL类型返回对应的 ImageProvider
+  ImageProvider _getImageProvider(String imageUrl) {
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      return NetworkImage(imageUrl);
+    }
+    return AssetImage(imageUrl);
+  }
+
   // 模拟数据 - 实际应从数据库获取
   final List<Post> _posts = [
     Post(
@@ -86,10 +103,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
               children: [
                 CircleAvatar(
                   backgroundColor: AppTheme.primaryColor,
-                  child: Text(
-                    post.userName[0],
-                    style: const TextStyle(color: Colors.white),
-                  ),
+                  backgroundImage: post.userAvatar != null && post.userAvatar!.isNotEmpty
+                      ? _getAvatarImageProvider(post.userAvatar)
+                      : null,
+                  child: post.userAvatar == null || post.userAvatar!.isEmpty
+                      ? Text(
+                          post.userName.isNotEmpty ? post.userName[0] : '?',
+                          style: const TextStyle(color: Colors.white),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -138,6 +160,40 @@ class _CommunityScreenState extends State<CommunityScreen> {
               style: const TextStyle(fontSize: 15),
             ),
             const SizedBox(height: 12),
+
+            // 图片列表
+            if (post.images.isNotEmpty) ...[
+              SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: post.images.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: index < post.images.length - 1 ? 8 : 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image(
+                          image: _getImageProvider(post.images[index]),
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 200,
+                              height: 200,
+                              color: Colors.grey[200],
+                              child: const Icon(Icons.broken_image, color: Colors.grey),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
 
             // 互动按钮
             Row(

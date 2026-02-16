@@ -15,6 +15,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Reptile> _reptiles = [];
   bool _isLoading = true;
 
+  // 根据图片路径类型返回对应的 ImageProvider
+  ImageProvider _getImageProvider(String? imagePath) {
+    if (imagePath == null || imagePath.isEmpty) return AssetImage('assets/images/default_avatar.png');
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return NetworkImage(imagePath);
+    }
+    return AssetImage(imagePath);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -199,10 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: AppTheme.getCategoryColor(reptile.species),
-                  backgroundImage: reptile.imagePath != null
-                      ? AssetImage(reptile.imagePath!)
+                  backgroundImage: reptile.imagePath != null && reptile.imagePath!.isNotEmpty
+                      ? _getImageProvider(reptile.imagePath)
                       : null,
-                  child: reptile.imagePath == null
+                  child: reptile.imagePath == null || reptile.imagePath!.isEmpty
                       ? const Icon(Icons.pets, color: Colors.white, size: 30)
                       : null,
                 ),
