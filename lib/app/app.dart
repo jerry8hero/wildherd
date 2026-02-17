@@ -3,6 +3,7 @@ import 'theme.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/community/community_screen.dart';
+import '../features/market/market_screen.dart';
 import '../features/settings/level_select_screen.dart';
 
 class ReptileCareApp extends StatelessWidget {
@@ -33,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const HomeScreen(), // TODO: 添加 PetsScreen
     const EncyclopediaScreen(),
+    const MarketScreen(),
     const CommunityScreen(),
   ];
 
@@ -62,6 +64,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.menu_book_outlined),
             activeIcon: Icon(Icons.menu_book),
             label: '百科',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.trending_up_outlined),
+            activeIcon: Icon(Icons.trending_up),
+            label: '行情',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_outline),
