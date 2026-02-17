@@ -5,6 +5,7 @@ import '../../data/repositories/repositories.dart';
 import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
+import '../selection/candidate_list_screen.dart';
 
 class EncyclopediaScreen extends StatefulWidget {
   const EncyclopediaScreen({super.key});
@@ -489,7 +490,78 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                   ],
                 ),
               ),
+              const SizedBox(height: 16),
+
+              // 宠物挑选技巧
+              const Text(
+                '挑选技巧',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ..._getSelectionTips(species.category, species.diet).map((tip) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          tip,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
               const SizedBox(height: 24),
+
+              // 开始挑选按钮
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CandidateListScreen(
+                          speciesId: species.id,
+                          speciesName: species.nameChinese,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.checklist),
+                  label: const Text('开始挑选'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -618,6 +690,101 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
         return Icons.restaurant;
       default:
         return Icons.restaurant;
+    }
+  }
+
+  // 获取挑选技巧
+  List<String> _getSelectionTips(String category, String diet) {
+    // 通用技巧
+    final commonTips = [
+      '选择精神状态良好、反应灵敏的个体',
+      '检查身体是否有明显外伤或异常',
+      '优先选择人工繁殖的个体，更易饲养',
+    ];
+
+    switch (category) {
+      case 'snake':
+        return [
+          ...commonTips,
+          '选择体表光滑、无蜕皮不全的个体',
+          '检查口腔是否有黏液或红肿',
+          '选择进食后排便正常的个体',
+          '幼蛇建议选择已经开食的',
+        ];
+      case 'lizard':
+        return [
+          ...commonTips,
+          '检查四肢是否健全有力',
+          '观察眼睛是否明亮、无分泌物',
+          '选择皮肤完整、无外伤的个体',
+          '鬃狮蜥建议选择体型饱满、互动性好的',
+        ];
+      case 'turtle':
+        return [
+          ...commonTips,
+          '检查龟甲是否完整、无软甲现象',
+          '选择四肢有力、挣扎活跃的个体',
+          '观察鼻孔是否通畅、无分泌物',
+          '选择眼睛明亮、反应灵敏的',
+        ];
+      case 'gecko':
+        return [
+          ...commonTips,
+          '检查脚趾是否完整，无脱落',
+          '观察尾巴是否完整（断尾影响品相）',
+          '选择体型饱满、肌肉结实的',
+          '守宫需检查趾垫是否完好',
+        ];
+      case 'amphibian':
+        return [
+          ...commonTips,
+          '检查皮肤是否完整、无溃烂',
+          '选择四肢健全、跳跃有力的',
+          '观察眼睛是否凸起、明亮',
+          '角蛙建议选择体型圆润、嘴巴大的',
+        ];
+      case 'arachnid':
+        return [
+          ...commonTips,
+          '检查腹部是否饱满、无干瘪',
+          '选择活力足、反应灵敏的',
+          '检查螯肢和步足是否完整',
+          '毒蜘蛛需确认品种和来源合法',
+        ];
+      case 'insect':
+        return [
+          ...commonTips,
+          '选择鞘翅完整、肢体健全的',
+          '检查体表无寄生虫',
+          '成虫选择活力好的',
+          '幼虫检查是否健康、无霉变',
+        ];
+      case 'mammal':
+        return [
+          ...commonTips,
+          '检查毛发是否光滑、无秃斑',
+          '选择眼睛明亮、无分泌物',
+          '检查牙齿是否整齐、无咬合问题',
+          '选择性格温顺、愿意互动的',
+        ];
+      case 'bird':
+        return [
+          ...commonTips,
+          '检查羽毛是否完整、有光泽',
+          '选择鸣叫清脆、反应灵敏的',
+          '检查喙部是否正常、无变形',
+          '选择脚爪健全、有力的',
+        ];
+      case 'fish':
+        return [
+          ...commonTips,
+          '选择体色鲜艳、无褪色的',
+          '检查鳞片是否完整、无脱落',
+          '观察游姿是否正常、无侧翻',
+          '选择活泼好动、抢食积极的',
+        ];
+      default:
+        return commonTips;
     }
   }
 }
