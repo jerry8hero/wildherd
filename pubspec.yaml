@@ -26,6 +26,7 @@ dependencies:
 
   # 工具类
   intl: ^0.19.0
+  shared_preferences: ^2.2.3
 
   # 图表
   fl_chart: ^0.68.0

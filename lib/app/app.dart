@@ -3,6 +3,7 @@ import 'theme.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/community/community_screen.dart';
+import '../features/settings/level_select_screen.dart';
 
 class ReptileCareApp extends StatelessWidget {
   const ReptileCareApp({super.key});
@@ -55,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.pets_outlined),
             activeIcon: Icon(Icons.pets),
-            label: '爬宠',
+            label: '宠物',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),

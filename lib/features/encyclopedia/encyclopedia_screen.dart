@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../data/models/encyclopedia.dart';
+import '../../data/models/user.dart';
 import '../../data/repositories/repositories.dart';
+import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 
@@ -17,6 +19,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   final EncyclopediaRepository _repository = EncyclopediaRepository();
   Map<String, List<ReptileSpecies>> _categorySpecies = {};
   bool _isLoading = true;
+  UserLevel _userLevel = UserLevel.beginner;
 
   final List<Map<String, dynamic>> _categories = [
     {'id': 'snake', 'name': '蛇类', 'icon': Icons.pest_control},
@@ -25,12 +28,17 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     {'id': 'gecko', 'name': '守宫', 'icon': Icons.bug_report},
     {'id': 'amphibian', 'name': '两栖', 'icon': Icons.water},
     {'id': 'arachnid', 'name': '蜘蛛', 'icon': Icons.pest_control_rodent},
+    {'id': 'insect', 'name': '昆虫', 'icon': Icons.bug_report},
+    {'id': 'mammal', 'name': '哺乳', 'icon': Icons.pets},
+    {'id': 'bird', 'name': '鸟类', 'icon': Icons.flutter_dash},
+    {'id': 'fish', 'name': '鱼类', 'icon': Icons.water},
   ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 10, vsync: this);
+    _userLevel = UserPreferences.getUserLevel();
     _loadData();
   }
 
@@ -70,7 +78,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('爬宠百科'),
+        title: const Text('宠物百科'),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -159,12 +167,37 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      species.nameChinese,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            species.nameChinese,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        if (_isRecommended(species.difficulty))
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              '推荐',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -215,6 +248,12 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
         }),
       ],
     );
+  }
+
+  // 判断物种是否适合当前用户等级
+  bool _isRecommended(int difficulty) {
+    final range = _userLevel.difficultyRange;
+    return difficulty >= range[0] && difficulty <= range[1];
   }
 
   void _showSpeciesDetail(ReptileSpecies species) {

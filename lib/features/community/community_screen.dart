@@ -17,7 +17,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     Post(
       id: '1',
       userId: 'user1',
-      userName: '爬宠爱好者小明',
+      userName: '宠物爱好者小明',
       content: '今天给玉米蛇喂食了小白鼠，胃口很好！',
       images: [],
       reptileSpecies: '玉米蛇',
@@ -295,7 +295,7 @@ class _CreatePostSheetState extends State<CreatePostSheet> {
           DropdownButtonFormField<String>(
             value: _selectedSpecies,
             decoration: const InputDecoration(
-              labelText: '爬宠种类（可选）',
+              labelText: '宠物种类（可选）',
               prefixIcon: Icon(Icons.pets),
             ),
             items: _species.map((s) {
@@ -312,7 +312,7 @@ class _CreatePostSheetState extends State<CreatePostSheet> {
             controller: _contentController,
             maxLines: 4,
             decoration: const InputDecoration(
-              hintText: '分享你的爬宠日常...',
+              hintText: '分享你的宠物日常...',
               border: OutlineInputBorder(),
             ),
           ),

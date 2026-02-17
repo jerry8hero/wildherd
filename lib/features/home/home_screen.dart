@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../data/models/reptile.dart';
+import '../../data/models/user.dart';
+import '../../data/models/encyclopedia.dart';
 import '../../data/repositories/repositories.dart';
+import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../../widgets/empty_state.dart';
+import '../settings/level_select_screen.dart';
 import 'reptile_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,12 +19,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ReptileRepository _repository = ReptileRepository();
+  final EncyclopediaRepository _encyclopediaRepository = EncyclopediaRepository();
   List<Reptile> _reptiles = [];
+  List<ReptileSpecies> _recommendedSpecies = [];
   bool _isLoading = true;
+  UserLevel _userLevel = UserLevel.beginner;
 
   @override
   void initState() {
     super.initState();
+    _userLevel = UserPreferences.getUserLevel();
     _loadData();
   }
 
@@ -28,8 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _isLoading = true);
     try {
       final reptiles = await _repository.getAllReptiles();
+      final allSpecies = await _encyclopediaRepository.getAllSpecies();
+
+      // 根据用户等级筛选推荐物种
+      final difficultyRange = _userLevel.difficultyRange;
+      final recommended = allSpecies.where((s) =>
+        s.difficulty >= difficultyRange[0] && s.difficulty <= difficultyRange[1]
+      ).take(5).toList();
+
       setState(() {
         _reptiles = reptiles;
+        _recommendedSpecies = recommended;
         _isLoading = false;
       });
     } catch (e) {
@@ -48,6 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('WildHerd'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LevelSelectScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
             onPressed: () {},
@@ -68,10 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildWelcomeCard(),
                     const SizedBox(height: 20),
 
-                    // 我的爬宠
-                    _buildSectionTitle('我的爬宠'),
+                    // 我的宠物
+                    _buildSectionTitle('我的宠物'),
                     const SizedBox(height: 12),
                     _buildPetsSection(),
+
+                    const SizedBox(height: 20),
+
+                    // 推荐物种
+                    _buildSectionTitle('${_userLevel.displayName}推荐'),
+                    const SizedBox(height: 12),
+                    _buildRecommendedSpecies(),
 
                     const SizedBox(height: 20),
 
@@ -118,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '共有 ${_reptiles.length} 只爬宠',
+            '共有 ${_reptiles.length} 只宠物',
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 14,
@@ -153,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                '还没有添加爬宠',
+                '还没有添加宠物',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 16,
@@ -161,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                '点击下方"+"添加你的第一只爬宠',
+                '点击下方"+"添加你的第一只宠物',
                 style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 12,
@@ -182,6 +217,113 @@ class _HomeScreenState extends State<HomeScreen> {
           final reptile = _reptiles[index];
           return _buildPetCard(reptile);
         },
+      ),
+    );
+  }
+
+  Widget _buildRecommendedSpecies() {
+    if (_recommendedSpecies.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _recommendedSpecies.length,
+        itemBuilder: (context, index) {
+          final species = _recommendedSpecies[index];
+          return _buildRecommendedCard(species);
+        },
+      ),
+    );
+  }
+
+  Widget _buildRecommendedCard(ReptileSpecies species) {
+    return Container(
+      width: 160,
+      margin: const EdgeInsets.only(right: 12),
+      child: Card(
+        child: InkWell(
+          onTap: () {
+            // 可以跳转到百科详情
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppTheme.getCategoryColor(species.category),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.pets,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        '推荐',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  species.nameChinese,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      '难度${species.difficulty}',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${species.lifespan}年',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -322,7 +464,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildReminderItem(
               icon: Icons.water_drop,
               title: '保持饲养箱湿度',
-              subtitle: '注意观察爬宠状态',
+              subtitle: '注意观察宠物状态',
               color: Colors.blue,
             ),
             const Divider(),
