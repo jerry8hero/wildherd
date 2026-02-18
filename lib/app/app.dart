@@ -6,6 +6,7 @@ import '../features/community/community_screen.dart';
 import '../features/market/market_screen.dart';
 import '../features/companion/companion_screen.dart';
 import '../features/settings/level_select_screen.dart';
+import '../features/habitat/habitat_screen.dart';
 
 class ReptileCareApp extends StatelessWidget {
   const ReptileCareApp({super.key});
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(), // TODO: 添加 PetsScreen
     const EncyclopediaScreen(),
     const MarketScreen(),
+    const HabitatScreen(), // 饲养环境
     const CompanionScreen(),
     const CommunityScreen(),
   ];
@@ -51,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -71,6 +74,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.trending_up_outlined),
             activeIcon: Icon(Icons.trending_up),
             label: '行情',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.eco_outlined),
+            activeIcon: Icon(Icons.eco),
+            label: '环境',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),

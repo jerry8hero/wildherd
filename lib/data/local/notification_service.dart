@@ -1,3 +1,4 @@
+import 'dart:async';
 import '../models/price_alert.dart';
 import '../repositories/price_alert_repository.dart';
 import '../repositories/price_repository.dart';
@@ -63,5 +64,3 @@ class NotificationService {
     await checkAlerts();
   }
 }
-
-typedef VoidCallback = void Function();
