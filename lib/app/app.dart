@@ -7,6 +7,7 @@ import '../features/market/market_screen.dart';
 import '../features/companion/companion_screen.dart';
 import '../features/settings/level_select_screen.dart';
 import '../features/habitat/habitat_screen.dart';
+import '../features/exhibition/exhibition_screen.dart';
 
 class ReptileCareApp extends StatelessWidget {
   const ReptileCareApp({super.key});
@@ -38,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
     const EncyclopediaScreen(),
     const MarketScreen(),
     const HabitatScreen(), // 饲养环境
+    const ExhibitionScreen(), // 展览资讯
     const CompanionScreen(),
     const CommunityScreen(),
   ];
@@ -79,6 +81,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.eco_outlined),
             activeIcon: Icon(Icons.eco),
             label: '环境',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_outlined),
+            activeIcon: Icon(Icons.event),
+            label: '资讯',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
