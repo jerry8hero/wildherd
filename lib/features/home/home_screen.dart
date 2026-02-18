@@ -8,6 +8,7 @@ import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../settings/level_select_screen.dart';
+import '../exhibition/exhibition_screen.dart';
 import 'reptile_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -112,6 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // 价格动态入口
                     _buildMarketCard(),
+
+                    const SizedBox(height: 16),
+
+                    // 展览资讯入口
+                    _buildExhibitionCard(),
 
                     const SizedBox(height: 20),
 
@@ -431,6 +437,66 @@ class _HomeScreenState extends State<HomeScreen> {
                       '查看热门宠物价格走势',
                       style: TextStyle(
                         color: Colors.grey[600],
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right, color: Colors.grey),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExhibitionCard() {
+    return Card(
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ExhibitionScreen(),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.event,
+                  color: Colors.purple,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      '展览资讯',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      '展览活动预告 & 饲养知识',
+                      style: TextStyle(
+                        color: Colors.grey,
                         fontSize: 13,
                       ),
                     ),
