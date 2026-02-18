@@ -231,3 +231,4 @@ class CommunityRepository {
 }
 
 export 'exhibition_repository.dart';
+export 'price_alert_repository.dart';

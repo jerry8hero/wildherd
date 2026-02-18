@@ -9,6 +9,7 @@ import '../../utils/image_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
+import '../market/price_alert_screen.dart';
 import 'reptile_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -79,7 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PriceAlertScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

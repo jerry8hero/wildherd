@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../data/models/price.dart';
+import '../../data/models/price_alert.dart';
 import '../../data/repositories/price_repository.dart';
+import '../../data/repositories/price_alert_repository.dart';
 import '../../app/theme.dart';
+import 'price_alert_screen.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -14,9 +17,11 @@ class _MarketScreenState extends State<MarketScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final PriceRepository _repository = PriceRepository();
+  final PriceAlertRepository _alertRepository = PriceAlertRepository();
   List<PetPrice> _prices = [];
   bool _isLoading = true;
   String _searchKeyword = '';
+  Map<String, bool> _alertStatus = {}; // 记录哪些物种已设置提醒
 
   final List<Map<String, dynamic>> _categories = [
     {'id': 'all', 'name': '全部', 'icon': Icons.apps},
@@ -36,6 +41,7 @@ class _MarketScreenState extends State<MarketScreen>
     _tabController = TabController(length: _categories.length, vsync: this);
     _tabController.addListener(_onTabChanged);
     _loadData();
+    _loadAlertStatus();
   }
 
   void _onTabChanged() {
@@ -148,6 +154,7 @@ class _MarketScreenState extends State<MarketScreen>
         : price.trend == 'down'
             ? Icons.arrow_downward
             : Icons.remove;
+    final hasAlert = _alertStatus[price.speciesId] ?? false;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -236,6 +243,145 @@ class _MarketScreenState extends State<MarketScreen>
                   ),
                 ),
               ],
+            ),
+            const SizedBox(width: 8),
+            // 提醒按钮
+            IconButton(
+              icon: Icon(
+                hasAlert ? Icons.notifications_active : Icons.notifications_none,
+                color: hasAlert ? Colors.orange : Colors.grey,
+              ),
+              onPressed: () => _showAlertDialog(price),
+              tooltip: '设置降价提醒',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _loadAlertStatus() async {
+    final alerts = await _alertRepository.getAllAlerts();
+    setState(() {
+      _alertStatus = {for (var a in alerts) a.speciesId: true};
+    });
+  }
+
+  void _showAlertDialog(PetPrice price) {
+    final controller = TextEditingController(
+      text: (price.currentPrice * 0.9).toInt().toString(),
+    );
+    String alertType = 'custom';
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('设置 ${price.nameChinese} 降价提醒'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '当前价格: ¥${price.currentPrice.toInt()}',
+                style: const TextStyle(fontSize: 14),
+              ),
+              Text(
+                '历史最低价: ¥${price.minPrice.toInt()}',
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                '提醒类型:',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              RadioListTile<String>(
+                title: const Text('自定义目标价'),
+                value: 'custom',
+                groupValue: alertType,
+                onChanged: (value) {
+                  setDialogState(() => alertType = value!);
+                },
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+              RadioListTile<String>(
+                title: const Text('低于历史最低价'),
+                subtitle: Text('¥${price.minPrice.toInt()}', style: const TextStyle(fontSize: 12)),
+                value: 'lowest',
+                groupValue: alertType,
+                onChanged: (value) {
+                  setDialogState(() => alertType = value!);
+                },
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+              if (alertType == 'custom') ...[
+                const SizedBox(height: 8),
+                TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: '目标价格 (¥)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('取消'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                double targetPrice;
+                if (alertType == 'lowest') {
+                  targetPrice = price.minPrice;
+                } else {
+                  targetPrice = double.tryParse(controller.text) ?? price.currentPrice;
+                }
+
+                final alert = PriceAlert(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  speciesId: price.speciesId,
+                  speciesName: price.nameChinese,
+                  speciesNameEnglish: price.nameEnglish,
+                  targetPrice: targetPrice,
+                  alertType: alertType,
+                  isEnabled: true,
+                  createdAt: DateTime.now(),
+                  currentPrice: price.currentPrice,
+                  lowestPrice: price.minPrice,
+                );
+
+                // 检查是否已存在提醒
+                final existingAlert = await _alertRepository.getAlertBySpecies(price.speciesId);
+                if (existingAlert != null) {
+                  // 更新已有提醒
+                  await _alertRepository.updateAlert(alert.copyWith(id: existingAlert.id));
+                } else {
+                  // 添加新提醒
+                  await _alertRepository.addAlert(alert);
+                }
+
+                if (mounted) {
+                  Navigator.pop(context);
+                  _loadAlertStatus();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('已设置 ${price.nameChinese} 的降价提醒'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+              ),
+              child: const Text('保存'),
             ),
           ],
         ),
