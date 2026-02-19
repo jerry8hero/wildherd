@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../data/models/reptile.dart';
 import '../../data/models/user.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/repositories/repositories.dart';
 import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
+import '../../app/locale_provider.dart';
 import '../../utils/image_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
 import '../market/price_alert_screen.dart';
 import 'reptile_detail_screen.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,8 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载失败: $e')),
+          SnackBar(content: Text('${l10n.loadFailed}: $e')),
         );
       }
     }
@@ -63,9 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final localeProvider = Provider.of<LocaleProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('WildHerd'),
+        title: Text(l10n.appTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
@@ -94,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(child: Text(l10n.loading))
             : SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
@@ -102,44 +109,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 欢迎卡片
-                    _buildWelcomeCard(),
+                    _buildWelcomeCard(l10n),
                     const SizedBox(height: 20),
 
                     // 我的宠物
-                    _buildSectionTitle('我的宠物'),
+                    _buildSectionTitle(l10n.myPets),
                     const SizedBox(height: 12),
-                    _buildPetsSection(),
+                    _buildPetsSection(l10n),
 
                     const SizedBox(height: 20),
 
                     // 推荐物种
-                    _buildSectionTitle('${_userLevel.displayName}推荐'),
+                    _buildSectionTitle(l10n.recommendedFor(_userLevel.displayName)),
                     const SizedBox(height: 12),
-                    _buildRecommendedSpecies(),
+                    _buildRecommendedSpecies(l10n),
 
                     const SizedBox(height: 20),
 
                     // 价格动态入口
-                    _buildMarketCard(),
+                    _buildMarketCard(l10n),
 
                     const SizedBox(height: 16),
 
                     // 展览资讯入口
-                    _buildExhibitionCard(),
+                    _buildExhibitionCard(l10n),
 
                     const SizedBox(height: 20),
 
                     // 快捷功能
-                    _buildSectionTitle('快捷功能'),
+                    _buildSectionTitle(l10n.quickFunctions),
                     const SizedBox(height: 12),
-                    _buildQuickActions(),
+                    _buildQuickActions(l10n),
 
                     const SizedBox(height: 20),
 
                     // 今日提醒
-                    _buildSectionTitle('今日提醒'),
+                    _buildSectionTitle(l10n.todayReminder),
                     const SizedBox(height: 12),
-                    _buildReminders(),
+                    _buildReminders(l10n),
                   ],
                 ),
               ),
@@ -147,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildWelcomeCard() {
+  Widget _buildWelcomeCard(AppLocalizations l10n) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -162,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '你好，WildHerd 爱好者！',
-            style: TextStyle(
+          Text(
+            l10n.welcome,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -172,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '共有 ${_reptiles.length} 只宠物',
+            l10n.petCount(_reptiles.length),
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 14,
@@ -193,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPetsSection() {
+  Widget _buildPetsSection(AppLocalizations l10n) {
     if (_reptiles.isEmpty) {
       return Card(
         child: Padding(
@@ -207,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                '还没有添加宠物',
+                l10n.noPets,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 16,
@@ -215,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                '点击下方"+"添加你的第一只宠物',
+                l10n.addFirstPet,
                 style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 12,
@@ -240,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildRecommendedSpecies() {
+  Widget _buildRecommendedSpecies(AppLocalizations l10n) {
     if (_recommendedSpecies.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -252,13 +259,13 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: _recommendedSpecies.length,
         itemBuilder: (context, index) {
           final species = _recommendedSpecies[index];
-          return _buildRecommendedCard(species);
+          return _buildRecommendedCard(species, l10n);
         },
       ),
     );
   }
 
-  Widget _buildRecommendedCard(ReptileSpecies species) {
+  Widget _buildRecommendedCard(ReptileSpecies species, AppLocalizations l10n) {
     return Container(
       width: 160,
       margin: const EdgeInsets.only(right: 12),
@@ -298,9 +305,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
-                        '推荐',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.recommended,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -323,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     Text(
-                      '难度${species.difficulty}',
+                      l10n.difficulty(species.difficulty),
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12,
@@ -331,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${species.lifespan}年',
+                      l10n.lifespan(species.lifespan),
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12,
@@ -404,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildMarketCard() {
+  Widget _buildMarketCard(AppLocalizations l10n) {
     return Card(
       child: InkWell(
         onTap: () {
@@ -433,16 +440,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      '价格动态',
-                      style: TextStyle(
+                    Text(
+                      l10n.priceDynamic,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '查看热门宠物价格走势',
+                      l10n.priceTrend,
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 13,
@@ -459,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildExhibitionCard() {
+  Widget _buildExhibitionCard(AppLocalizations l10n) {
     return Card(
       child: InkWell(
         onTap: () {
@@ -492,19 +499,19 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      '展览资讯',
-                      style: TextStyle(
+                      l10n.exhibitionInfo,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      '展览活动预告 & 饲养知识',
+                      l10n.exhibitionDesc,
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                         fontSize: 13,
                       ),
                     ),
@@ -519,13 +526,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildQuickActions() {
+  Widget _buildQuickActions(AppLocalizations l10n) {
     return Row(
       children: [
         Expanded(
           child: _buildActionCard(
             icon: Icons.restaurant,
-            title: '喂食记录',
+            title: l10n.feedingRecord,
             color: Colors.orange,
             onTap: () {},
           ),
@@ -534,7 +541,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: _buildActionCard(
             icon: Icons.medical_services,
-            title: '健康记录',
+            title: l10n.healthRecord,
             color: Colors.blue,
             onTap: () {},
           ),
@@ -543,7 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
           child: _buildActionCard(
             icon: Icons.camera_alt,
-            title: '成长相册',
+            title: l10n.growthAlbum,
             color: Colors.purple,
             onTap: () {},
           ),
@@ -589,7 +596,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildReminders() {
+  Widget _buildReminders(AppLocalizations l10n) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -597,15 +604,15 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _buildReminderItem(
               icon: Icons.water_drop,
-              title: '保持饲养箱湿度',
-              subtitle: '注意观察宠物状态',
+              title: l10n.keepHumidity,
+              subtitle: l10n.observeStatus,
               color: Colors.blue,
             ),
             const Divider(),
             _buildReminderItem(
               icon: Icons.thermostat,
-              title: '检查加热设备',
-              subtitle: '确保温度适宜',
+              title: l10n.checkHeater,
+              subtitle: l10n.ensureTemp,
               color: Colors.red,
             ),
           ],

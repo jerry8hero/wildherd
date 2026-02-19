@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/exhibition.dart';
 import '../../data/models/article.dart';
 import '../../data/repositories/exhibition_repository.dart';
+import '../../l10n/generated/app_localizations.dart';
 import 'exhibition_detail_screen.dart';
 import 'article_detail_screen.dart';
 
@@ -21,8 +22,6 @@ class _ExhibitionScreenState extends State<ExhibitionScreen>
   List<Article> _articles = [];
   bool _isLoading = true;
 
-  final List<String> _tabs = ['展览活动', '饲养知识'];
-
   @override
   void initState() {
     super.initState();
@@ -37,6 +36,7 @@ class _ExhibitionScreenState extends State<ExhibitionScreen>
   }
 
   Future<void> _loadData() async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
     try {
       final exhibitions = await _repository.getAllExhibitions();
@@ -50,7 +50,7 @@ class _ExhibitionScreenState extends State<ExhibitionScreen>
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载失败: $e')),
+          SnackBar(content: Text('${l10n.loadFailed}: $e')),
         );
       }
     }
@@ -58,12 +58,13 @@ class _ExhibitionScreenState extends State<ExhibitionScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('展览资讯'),
+        title: Text(l10n.exhibitionInfo),
         bottom: TabBar(
           controller: _tabController,
-          tabs: _tabs.map((t) => Tab(text: t)).toList(),
+          tabs: [Tab(text: l10n.exhibitionActivity), Tab(text: l10n.careKnowledge)],
           labelColor: Theme.of(context).primaryColor,
           indicatorColor: Theme.of(context).primaryColor,
         ),

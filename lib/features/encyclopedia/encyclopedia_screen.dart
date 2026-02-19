@@ -5,6 +5,7 @@ import '../../data/repositories/repositories.dart';
 import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../selection/candidate_list_screen.dart';
 
 class EncyclopediaScreen extends StatefulWidget {
@@ -22,18 +23,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   bool _isLoading = true;
   UserLevel _userLevel = UserLevel.beginner;
 
-  final List<Map<String, dynamic>> _categories = [
-    {'id': 'snake', 'name': '蛇类', 'icon': Icons.pest_control},
-    {'id': 'lizard', 'name': '蜥蜴', 'icon': Icons.pets},
-    {'id': 'turtle', 'name': '龟类', 'icon': Icons.emoji_nature},
-    {'id': 'gecko', 'name': '守宫', 'icon': Icons.bug_report},
-    {'id': 'amphibian', 'name': '两栖', 'icon': Icons.water},
-    {'id': 'arachnid', 'name': '蜘蛛', 'icon': Icons.pest_control_rodent},
-    {'id': 'insect', 'name': '昆虫', 'icon': Icons.bug_report},
-    {'id': 'mammal', 'name': '哺乳', 'icon': Icons.pets},
-    {'id': 'bird', 'name': '鸟类', 'icon': Icons.flutter_dash},
-    {'id': 'fish', 'name': '鱼类', 'icon': Icons.water},
-  ];
+  // Categories will be populated from l10n
 
   @override
   void initState() {
@@ -49,13 +39,30 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     super.dispose();
   }
 
+  List<Map<String, dynamic>> _getCategories(AppLocalizations l10n) {
+    return [
+      {'id': 'snake', 'name': l10n.snakes, 'icon': Icons.pest_control},
+      {'id': 'lizard', 'name': l10n.lizards, 'icon': Icons.pets},
+      {'id': 'turtle', 'name': l10n.turtles, 'icon': Icons.emoji_nature},
+      {'id': 'gecko', 'name': l10n.geckos, 'icon': Icons.bug_report},
+      {'id': 'amphibian', 'name': l10n.amphibians, 'icon': Icons.water},
+      {'id': 'arachnid', 'name': l10n.spiders, 'icon': Icons.pest_control_rodent},
+      {'id': 'insect', 'name': l10n.insects, 'icon': Icons.bug_report},
+      {'id': 'mammal', 'name': l10n.mammals, 'icon': Icons.pets},
+      {'id': 'bird', 'name': l10n.birds, 'icon': Icons.flutter_dash},
+      {'id': 'fish', 'name': l10n.fish, 'icon': Icons.water},
+    ];
+  }
+
   Future<void> _loadData() async {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategories(l10n);
     setState(() => _isLoading = true);
     try {
       final species = await _repository.getAllSpecies();
       final grouped = <String, List<ReptileSpecies>>{};
 
-      for (var cat in _categories) {
+      for (var cat in categories) {
         grouped[cat['id']!] = species
             .where((s) => s.category == cat['id'])
             .toList();
@@ -69,7 +76,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载失败: $e')),
+          SnackBar(content: Text('${l10n.loadFailed}: $e')),
         );
       }
     }
@@ -77,20 +84,23 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategories(l10n);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('宠物百科'),
+        title: Text(l10n.encyclopedia),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
-          tabs: _categories.map((cat) => Tab(text: cat['name'] as String)).toList(),
+          tabs: categories.map((cat) => Tab(text: cat['name'] as String)).toList(),
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: Text(l10n.loading))
           : TabBarView(
               controller: _tabController,
-              children: _categories.map((cat) {
+              children: categories.map((cat) {
                 return _buildSpeciesList(cat['id'] as String);
               }).toList(),
             ),

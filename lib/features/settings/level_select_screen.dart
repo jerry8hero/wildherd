@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../app/theme.dart';
+import '../../app/locale_provider.dart';
 import '../../data/models/user.dart';
 import '../../data/local/user_preferences.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class LevelSelectScreen extends StatefulWidget {
   const LevelSelectScreen({super.key});
@@ -25,37 +28,85 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
       _selectedLevel = level;
     });
     if (mounted) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('已设置为${level.displayName}'),
+          content: Text('${l10n.success}'),
           backgroundColor: Colors.green,
         ),
       );
     }
   }
 
+  void _showLanguageDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.selectLanguage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: LocaleProvider.supportedLocales.map((locale) {
+            final isSelected = localeProvider.locale.languageCode == locale.languageCode;
+            return ListTile(
+              title: Text(localeProvider.getLanguageName(locale.languageCode)),
+              trailing: isSelected ? const Icon(Icons.check, color: Colors.green) : null,
+              onTap: () {
+                localeProvider.setLocale(locale);
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final localeProvider = Provider.of<LocaleProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('选择经验等级'),
+        title: Text(l10n.settings),
         backgroundColor: AppTheme.primaryColor,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: _showLanguageDialog,
+            tooltip: l10n.language,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '请选择您的饲养经验等级',
-              style: TextStyle(
+            // Language selector card
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.language, color: AppTheme.primaryColor),
+                title: Text(l10n.language),
+                subtitle: Text(localeProvider.getLanguageName(localeProvider.locale.languageCode)),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: _showLanguageDialog,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              l10n.selectLevel,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              '根据您的选择，我们将为您推荐适合的宠物',
+              l10n.beginnerDesc,
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 14,

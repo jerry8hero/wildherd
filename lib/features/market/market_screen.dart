@@ -4,6 +4,7 @@ import '../../data/models/price_alert.dart';
 import '../../data/repositories/price_repository.dart';
 import '../../data/repositories/price_alert_repository.dart';
 import '../../app/theme.dart';
+import '../../l10n/generated/app_localizations.dart';
 import 'price_alert_screen.dart';
 
 class MarketScreen extends StatefulWidget {
@@ -23,17 +24,7 @@ class _MarketScreenState extends State<MarketScreen>
   String _searchKeyword = '';
   Map<String, bool> _alertStatus = {}; // 记录哪些物种已设置提醒
 
-  final List<Map<String, dynamic>> _categories = [
-    {'id': 'all', 'name': '全部', 'icon': Icons.apps},
-    {'id': 'snake', 'name': '蛇类', 'icon': Icons.pest_control},
-    {'id': 'lizard', 'name': '蜥蜴', 'icon': Icons.pets},
-    {'id': 'turtle', 'name': '龟类', 'icon': Icons.emoji_nature},
-    {'id': 'gecko', 'name': '守宫', 'icon': Icons.bug_report},
-    {'id': 'mammal', 'name': '哺乳', 'icon': Icons.pets},
-    {'id': 'bird', 'name': '鸟类', 'icon': Icons.flutter_dash},
-    {'id': 'fish', 'name': '鱼类', 'icon': Icons.water},
-    {'id': 'insect', 'name': '昆虫', 'icon': Icons.bug_report},
-  ];
+  // Categories will be populated from l10n in build method
 
   @override
   void initState() {
@@ -55,10 +46,26 @@ class _MarketScreenState extends State<MarketScreen>
     super.dispose();
   }
 
+  List<Map<String, dynamic>> _getCategories(AppLocalizations l10n) {
+    return [
+      {'id': 'all', 'name': l10n.category, 'icon': Icons.apps},
+      {'id': 'snake', 'name': l10n.snakes, 'icon': Icons.pest_control},
+      {'id': 'lizard', 'name': l10n.lizards, 'icon': Icons.pets},
+      {'id': 'turtle', 'name': l10n.turtles, 'icon': Icons.emoji_nature},
+      {'id': 'gecko', 'name': l10n.geckos, 'icon': Icons.bug_report},
+      {'id': 'mammal', 'name': l10n.mammals, 'icon': Icons.pets},
+      {'id': 'bird', 'name': l10n.birds, 'icon': Icons.flutter_dash},
+      {'id': 'fish', 'name': l10n.fish, 'icon': Icons.water},
+      {'id': 'insect', 'name': l10n.insects, 'icon': Icons.bug_report},
+    ];
+  }
+
   Future<void> _loadData() async {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategories(l10n);
     setState(() => _isLoading = true);
     try {
-      final category = _categories[_tabController.index]['id'];
+      final category = categories[_tabController.index]['id'];
       List<PetPrice> result;
       if (_searchKeyword.isNotEmpty) {
         result = await _repository.searchPrices(_searchKeyword);
@@ -76,14 +83,17 @@ class _MarketScreenState extends State<MarketScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategories(l10n);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('宠物行情'),
+        title: Text(l10n.market),
         backgroundColor: AppTheme.primaryColor,
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
-          tabs: _categories.map((cat) => Tab(text: cat['name'] as String)).toList(),
+          tabs: categories.map((cat) => Tab(text: cat['name'] as String)).toList(),
         ),
       ),
       body: Column(
@@ -93,7 +103,7 @@ class _MarketScreenState extends State<MarketScreen>
             padding: const EdgeInsets.all(16),
             child: TextField(
               decoration: InputDecoration(
-                hintText: '搜索宠物品种...',
+                hintText: l10n.searchPet,
                 prefixIcon: const Icon(Icons.search),
                 filled: true,
                 fillColor: Colors.grey[100],
@@ -111,17 +121,17 @@ class _MarketScreenState extends State<MarketScreen>
           // 价格列表
           Expanded(
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(child: Text(l10n.loading))
                 : _prices.isEmpty
-                    ? _buildEmptyState()
-                    : _buildPriceList(),
+                    ? _buildEmptyState(l10n)
+                    : _buildPriceList(l10n),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +139,7 @@ class _MarketScreenState extends State<MarketScreen>
           Icon(Icons.search_off, size: 60, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
-            '暂无数据',
+            l10n.noData,
             style: TextStyle(color: Colors.grey[600]),
           ),
         ],
