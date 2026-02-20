@@ -1,38 +1,1378 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WildHerd - 爬宠爱好者</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --primary-light: #8BC34A;
+      --accent: #FF9800;
+      --background: #F5F5F5;
+      --surface: #FFFFFF;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --error: #E53935;
+      --snake: #7E57C2;
+      --lizard: #4CAF50;
+      --turtle: #03A9F4;
+      --gecko: #FF9800;
+      --amphibian: #26A69A;
+      --arachnid: #E91E63;
+    }
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="reptile_care">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 70px;
+    }
 
-  <title>reptile_care</title>
-  <link rel="manifest" href="manifest.json">
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .app-header h1 {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .header-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+
+    .header-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Main Content */
+    .container {
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Welcome Card */
+    .welcome-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 16px;
+      padding: 24px;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .welcome-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .welcome-card p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* Section */
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    /* Pet Cards */
+    .pet-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+
+    .pet-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pet-card {
+      min-width: 120px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pet-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .pet-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .pet-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .pet-species {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Empty State */
+    .empty-state {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 12px;
+      color: #9E9E9E;
+    }
+
+    /* Recommended Species */
+    .species-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+
+    .species-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .species-card {
+      min-width: 160px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .species-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .species-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .species-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .species-tag {
+      background: var(--primary);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .species-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .species-info {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Action Cards */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .action-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .action-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .action-title {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Info Cards */
+    .info-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .info-card:hover {
+      transform: translateX(4px);
+    }
+
+    .info-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-right: 16px;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .info-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .info-arrow {
+      color: var(--text-secondary);
+    }
+
+    /* Reminder Card */
+    .reminder-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .reminder-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    .reminder-item:not(:last-child) {
+      border-bottom: 1px solid #EEEEEE;
+    }
+
+    .reminder-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 16px;
+    }
+
+    .reminder-text h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .reminder-text p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-item .icon {
+      font-size: 22px;
+      margin-bottom: 2px;
+    }
+
+    .nav-item .label {
+      font-size: 11px;
+    }
+
+    /* Page Transitions */
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .action-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    /* FAB */
+    .fab {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+      transition: transform 0.2s;
+      z-index: 99;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #EEEEEE;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      padding: 0;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23757575' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .form-group select optgroup {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .form-group select option {
+      padding: 8px;
+    }
+
+    /* 两级选择样式 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 10px;
+      background: var(--background);
+      border: 2px solid #E0E0E0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .category-item:hover {
+      border-color: var(--primary);
+      background: rgba(76, 175, 80, 0.05);
+    }
+
+    .category-item.selected {
+      border-color: var(--primary);
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    .category-item .category-icon {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .category-item .category-name {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .category-item.selected .category-name {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    #speciesGroup {
+      animation: fadeIn 0.3s ease;
+    }
+
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-footer {
+      padding: 16px 20px;
+      border-top: 1px solid #EEEEEE;
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-footer button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-cancel {
+      background: #F5F5F5;
+      border: none;
+      color: var(--text-primary);
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      border: none;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+  </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <!-- Toast 提示 -->
+  <div class="toast" id="toast"></div>
+
+  <!-- 首页 -->
+  <div class="page active" id="page-home">
+    <header class="app-header">
+      <h1>WildHerd</h1>
+      <div class="header-actions">
+        <button class="header-btn" onclick="showToast('设置')">⚙️</button>
+        <button class="header-btn" onclick="showToast('通知')">🔔</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- 欢迎卡片 -->
+      <div class="welcome-card">
+        <h2>欢迎来到 WildHerd</h2>
+        <p>您目前有 <span id="pet-count">0</span> 只爬宠</p>
+      </div>
+
+      <!-- 我的宠物 -->
+      <h3 class="section-title">我的宠物</h3>
+      <div class="pet-scroll" id="pet-list">
+        <div class="empty-state" id="empty-pets">
+          <div class="empty-state-icon">🦎</div>
+          <h3>还没有爬宠</h3>
+          <p>点击 + 添加您的第一只爬宠</p>
+        </div>
+      </div>
+
+      <!-- 推荐物种 -->
+      <h3 class="section-title">为您推荐</h3>
+      <div class="species-scroll" id="recommended-list">
+        <!-- 动态生成 -->
+      </div>
+
+      <!-- 价格动态 -->
+      <div class="info-card" onclick="showToast('价格动态')">
+        <div class="info-icon" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">📈</div>
+        <div class="info-content">
+          <div class="info-title">价格动态</div>
+          <div class="info-desc">查看市场价格趋势</div>
+        </div>
+        <div class="info-arrow">›</div>
+      </div>
+
+      <!-- 展览资讯 -->
+      <div class="info-card" onclick="showToast('展览资讯')">
+        <div class="info-icon" style="background: rgba(156, 39, 176, 0.1); color: #9C27B0;">🎪</div>
+        <div class="info-content">
+          <div class="info-title">展览资讯</div>
+          <div class="info-desc">最新爬宠展览活动</div>
+        </div>
+        <div class="info-arrow">›</div>
+      </div>
+
+      <!-- 快捷功能 -->
+      <h3 class="section-title">快捷功能</h3>
+      <div class="action-grid">
+        <div class="action-card" onclick="showToast('饲养记录')">
+          <div class="action-icon" style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">🍽️</div>
+          <div class="action-title">饲养记录</div>
+        </div>
+        <div class="action-card" onclick="showToast('健康记录')">
+          <div class="action-icon" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;">💊</div>
+          <div class="action-title">健康记录</div>
+        </div>
+        <div class="action-card" onclick="showToast('成长相册')">
+          <div class="action-icon" style="background: rgba(156, 39, 176, 0.1); color: #9C27B0;">📷</div>
+          <div class="action-title">成长相册</div>
+        </div>
+      </div>
+
+      <!-- 今日提醒 -->
+      <h3 class="section-title">今日提醒</h3>
+      <div class="reminder-card">
+        <div class="reminder-item">
+          <div class="reminder-icon" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;">💧</div>
+          <div class="reminder-text">
+            <h4>保持湿度</h4>
+            <p>观察饲养箱湿度变化</p>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon" style="background: rgba(244, 67, 54, 0.1); color: #F44336;">🌡️</div>
+          <div class="reminder-text">
+            <h4>检查加热设备</h4>
+            <p>确保温度在适宜范围</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 爬宠页面 -->
+  <div class="page" id="page-pets">
+    <header class="app-header">
+      <h1>我的爬宠</h1>
+      <div class="header-actions">
+        <button class="header-btn" onclick="showToast('搜索')">🔍</button>
+      </div>
+    </header>
+    <div class="container">
+      <div class="pet-scroll" id="all-pets-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">🦎</div>
+          <h3>还没有爬宠</h3>
+          <p>点击下方按钮添加您的第一只爬宠</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 知识百科 -->
+  <div class="page" id="page-encyclopedia">
+    <header class="app-header">
+      <h1>知识百科</h1>
+      <div class="header-actions">
+        <button class="header-btn" onclick="showToast('搜索')">🔍</button>
+      </div>
+    </header>
+    <div class="container">
+      <div class="action-grid">
+        <div class="action-card" onclick="filterSpecies('snake')">
+          <div class="action-icon" style="background: rgba(126, 87, 194, 0.1); color: var(--snake);">🐍</div>
+          <div class="action-title">蛇类</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('gecko')">
+          <div class="action-icon" style="background: rgba(255, 152, 0, 0.1); color: var(--gecko);">🦎</div>
+          <div class="action-title">守宫</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('lizard')">
+          <div class="action-icon" style="background: rgba(76, 175, 80, 0.1); color: var(--lizard);">🦎</div>
+          <div class="action-title">蜥蜴</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('turtle')">
+          <div class="action-icon" style="background: rgba(3, 169, 244, 0.1); color: var(--turtle);">🐢</div>
+          <div class="action-title">龟类</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('amphibian')">
+          <div class="action-icon" style="background: rgba(38, 166, 154, 0.1); color: var(--amphibian);">🐸</div>
+          <div class="action-title">两栖</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('arachnid')">
+          <div class="action-icon" style="background: rgba(233, 30, 99, 0.1); color: var(--arachnid);">🕷️</div>
+          <div class="action-title">蜘蛛</div>
+        </div>
+      </div>
+
+      <h3 class="section-title">物种列表</h3>
+      <div class="species-scroll" id="species-list">
+        <!-- 动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 市场 -->
+  <div class="page" id="page-market">
+    <header class="app-header">
+      <h1>市场</h1>
+    </header>
+    <div class="container">
+      <div class="welcome-card" style="background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);">
+        <h2>价格提醒</h2>
+        <p>设置价格提醒，及时了解市场动态</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">📊</div>
+        <h3>暂无价格数据</h3>
+        <p>敬请期待更多市场功能</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 饲养环境 -->
+  <div class="page" id="page-habitat">
+    <header class="app-header">
+      <h1>饲养环境</h1>
+    </header>
+    <div class="container">
+      <div class="empty-state">
+        <div class="empty-state-icon">🏠</div>
+        <h3>饲养环境管理</h3>
+        <p>记录爬宠的饲养环境信息</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 展览资讯 -->
+  <div class="page" id="page-exhibition">
+    <header class="app-header">
+      <h1>展览资讯</h1>
+    </header>
+    <div class="container">
+      <div class="info-card" onclick="showToast('查看详情')">
+        <div class="info-icon" style="background: rgba(156, 39, 176, 0.1); color: #9C27B0;">🎪</div>
+        <div class="info-content">
+          <div class="info-title">爬宠嘉年华</div>
+          <div class="info-desc">2024年 全国巡回展览</div>
+        </div>
+        <div class="info-arrow">›</div>
+      </div>
+      <div class="info-card" onclick="showToast('查看详情')">
+        <div class="info-icon" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;">📰</div>
+        <div class="info-content">
+          <div class="info-title">爬宠饲养指南</div>
+          <div class="info-desc">新手入门必读</div>
+        </div>
+        <div class="info-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 同伴 -->
+  <div class="page" id="page-companion">
+    <header class="app-header">
+      <h1>同伴</h1>
+    </header>
+    <div class="container">
+      <div class="empty-state">
+        <div class="empty-state-icon">❤️</div>
+        <h3>寻找同伴</h3>
+        <p>为您的爬宠寻找志同道合的伙伴</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 社区 -->
+  <div class="page" id="page-community">
+    <header class="app-header">
+      <h1>社区</h1>
+    </header>
+    <div class="container">
+      <div class="empty-state">
+        <div class="empty-state-icon">🌍</div>
+        <h3>社区动态</h3>
+        <p>分享您的爬宠生活</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-page="home" onclick="switchPage('home')">
+      <span class="icon">🏠</span>
+      <span class="label">首页</span>
+    </div>
+    <div class="nav-item" data-page="pets" onclick="switchPage('pets')">
+      <span class="icon">🦎</span>
+      <span class="label">爬宠</span>
+    </div>
+    <div class="nav-item" data-page="encyclopedia" onclick="switchPage('encyclopedia')">
+      <span class="icon">📚</span>
+      <span class="label">百科</span>
+    </div>
+    <div class="nav-item" data-page="market" onclick="switchPage('market')">
+      <span class="icon">📈</span>
+      <span class="label">市场</span>
+    </div>
+    <div class="nav-item" data-page="habitat" onclick="switchPage('habitat')">
+      <span class="icon">🏡</span>
+      <span class="label">环境</span>
+    </div>
+    <div class="nav-item" data-page="exhibition" onclick="switchPage('exhibition')">
+      <span class="icon">🎪</span>
+      <span class="label">资讯</span>
+    </div>
+    <div class="nav-item" data-page="companion" onclick="switchPage('companion')">
+      <span class="icon">❤️</span>
+      <span class="label">同伴</span>
+    </div>
+    <div class="nav-item" data-page="community" onclick="switchPage('community')">
+      <span class="icon">🌍</span>
+      <span class="label">社区</span>
+    </div>
+  </nav>
+
+  <!-- 悬浮按钮 -->
+  <button class="fab" onclick="openAddPetModal()">+</button>
+
+  <!-- 添加爬宠对话框 -->
+  <div class="modal-overlay" id="addPetModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>添加爬宠</h3>
+        <button class="modal-close" onclick="closeAddPetModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- 第一级：大类选择 -->
+        <div class="form-group">
+          <label>1. 选择类别</label>
+          <div class="category-grid">
+            <div class="category-item" data-category="snake" onclick="selectCategory('snake')">
+              <span class="category-icon">🐍</span>
+              <span class="category-name">蛇类</span>
+            </div>
+            <div class="category-item" data-category="gecko" onclick="selectCategory('gecko')">
+              <span class="category-icon">🦎</span>
+              <span class="category-name">守宫</span>
+            </div>
+            <div class="category-item" data-category="lizard" onclick="selectCategory('lizard')">
+              <span class="category-icon">🦎</span>
+              <span class="category-name">蜥蜴</span>
+            </div>
+            <div class="category-item" data-category="turtle" onclick="selectCategory('turtle')">
+              <span class="category-icon">🐢</span>
+              <span class="category-name">龟类</span>
+            </div>
+            <div class="category-item" data-category="amphibian" onclick="selectCategory('amphibian')">
+              <span class="category-icon">🐸</span>
+              <span class="category-name">两栖</span>
+            </div>
+            <div class="category-item" data-category="arachnid" onclick="selectCategory('arachnid')">
+              <span class="category-icon">🕷️</span>
+              <span class="category-name">蜘蛛</span>
+            </div>
+          </div>
+        </div>
+        <!-- 第二级：物种选择 -->
+        <div class="form-group" id="speciesGroup" style="display: none;">
+          <label>2. 选择物种</label>
+          <select id="petSpecies" onchange="onSpeciesChange()">
+            <option value="">请选择物种</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>名字</label>
+          <input type="text" id="petName" placeholder="给您的爬宠起个名字">
+        </div>
+        <div class="form-group-row">
+          <div class="form-group">
+            <label>性别</label>
+            <select id="petGender">
+              <option value="">请选择</option>
+              <option value="雄性">雄性</option>
+              <option value="雌性">雌性</option>
+              <option value="未知">未知</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>体重 (g)</label>
+            <input type="number" id="petWeight" placeholder="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>出生日期</label>
+          <input type="date" id="petBirthday">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeAddPetModal()">取消</button>
+        <button class="btn-submit" onclick="savePet()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 数据
+    const speciesData = [
+      { name: '玉米蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '豹纹守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
+      { name: '睫角守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
+      { name: '鬃狮蜥', category: 'lizard', difficulty: '中等', lifespan: '10-12年', icon: '🦎' },
+      { name: '蓝舌石龙子', category: 'lizard', difficulty: '简单', lifespan: '15-20年', icon: '🦎' },
+      { name: '巴西龟', category: 'turtle', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
+      { name: '辐射陆龟', category: 'turtle', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
+      { name: '角蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', icon: '🐸' },
+      { name: '墨西哥红膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', icon: '🕷️' },
+    ];
+
+    const categoryColors = {
+      snake: '#7E57C2',
+      lizard: '#4CAF50',
+      turtle: '#03A9F4',
+      gecko: '#FF9800',
+      amphibian: '#26A69A',
+      arachnid: '#E91E63',
+    };
+
+    let pets = [];
+    let selectedCategory = '';
+    let selectedSpecies = '';
+
+    const categoryIcons = {
+      snake: '🐍',
+      gecko: '🦎',
+      lizard: '🦎',
+      turtle: '🐢',
+      amphibian: '🐸',
+      arachnid: '🕷️',
+    };
+
+    // 按类别分组的物种数据
+    const speciesByCategory = {
+      snake: ['玉米蛇', '王蛇', '猪鼻蛇', '牛蛇', '奶蛇', '黑眉锦蛇'],
+      gecko: ['豹纹守宫', '睫角守宫', '肥尾守宫', '瘤尾守宫', '日行守宫'],
+      lizard: ['鬃狮蜥', '蓝舌石龙子', '王者蜥', '绿鬣蜥', '变色龙', '双冠蜥'],
+      turtle: ['巴西龟', '草龟', '黄缘闭壳龟', '辐射陆龟', '苏卡达陆龟', '豹纹陆龟'],
+      amphibian: ['角蛙', '老爷树蛙', '白化非洲牛蛙', '蝾螈', '娃娃鱼'],
+      arachnid: ['墨西哥红膝头', '巴西白膝头', '委内瑞拉红绿灯', '粉红趾', '金直间'],
+    };
+
+    // 初始化
+    function init() {
+      renderRecommendedSpecies();
+      renderSpeciesList();
+      renderPets();
+    }
+
+    // 打开添加爬宠对话框
+    function openAddPetModal() {
+      document.getElementById('addPetModal').classList.add('show');
+      // 重置表单
+      document.getElementById('petName').value = '';
+      document.getElementById('petSpecies').value = '';
+      document.getElementById('petGender').value = '';
+      document.getElementById('petWeight').value = '';
+      document.getElementById('petBirthday').value = '';
+      selectedCategory = '';
+      selectedSpecies = '';
+
+      // 重置大类选中状态
+      document.querySelectorAll('.category-item').forEach(el => {
+        el.classList.remove('selected');
+      });
+
+      // 隐藏物种下拉列表
+      document.getElementById('speciesGroup').style.display = 'none';
+    }
+
+    // 关闭添加爬宠对话框
+    function closeAddPetModal() {
+      document.getElementById('addPetModal').classList.remove('show');
+    }
+
+    // 选择大类
+    function selectCategory(category) {
+      selectedCategory = category;
+
+      // 更新大类选中状态
+      document.querySelectorAll('.category-item').forEach(el => {
+        el.classList.remove('selected');
+        if (el.dataset.category === category) {
+          el.classList.add('selected');
+        }
+      });
+
+      // 显示物种下拉列表并更新选项
+      const speciesGroup = document.getElementById('speciesGroup');
+      speciesGroup.style.display = 'block';
+
+      const speciesSelect = document.getElementById('petSpecies');
+      speciesSelect.innerHTML = '<option value="">请选择物种</option>';
+
+      const speciesList = speciesByCategory[category];
+      if (speciesList) {
+        speciesList.forEach(species => {
+          const option = document.createElement('option');
+          option.value = species;
+          option.textContent = species;
+          speciesSelect.appendChild(option);
+        });
+      }
+    }
+
+    // 物种选择变化
+    function onSpeciesChange() {
+      selectedSpecies = document.getElementById('petSpecies').value;
+    }
+
+    // 保存爬宠
+    function savePet() {
+      const name = document.getElementById('petName').value.trim();
+      const gender = document.getElementById('petGender').value;
+      const weight = document.getElementById('petWeight').value;
+      const birthday = document.getElementById('petBirthday').value;
+
+      if (!name) {
+        showToast('请输入爬宠名字');
+        return;
+      }
+
+      if (!selectedCategory) {
+        showToast('请先选择类别');
+        return;
+      }
+
+      if (!selectedSpecies) {
+        showToast('请选择物种');
+        return;
+      }
+
+      const pet = {
+        id: Date.now(),
+        name,
+        species: selectedSpecies,
+        category: selectedCategory,
+        gender,
+        weight: weight || 0,
+        birthday,
+        icon: categoryIcons[selectedCategory],
+      };
+
+      pets.push(pet);
+      renderPets();
+      closeAddPetModal();
+      showToast(`已添加 ${name}`);
+    }
+
+    // 渲染宠物列表
+    function renderPets() {
+      const container = document.getElementById('pet-list');
+      const emptyState = document.getElementById('empty-pets');
+      const petCount = document.getElementById('pet-count');
+
+      petCount.textContent = pets.length;
+
+      if (pets.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" id="empty-pets">
+            <div class="empty-state-icon">🦎</div>
+            <h3>还没有爬宠</h3>
+            <p>点击 + 添加您的第一只爬宠</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = pets.map(pet => `
+        <div class="pet-card" onclick="showPetDetail(${pet.id})">
+          <div class="pet-avatar" style="background: ${categoryColors[pet.category]}20; color: ${categoryColors[pet.category]};">${pet.icon}</div>
+          <div class="pet-name">${pet.name}</div>
+          <div class="pet-species">${pet.species}</div>
+        </div>
+      `).join('');
+
+      // 同时更新爬宠页面
+      renderAllPets();
+    }
+
+    // 渲染所有爬宠页面
+    function renderAllPets() {
+      const container = document.getElementById('all-pets-list');
+
+      if (pets.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🦎</div>
+            <h3>还没有爬宠</h3>
+            <p>点击下方按钮添加您的第一只爬宠</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = pets.map(pet => `
+        <div class="pet-card" onclick="showPetDetail(${pet.id})">
+          <div class="pet-avatar" style="background: ${categoryColors[pet.category]}20; color: ${categoryColors[pet.category]};">${pet.icon}</div>
+          <div class="pet-name">${pet.name}</div>
+          <div class="pet-species">${pet.species}</div>
+        </div>
+      `).join('');
+    }
+
+    // 显示爬宠详情
+    function showPetDetail(id) {
+      const pet = pets.find(p => p.id === id);
+      if (pet) {
+        let info = `${pet.category}`;
+        if (pet.gender) info += ` | ${pet.gender}`;
+        if (pet.weight) info += ` | ${pet.weight}g`;
+        if (pet.birthday) info += ` | 生日: ${pet.birthday}`;
+        showToast(`${pet.name} - ${info}`);
+      }
+    }
+
+    // 渲染推荐物种
+    function renderRecommendedSpecies() {
+      const container = document.getElementById('recommended-list');
+      container.innerHTML = speciesData.slice(0, 5).map(species => `
+        <div class="species-card" onclick="showToast('查看 ${species.name}')">
+          <div class="species-header">
+            <div class="species-icon" style="background: ${categoryColors[species.category]}20; color: ${categoryColors[species.category]};">${species.icon}</div>
+            <span class="species-tag">推荐</span>
+          </div>
+          <div class="species-name">${species.name}</div>
+          <div class="species-info">
+            <span>${species.difficulty}</span>
+            <span>·</span>
+            <span>${species.lifespan}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 渲染物种列表
+    function renderSpeciesList() {
+      const container = document.getElementById('species-list');
+      container.innerHTML = speciesData.map(species => `
+        <div class="species-card" onclick="showToast('查看 ${species.name}')">
+          <div class="species-header">
+            <div class="species-icon" style="background: ${categoryColors[species.category]}20; color: ${categoryColors[species.category]};">${species.icon}</div>
+          </div>
+          <div class="species-name">${species.name}</div>
+          <div class="species-info">
+            <span>${species.difficulty}</span>
+            <span>·</span>
+            <span>${species.lifespan}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 筛选物种
+    function filterSpecies(category) {
+      const filtered = speciesData.filter(s => s.category === category);
+      const container = document.getElementById('species-list');
+      container.innerHTML = filtered.map(species => `
+        <div class="species-card" onclick="showToast('查看 ${species.name}')">
+          <div class="species-header">
+            <div class="species-icon" style="background: ${categoryColors[species.category]}20; color: ${categoryColors[species.category]};">${species.icon}</div>
+          </div>
+          <div class="species-name">${species.name}</div>
+          <div class="species-info">
+            <span>${species.difficulty}</span>
+            <span>·</span>
+            <span>${species.lifespan}</span>
+          </div>
+        </div>
+      `).join('');
+      showToast(`筛选: ${getCategoryName(category)}`);
+    }
+
+    function getCategoryName(category) {
+      const names = {
+        snake: '蛇类',
+        gecko: '守宫',
+        lizard: '蜥蜴',
+        turtle: '龟类',
+        amphibian: '两栖',
+        arachnid: '蜘蛛',
+      };
+      return names[category] || category;
+    }
+
+    // 切换页面
+    function switchPage(pageId) {
+      // 更新导航状态
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.page === pageId) {
+          item.classList.add('active');
+        }
+      });
+
+      // 显示对应页面
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(`page-${pageId}`).classList.add('active');
+
+      // 更新标题
+      const titles = {
+        home: 'WildHerd',
+        pets: '我的爬宠',
+        encyclopedia: '知识百科',
+        market: '市场',
+        habitat: '饲养环境',
+        exhibition: '展览资讯',
+        companion: '同伴',
+        community: '社区',
+      };
+      document.querySelector('.app-header h1').textContent = titles[pageId];
+    }
+
+    // 显示 Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // 初始化
+    init();
+  </script>
 </body>
 </html>
