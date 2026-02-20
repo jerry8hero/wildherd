@@ -26,8 +26,34 @@
       --arachnid: #E91E63;
     }
 
-    /* 暗黑模式 */
-    [data-theme="dark"] {
+    /* 主题配色方案 */
+    [data-theme="blue"] {
+      --primary: #2196F3;
+      --primary-light: #03A9F4;
+      --accent: #FF9800;
+    }
+
+    [data-theme="purple"] {
+      --primary: #9C27B0;
+      --primary-light: #BA68C8;
+      --accent: #FF9800;
+    }
+
+    [data-theme="orange"] {
+      --primary: #FF9800;
+      --primary-light: #FFB74D;
+      --accent: #4CAF50;
+    }
+
+    [data-theme="pink"] {
+      --primary: #E91E63;
+      --primary-light: #F06292;
+      --accent: #9C27B0;
+    }
+
+    /* 暗黑模式（统一适配所有颜色主题） */
+    /* 通用暗黑模式背景（必须放前面） */
+    [data-theme*="dark"] {
       --background: #121212;
       --surface: #1E1E1E;
       --text-primary: #FFFFFF;
@@ -35,63 +61,91 @@
       --border-color: #333333;
     }
 
-    [data-theme="dark"] body {
+    /* 暗黑模式绿色（默认） */
+    [data-theme="dark"],
+    [data-theme="dark-green"] {
+      --primary: #4CAF50;
+      --primary-light: #8BC34A;
+    }
+
+    /* 暗黑模式下的颜色主题（必须放后面以覆盖默认） */
+    [data-theme="dark-blue"] {
+      --primary: #2196F3 !important;
+      --primary-light: #03A9F4 !important;
+    }
+
+    [data-theme="dark-purple"] {
+      --primary: #9C27B0 !important;
+      --primary-light: #BA68C8 !important;
+    }
+
+    [data-theme="dark-orange"] {
+      --primary: #FF9800 !important;
+      --primary-light: #FFB74D !important;
+    }
+
+    [data-theme="dark-pink"] {
+      --primary: #E91E63 !important;
+      --primary-light: #F06292 !important;
+    }
+
+    [data-theme*="dark"] body {
       background: var(--background);
       color: var(--text-primary);
     }
 
-    [data-theme="dark"] .card,
-    [data-theme="dark"] .pet-card,
-    [data-theme="dark"] .species-card,
-    [data-theme="dark"] .action-card,
-    [data-theme="dark"] .info-card,
-    [data-theme="dark"] .empty-state,
-    [data-theme="dark"] .reminder-card,
-    [data-theme="dark"] .price-card {
+    [data-theme*="dark"] .card,
+    [data-theme*="dark"] .pet-card,
+    [data-theme*="dark"] .species-card,
+    [data-theme*="dark"] .action-card,
+    [data-theme*="dark"] .info-card,
+    [data-theme*="dark"] .empty-state,
+    [data-theme*="dark"] .reminder-card,
+    [data-theme*="dark"] .price-card {
       background: var(--surface);
       border: 1px solid var(--border-color);
     }
 
-    [data-theme="dark"] .modal {
+    [data-theme*="dark"] .modal {
       background: var(--surface);
     }
 
-    [data-theme="dark"] .modal-header,
-    [data-theme="dark"] .modal-footer {
+    [data-theme*="dark"] .modal-header,
+    [data-theme*="dark"] .modal-footer {
       border-color: var(--border-color);
     }
 
-    [data-theme="dark"] .form-group input,
-    [data-theme="dark"] .form-group select {
+    [data-theme*="dark"] .form-group input,
+    [data-theme*="dark"] .form-group select {
       background: #2C2C2C;
       border-color: var(--border-color);
       color: var(--text-primary);
     }
 
-    [data-theme="dark"] .category-item {
+    [data-theme*="dark"] .category-item {
       background: #2C2C2C;
       border-color: var(--border-color);
     }
 
-    [data-theme="dark"] .category-item:hover {
+    [data-theme*="dark"] .category-item:hover {
       background: rgba(76, 175, 80, 0.15);
     }
 
-    [data-theme="dark"] .category-item.selected {
+    [data-theme*="dark"] .category-item.selected {
       background: rgba(76, 175, 80, 0.2);
     }
 
-    [data-theme="dark"] .bottom-nav {
+    [data-theme*="dark"] .bottom-nav {
       background: var(--surface);
       border-top: 1px solid var(--border-color);
     }
 
-    [data-theme="dark"] .btn-cancel {
+    [data-theme*="dark"] .btn-cancel {
       background: #2C2C2C;
       color: var(--text-primary);
     }
 
-    [data-theme="dark"] .toast {
+    [data-theme*="dark"] .toast {
       background: rgba(30, 30, 30, 0.95);
     }
 
@@ -539,6 +593,50 @@
       opacity: 1;
     }
 
+    /* 主题选择 */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .theme-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-option:hover {
+      border-color: var(--primary);
+    }
+
+    .theme-option.selected {
+      border-color: var(--primary);
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    .theme-preview {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-bottom: 8px;
+    }
+
+    .theme-option span {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .theme-option.selected span {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
     /* FAB */
     .fab {
       position: fixed;
@@ -818,6 +916,7 @@
       <h1>WildHerd</h1>
       <div class="header-actions">
         <button class="header-btn" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        <button class="header-btn" onclick="openThemeModal()">🎨</button>
         <button class="header-btn" onclick="showToast('通知')">🔔</button>
       </div>
     </header>
@@ -1102,6 +1201,21 @@
   <!-- 悬浮按钮 -->
   <button class="fab" onclick="openAddPetModal()">+</button>
 
+  <!-- 主题选择对话框 -->
+  <div class="modal-overlay" id="themeModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="themeModalTitle">选择主题</h3>
+        <button class="modal-close" onclick="closeThemeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="theme-grid" id="themeGrid">
+          <!-- 主题选项将通过 JS 动态生成 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 添加爬宠对话框 -->
   <div class="modal-overlay" id="addPetModal">
     <div class="modal">
@@ -1372,27 +1486,117 @@
 
     // 初始化主题
     function initTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'green';
       document.documentElement.setAttribute('data-theme', savedTheme);
       updateThemeButton(savedTheme);
     }
 
     // 切换主题
     function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'green';
+      const isDark = currentTheme.startsWith('dark');
+
+      // 切换亮色/暗色模式
+      let newTheme;
+      if (isDark) {
+        // 从暗黑切换到亮色，提取颜色主题
+        let colorTheme = currentTheme.replace('dark-', '');
+        if (!colorTheme) colorTheme = 'green';
+        newTheme = colorTheme;
+      } else {
+        // 从亮色切换到暗黑，使用当前颜色主题
+        let colorTheme = currentTheme === 'light' ? 'green' : currentTheme;
+        newTheme = 'dark-' + colorTheme;
+      }
 
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeButton(newTheme);
 
-      showToast(newTheme === 'dark' ? '已切换到暗黑模式' : '已切换到明亮模式');
+      showToast(isDark ? '已切换到明亮模式' : '已切换到暗黑模式');
     }
 
     // 更新主题按钮图标
     function updateThemeButton(theme) {
       const btn = document.getElementById('themeToggle');
-      btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      btn.textContent = theme.startsWith('dark') ? '☀️' : '🌙';
+    }
+
+    // 亮色主题选项
+    const lightThemes = [
+      { id: 'green', name: '自然绿', color: '#4CAF50' },
+      { id: 'blue', name: '天空蓝', color: '#2196F3' },
+      { id: 'purple', name: '神秘紫', color: '#9C27B0' },
+      { id: 'orange', name: '活力橙', color: '#FF9800' },
+      { id: 'pink', name: '可爱粉', color: '#E91E63' },
+    ];
+
+    // 暗黑主题选项
+    const darkThemes = [
+      { id: 'green', name: '暗夜绿', color: '#4CAF50' },
+      { id: 'blue', name: '暗夜蓝', color: '#2196F3' },
+      { id: 'purple', name: '暗夜紫', color: '#9C27B0' },
+      { id: 'orange', name: '暗夜橙', color: '#FF9800' },
+      { id: 'pink', name: '暗夜粉', color: '#E91E63' },
+    ];
+
+    // 打开主题选择对话框
+    function openThemeModal() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'green';
+      const isDark = currentTheme.startsWith('dark');
+
+      // 根据当前模式设置标题和渲染选项
+      document.getElementById('themeModalTitle').textContent = isDark ? '选择暗黑主题' : '选择主题';
+
+      const container = document.getElementById('themeGrid');
+      const themes = isDark ? darkThemes : lightThemes;
+      const currentColor = currentTheme.replace('dark-', '');
+
+      container.innerHTML = themes.map(t => `
+        <div class="theme-option ${t.id === currentColor ? 'selected' : ''}"
+             data-theme="${t.id}"
+             onclick="selectTheme('${t.id}')">
+          <div class="theme-preview" style="background: ${isDark ? 'linear-gradient(135deg, #1E1E1E, ' + t.color + ')' : 'linear-gradient(135deg, ' + t.color + ', ' + t.color + '99)'}"></div>
+          <span>${t.name}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('themeModal').classList.add('show');
+    }
+
+    // 关闭主题选择对话框
+    function closeThemeModal() {
+      document.getElementById('themeModal').classList.remove('show');
+    }
+
+    // 选择主题
+    function selectTheme(colorId) {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'green';
+      const isDark = currentTheme.startsWith('dark');
+
+      let newTheme;
+      if (isDark) {
+        // 当前是暗黑模式，切换到其他颜色的暗黑模式
+        newTheme = 'dark-' + colorId;
+      } else {
+        // 当前是亮色模式，切换到其他颜色
+        newTheme = colorId;
+      }
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeButton(newTheme);
+
+      const themeNames = {
+        'green': isDark ? '暗夜绿' : '自然绿',
+        'blue': isDark ? '暗夜蓝' : '天空蓝',
+        'purple': isDark ? '暗夜紫' : '神秘紫',
+        'orange': isDark ? '暗夜橙' : '活力橙',
+        'pink': isDark ? '暗夜粉' : '可爱粉',
+      };
+
+      showToast('已切换到 ' + themeNames[colorId] + ' 主题');
+      closeThemeModal();
     }
 
     // 渲染价格列表
