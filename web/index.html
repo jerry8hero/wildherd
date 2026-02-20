@@ -14,6 +14,7 @@
       --surface: #FFFFFF;
       --text-primary: #212121;
       --text-secondary: #757575;
+      --border-color: #E0E0E0;
       --error: #E53935;
       --snake: #7E57C2;
       --lizard: #4CAF50;
@@ -23,6 +24,75 @@
       --gecko: #FF9800;
       --amphibian: #26A69A;
       --arachnid: #E91E63;
+    }
+
+    /* 暗黑模式 */
+    [data-theme="dark"] {
+      --background: #121212;
+      --surface: #1E1E1E;
+      --text-primary: #FFFFFF;
+      --text-secondary: #B0B0B0;
+      --border-color: #333333;
+    }
+
+    [data-theme="dark"] body {
+      background: var(--background);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .pet-card,
+    [data-theme="dark"] .species-card,
+    [data-theme="dark"] .action-card,
+    [data-theme="dark"] .info-card,
+    [data-theme="dark"] .empty-state,
+    [data-theme="dark"] .reminder-card,
+    [data-theme="dark"] .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+    }
+
+    [data-theme="dark"] .modal {
+      background: var(--surface);
+    }
+
+    [data-theme="dark"] .modal-header,
+    [data-theme="dark"] .modal-footer {
+      border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .form-group input,
+    [data-theme="dark"] .form-group select {
+      background: #2C2C2C;
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .category-item {
+      background: #2C2C2C;
+      border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .category-item:hover {
+      background: rgba(76, 175, 80, 0.15);
+    }
+
+    [data-theme="dark"] .category-item.selected {
+      background: rgba(76, 175, 80, 0.2);
+    }
+
+    [data-theme="dark"] .bottom-nav {
+      background: var(--surface);
+      border-top: 1px solid var(--border-color);
+    }
+
+    [data-theme="dark"] .btn-cancel {
+      background: #2C2C2C;
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .toast {
+      background: rgba(30, 30, 30, 0.95);
     }
 
     * {
@@ -747,7 +817,7 @@
     <header class="app-header">
       <h1>WildHerd</h1>
       <div class="header-actions">
-        <button class="header-btn" onclick="showToast('设置')">⚙️</button>
+        <button class="header-btn" id="themeToggle" onclick="toggleTheme()">🌙</button>
         <button class="header-btn" onclick="showToast('通知')">🔔</button>
       </div>
     </header>
@@ -1291,10 +1361,38 @@
 
     // 初始化
     function init() {
+      // 初始化主题
+      initTheme();
+
       renderRecommendedSpecies();
       renderSpeciesList();
       renderPets();
       renderPriceList();
+    }
+
+    // 初始化主题
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeButton(savedTheme);
+    }
+
+    // 切换主题
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeButton(newTheme);
+
+      showToast(newTheme === 'dark' ? '已切换到暗黑模式' : '已切换到明亮模式');
+    }
+
+    // 更新主题按钮图标
+    function updateThemeButton(theme) {
+      const btn = document.getElementById('themeToggle');
+      btn.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
 
     // 渲染价格列表
