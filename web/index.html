@@ -51,6 +51,43 @@
       --accent: #9C27B0;
     }
 
+    [data-theme="red"] {
+      --primary: #F44336;
+      --primary-light: #EF5350;
+      --accent: #FF9800;
+    }
+
+    [data-theme="cyan"] {
+      --primary: #00BCD4;
+      --primary-light: #26C6DA;
+      --accent: #FF9800;
+    }
+
+    [data-theme="brown"] {
+      --primary: #795548;
+      --primary-light: #8D6E63;
+      --accent: #4CAF50;
+    }
+
+    [data-theme="teal"] {
+      --primary: #009688;
+      --primary-light: #26A69A;
+      --accent: #FF9800;
+    }
+
+    [data-theme="indigo"] {
+      --primary: #3F51B5;
+      --primary-light: #5C6BC0;
+      --accent: #FF9800;
+    }
+
+    /* 随机主题 */
+    [data-theme="random"] {
+      --primary: #FF6B6B;
+      --primary-light: #4ECDC4;
+      --accent: #FFE66D;
+    }
+
     /* 暗黑模式（统一适配所有颜色主题） */
     /* 通用暗黑模式背景（必须放前面） */
     [data-theme*="dark"] {
@@ -87,6 +124,36 @@
     [data-theme="dark-pink"] {
       --primary: #E91E63 !important;
       --primary-light: #F06292 !important;
+    }
+
+    [data-theme="dark-red"] {
+      --primary: #F44336 !important;
+      --primary-light: #EF5350 !important;
+    }
+
+    [data-theme="dark-cyan"] {
+      --primary: #00BCD4 !important;
+      --primary-light: #26C6DA !important;
+    }
+
+    [data-theme="dark-brown"] {
+      --primary: #795548 !important;
+      --primary-light: #8D6E63 !important;
+    }
+
+    [data-theme="dark-teal"] {
+      --primary: #009688 !important;
+      --primary-light: #26A69A !important;
+    }
+
+    [data-theme="dark-indigo"] {
+      --primary: #3F51B5 !important;
+      --primary-light: #5C6BC0 !important;
+    }
+
+    [data-theme="dark-random"] {
+      --primary: #FF6B6B !important;
+      --primary-light: #4ECDC4 !important;
     }
 
     [data-theme*="dark"] body {
@@ -1486,7 +1553,16 @@
 
     // 初始化主题
     function initTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'green';
+      let savedTheme = localStorage.getItem('theme') || 'green';
+
+      // 如果是随机主题，每次刷新都随机换一个颜色
+      if (savedTheme === 'random' || savedTheme === 'dark-random') {
+        const isDark = savedTheme === 'dark-random';
+        const randomColor = allColorThemes[Math.floor(Math.random() * allColorThemes.length)];
+        savedTheme = isDark ? 'dark-' + randomColor : randomColor;
+        localStorage.setItem('theme', savedTheme);
+      }
+
       document.documentElement.setAttribute('data-theme', savedTheme);
       updateThemeButton(savedTheme);
     }
@@ -1529,6 +1605,11 @@
       { id: 'purple', name: '神秘紫', color: '#9C27B0' },
       { id: 'orange', name: '活力橙', color: '#FF9800' },
       { id: 'pink', name: '可爱粉', color: '#E91E63' },
+      { id: 'red', name: '热情红', color: '#F44336' },
+      { id: 'cyan', name: '清新青', color: '#00BCD4' },
+      { id: 'brown', name: '大地棕', color: '#795548' },
+      { id: 'teal', name: '深青绿', color: '#009688' },
+      { id: 'indigo', name: '靛青色', color: '#3F51B5' },
     ];
 
     // 暗黑主题选项
@@ -1538,6 +1619,16 @@
       { id: 'purple', name: '暗夜紫', color: '#9C27B0' },
       { id: 'orange', name: '暗夜橙', color: '#FF9800' },
       { id: 'pink', name: '暗夜粉', color: '#E91E63' },
+      { id: 'red', name: '暗夜红', color: '#F44336' },
+      { id: 'cyan', name: '暗夜青', color: '#00BCD4' },
+      { id: 'brown', name: '暗夜棕', color: '#795548' },
+      { id: 'teal', name: '暗夜青绿', color: '#009688' },
+      { id: 'indigo', name: '暗夜靛蓝', color: '#3F51B5' },
+    ];
+
+    // 所有颜色主题（用于随机选择）
+    const allColorThemes = [
+      'green', 'blue', 'purple', 'orange', 'pink', 'red', 'cyan', 'brown', 'teal', 'indigo'
     ];
 
     // 打开主题选择对话框
@@ -1552,11 +1643,15 @@
       const themes = isDark ? darkThemes : lightThemes;
       const currentColor = currentTheme.replace('dark-', '');
 
-      container.innerHTML = themes.map(t => `
+      // 添加随机主题选项
+      const randomTheme = { id: 'random', name: '🎲 随机', color: '#FF6B6B' };
+      const allThemes = [...themes, randomTheme];
+
+      container.innerHTML = allThemes.map(t => `
         <div class="theme-option ${t.id === currentColor ? 'selected' : ''}"
              data-theme="${t.id}"
              onclick="selectTheme('${t.id}')">
-          <div class="theme-preview" style="background: ${isDark ? 'linear-gradient(135deg, #1E1E1E, ' + t.color + ')' : 'linear-gradient(135deg, ' + t.color + ', ' + t.color + '99)'}"></div>
+          <div class="theme-preview" style="background: ${isDark ? 'linear-gradient(135deg, #1E1E1E, ' + t.color + ')' : t.id === 'random' ? 'linear-gradient(135deg, #FF6B6B, #4ECDC4)' : 'linear-gradient(135deg, ' + t.color + ', ' + t.color + '99)'}"></div>
           <span>${t.name}</span>
         </div>
       `).join('');
@@ -1569,12 +1664,41 @@
       document.getElementById('themeModal').classList.remove('show');
     }
 
+    // 获取主题名称
+    function getThemeName(colorId) {
+      const names = {
+        'green': '自然绿',
+        'blue': '天空蓝',
+        'purple': '神秘紫',
+        'orange': '活力橙',
+        'pink': '可爱粉',
+        'red': '热情红',
+        'cyan': '清新青',
+        'brown': '大地棕',
+        'teal': '深青绿',
+        'indigo': '靛青色',
+      };
+      return names[colorId] || colorId;
+    }
+
     // 选择主题
     function selectTheme(colorId) {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'green';
       const isDark = currentTheme.startsWith('dark');
 
       let newTheme;
+
+      // 随机主题处理 - 保存为 random 标记，每次刷新都会随机切换
+      if (colorId === 'random') {
+        newTheme = isDark ? 'dark-random' : 'random';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton(newTheme);
+        showToast('🎲 已设置为随机主题，每次刷新都会随机切换颜色！');
+        closeThemeModal();
+        return;
+      }
+
       if (isDark) {
         // 当前是暗黑模式，切换到其他颜色的暗黑模式
         newTheme = 'dark-' + colorId;
@@ -1593,6 +1717,11 @@
         'purple': isDark ? '暗夜紫' : '神秘紫',
         'orange': isDark ? '暗夜橙' : '活力橙',
         'pink': isDark ? '暗夜粉' : '可爱粉',
+        'red': isDark ? '暗夜红' : '热情红',
+        'cyan': isDark ? '暗夜青' : '清新青',
+        'brown': isDark ? '暗夜棕' : '大地棕',
+        'teal': isDark ? '暗夜青绿' : '深青绿',
+        'indigo': isDark ? '暗夜靛蓝' : '靛青色',
       };
 
       showToast('已切换到 ' + themeNames[colorId] + ' 主题');
