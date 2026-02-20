@@ -17,7 +17,9 @@
       --error: #E53935;
       --snake: #7E57C2;
       --lizard: #4CAF50;
-      --turtle: #03A9F4;
+      --turtle-water: #03A9F4;
+      --turtle-semiterrestrial: #00BCD4;
+      --turtle-terrestrial: #8D6E63;
       --gecko: #FF9800;
       --amphibian: #26A69A;
       --arachnid: #E91E63;
@@ -643,6 +645,58 @@
       animation: fadeIn 0.3s ease;
     }
 
+    /* 价格卡片 */
+    .price-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .price-card:hover {
+      transform: translateX(4px);
+    }
+
+    .price-info {
+      flex: 1;
+    }
+
+    .price-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .price-range {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .price-trend {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .trend-up {
+      color: #4CAF50;
+    }
+
+    .trend-down {
+      color: #F44336;
+    }
+
+    .trend-stable {
+      color: #9E9E9E;
+    }
+
     .form-group-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -722,7 +776,7 @@
       </div>
 
       <!-- 价格动态 -->
-      <div class="info-card" onclick="showToast('价格动态')">
+      <div class="info-card" onclick="switchPage('market')">
         <div class="info-icon" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">📈</div>
         <div class="info-content">
           <div class="info-title">价格动态</div>
@@ -732,7 +786,7 @@
       </div>
 
       <!-- 展览资讯 -->
-      <div class="info-card" onclick="showToast('展览资讯')">
+      <div class="info-card" onclick="switchPage('exhibition')">
         <div class="info-icon" style="background: rgba(156, 39, 176, 0.1); color: #9C27B0;">🎪</div>
         <div class="info-content">
           <div class="info-title">展览资讯</div>
@@ -820,9 +874,17 @@
           <div class="action-icon" style="background: rgba(76, 175, 80, 0.1); color: var(--lizard);">🦎</div>
           <div class="action-title">蜥蜴</div>
         </div>
-        <div class="action-card" onclick="filterSpecies('turtle')">
-          <div class="action-icon" style="background: rgba(3, 169, 244, 0.1); color: var(--turtle);">🐢</div>
-          <div class="action-title">龟类</div>
+        <div class="action-card" onclick="filterSpecies('turtle_water')">
+          <div class="action-icon" style="background: rgba(3, 169, 244, 0.1); color: var(--turtle-water);">🐢</div>
+          <div class="action-title">水龟</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('turtle_semiterrestrial')">
+          <div class="action-icon" style="background: rgba(0, 188, 212, 0.1); color: var(--turtle-semiterrestrial);">🐢</div>
+          <div class="action-title">半水龟</div>
+        </div>
+        <div class="action-card" onclick="filterSpecies('turtle_terrestrial')">
+          <div class="action-icon" style="background: rgba(141, 110, 99, 0.1); color: var(--turtle-terrestrial);">🐢</div>
+          <div class="action-title">陆龟</div>
         </div>
         <div class="action-card" onclick="filterSpecies('amphibian')">
           <div class="action-icon" style="background: rgba(38, 166, 154, 0.1); color: var(--amphibian);">🐸</div>
@@ -851,10 +913,15 @@
         <h2>价格提醒</h2>
         <p>设置价格提醒，及时了解市场动态</p>
       </div>
-      <div class="empty-state">
-        <div class="empty-state-icon">📊</div>
-        <h3>暂无价格数据</h3>
-        <p>敬请期待更多市场功能</p>
+
+      <h3 class="section-title">热门物种价格</h3>
+      <div id="price-list"></div>
+
+      <h3 class="section-title" style="margin-top: 20px;">我的价格提醒</h3>
+      <div class="empty-state" id="price-alert-empty">
+        <div class="empty-state-icon">🔔</div>
+        <h3>暂无价格提醒</h3>
+        <p>点击物种添加价格提醒</p>
       </div>
     </div>
   </div>
@@ -1003,7 +1070,27 @@
             </div>
           </div>
         </div>
-        <!-- 第二级：物种选择 -->
+
+        <!-- 第二级：龟类细分选择 -->
+        <div class="form-group" id="turtleTypeGroup" style="display: none;">
+          <label>2. 选择龟类</label>
+          <div class="category-grid">
+            <div class="category-item" data-turtle-type="turtle_water" onclick="selectTurtleType('turtle_water')">
+              <span class="category-icon">🐢</span>
+              <span class="category-name">水龟</span>
+            </div>
+            <div class="category-item" data-turtle-type="turtle_semiterrestrial" onclick="selectTurtleType('turtle_semiterrestrial')">
+              <span class="category-icon">🐢</span>
+              <span class="category-name">半水龟</span>
+            </div>
+            <div class="category-item" data-turtle-type="turtle_terrestrial" onclick="selectTurtleType('turtle_terrestrial')">
+              <span class="category-icon">🐢</span>
+              <span class="category-name">陆龟</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 第三级：物种选择 -->
         <div class="form-group" id="speciesGroup" style="display: none;">
           <label>2. 选择物种</label>
           <select id="petSpecies" onchange="onSpeciesChange()">
@@ -1044,22 +1131,97 @@
   <script>
     // 数据
     const speciesData = [
+      // 蛇类
       { name: '玉米蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
       { name: '王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '黑王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '白化王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '加州王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '猪鼻蛇', category: 'snake', difficulty: '简单', lifespan: '10-15年', icon: '🐍' },
+      { name: '牛蛇', category: 'snake', difficulty: '中等', lifespan: '15-20年', icon: '🐍' },
+      { name: '奶蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      // 守宫
       { name: '豹纹守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
       { name: '睫角守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
+      { name: '肥尾守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
+      { name: '瘤尾守宫', category: 'gecko', difficulty: '中等', lifespan: '8-12年', icon: '🦎' },
+      { name: '日行守宫', category: 'gecko', difficulty: '简单', lifespan: '8-10年', icon: '🦎' },
+      // 蜥蜴
       { name: '鬃狮蜥', category: 'lizard', difficulty: '中等', lifespan: '10-12年', icon: '🦎' },
       { name: '蓝舌石龙子', category: 'lizard', difficulty: '简单', lifespan: '15-20年', icon: '🦎' },
-      { name: '巴西龟', category: 'turtle', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
-      { name: '辐射陆龟', category: 'turtle', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
+      { name: '王者蜥', category: 'lizard', difficulty: '中等', lifespan: '12-15年', icon: '🦎' },
+      { name: '绿鬣蜥', category: 'lizard', difficulty: '中等', lifespan: '15-20年', icon: '🦎' },
+      { name: '变色龙', category: 'lizard', difficulty: '困难', lifespan: '5-8年', icon: '🦎' },
+      { name: '双冠蜥', category: 'lizard', difficulty: '中等', lifespan: '8-10年', icon: '🦎' },
+      // 水龟
+      { name: '巴西龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
+      { name: '草龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-40年', icon: '🐢' },
+      { name: '巴西红耳龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
+      { name: '地图龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-25年', icon: '🐢' },
+      { name: '麝香龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-30年', icon: '🐢' },
+      // 半水龟
+      { name: '黄缘闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
+      { name: '黄额闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '20-30年', icon: '🐢' },
+      { name: '三趾箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
+      { name: '东部箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
+      // 陆龟
+      { name: '辐射陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
+      { name: '苏卡达陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
+      { name: '豹纹陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
+      { name: '缅甸陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '20-30年', icon: '🐢' },
+      { name: '赫曼陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '30-40年', icon: '🐢' },
+      // 两栖
       { name: '角蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', icon: '🐸' },
+      { name: '老爷树蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-12年', icon: '🐸' },
+      { name: '白化非洲牛蛙', category: 'amphibian', difficulty: '简单', lifespan: '10-15年', icon: '🐸' },
+      { name: '番茄蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', icon: '🐸' },
+      { name: '红眼树蛙', category: 'amphibian', difficulty: '简单', lifespan: '5-8年', icon: '🐸' },
+      // 蜘蛛
       { name: '墨西哥红膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', icon: '🕷️' },
+      { name: '巴西白膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', icon: '🕷️' },
+      { name: '委内瑞拉红绿灯', category: 'arachnid', difficulty: '中等', lifespan: '5-8年', icon: '🕷️' },
+      { name: '粉红趾', category: 'arachnid', difficulty: '简单', lifespan: '5-7年', icon: '🕷️' },
+      { name: '金直间', category: 'arachnid', difficulty: '简单', lifespan: '8-12年', icon: '🕷️' },
     ];
+
+    // 市场价格数据
+    const priceData = [
+      { name: '玉米蛇', price: '120-350元', trend: 'up', change: '+5%' },
+      { name: '王蛇', price: '150-400元', trend: 'up', change: '+3%' },
+      { name: '黑王蛇', price: '200-500元', trend: 'up', change: '+8%' },
+      { name: '猪鼻蛇', price: '150-300元', trend: 'stable', change: '0%' },
+      { name: '豹纹守宫', price: '80-200元', trend: 'down', change: '-2%' },
+      { name: '睫角守宫', price: '150-350元', trend: 'stable', change: '0%' },
+      { name: '肥尾守宫', price: '100-250元', trend: 'up', change: '+3%' },
+      { name: '瘤尾守宫', price: '300-800元', trend: 'up', change: '+5%' },
+      { name: '鬃狮蜥', price: '200-500元', trend: 'up', change: '+8%' },
+      { name: '蓝舌石龙子', price: '300-600元', trend: 'stable', change: '0%' },
+      { name: '绿鬣蜥', price: '150-400元', trend: 'down', change: '-3%' },
+      { name: '变色龙', price: '300-1000元', trend: 'stable', change: '0%' },
+      { name: '巴西龟', price: '5-30元', trend: 'down', change: '-5%' },
+      { name: '草龟', price: '10-50元', trend: 'stable', change: '0%' },
+      { name: '黄缘闭壳龟', price: '600-1500元', trend: 'up', change: '+10%' },
+      { name: '辐射陆龟', price: '800-2000元', trend: 'up', change: '+10%' },
+      { name: '苏卡达陆龟', price: '500-1200元', trend: 'up', change: '+5%' },
+      { name: '角蛙', price: '50-150元', trend: 'down', change: '-3%' },
+      { name: '老爷树蛙', price: '80-180元', trend: 'stable', change: '0%' },
+      { name: '白化非洲牛蛙', price: '100-250元', trend: 'up', change: '+5%' },
+      { name: '墨西哥红膝头', price: '80-180元', trend: 'stable', change: '0%' },
+      { name: '巴西白膝头', price: '100-250元', trend: 'up', change: '+3%' },
+      { name: '委内瑞拉红绿灯', price: '150-400元', trend: 'stable', change: '0%' },
+      { name: '金直间', price: '120-300元', trend: 'down', change: '-2%' },
+      { name: '哥伦比亚镭射', price: '200-500元', trend: 'up', change: '+8%' },
+    ];
+
+    // 价格提醒列表
+    let priceAlerts = [];
 
     const categoryColors = {
       snake: '#7E57C2',
       lizard: '#4CAF50',
-      turtle: '#03A9F4',
+      turtle_water: '#03A9F4',
+      turtle_semiterrestrial: '#00BCD4',
+      turtle_terrestrial: '#8D6E63',
       gecko: '#FF9800',
       amphibian: '#26A69A',
       arachnid: '#E91E63',
@@ -1073,19 +1235,58 @@
       snake: '🐍',
       gecko: '🦎',
       lizard: '🦎',
-      turtle: '🐢',
+      turtle_water: '🐢',
+      turtle_semiterrestrial: '🐢',
+      turtle_terrestrial: '🐢',
       amphibian: '🐸',
       arachnid: '🕷️',
     };
 
     // 按类别分组的物种数据
     const speciesByCategory = {
-      snake: ['玉米蛇', '王蛇', '猪鼻蛇', '牛蛇', '奶蛇', '黑眉锦蛇'],
-      gecko: ['豹纹守宫', '睫角守宫', '肥尾守宫', '瘤尾守宫', '日行守宫'],
-      lizard: ['鬃狮蜥', '蓝舌石龙子', '王者蜥', '绿鬣蜥', '变色龙', '双冠蜥'],
-      turtle: ['巴西龟', '草龟', '黄缘闭壳龟', '辐射陆龟', '苏卡达陆龟', '豹纹陆龟'],
-      amphibian: ['角蛙', '老爷树蛙', '白化非洲牛蛙', '蝾螈', '娃娃鱼'],
-      arachnid: ['墨西哥红膝头', '巴西白膝头', '委内瑞拉红绿灯', '粉红趾', '金直间'],
+      snake: [
+        '玉米蛇', '王蛇', '黑王蛇', '白化王蛇', '加州王蛇',
+        '猪鼻蛇', '牛蛇', '奶蛇', '黑眉锦蛇', '白化玉米蛇',
+        '雪白玉米蛇', '糖果玉米蛇', '血红玉米蛇', '森王蛇', '德州鼠蛇'
+      ],
+      gecko: [
+        '豹纹守宫', '睫角守宫', '肥尾守宫', '瘤尾守宫', '日行守宫',
+        '马岛日行守宫', '金粉守宫', '巨人守宫', '爪哇守宫', '东南亚守宫',
+        '电守宫', '绿守宫', '七星刀守宫'
+      ],
+      lizard: [
+        '鬃狮蜥', '蓝舌石龙子', '王者蜥', '绿鬣蜥', '变色龙',
+        '双冠蜥', '伞蜥', '犀牛鬣蜥', '阿根廷黑白泰加', '红泰加',
+        '蓝岩鬣蜥', '沙漠鬣蜥', '斐济鬣蜥', '水龙', '中华石龙子',
+        '草蜥', '飞蜥', '壁虎'
+      ],
+      turtle_water: [
+        '巴西龟', '草龟', '巴西红耳龟', '中华花龟', '日本石龟',
+        '地图龟', '麝香龟', '剃刀龟', '果核龟', '西锦龟',
+        '火焰龟', '甜甜圈龟', '红耳龟', '黄耳龟', '黑颈龟'
+      ],
+      turtle_semiterrestrial: [
+        '黄缘闭壳龟', '黄额闭壳龟', '三趾箱龟', '佛罗里达箱龟',
+        '东部箱龟', '西部箱龟', '锦箱龟', '卡罗莱纳箱龟',
+        '木纹龟', '星点水龟', '东方泥龟', '西部泥龟'
+      ],
+      turtle_terrestrial: [
+        '辐射陆龟', '苏卡达陆龟', '豹纹陆龟', '缅甸陆龟',
+        '印度星龟', '红腿陆龟', '黄腿陆龟', '靴脚陆龟',
+        '凹甲陆龟', '四爪陆龟', '赫曼陆龟', '欧洲陆龟',
+        '缘翘陆龟', '饼干陆龟', '阿拉巴马陆龟'
+      ],
+      amphibian: [
+        '角蛙', '老爷树蛙', '白化非洲牛蛙', '蝾螈', '娃娃鱼',
+        '牛奶蛙', '番茄蛙', '枯叶蛙', '叶泡蛙', '红眼树蛙',
+        '霓虹树蛙', '飞蛙', '蜡白猴树蛙', '小丑蛙', '沙漠角蛙'
+      ],
+      arachnid: [
+        '墨西哥红膝头', '巴西白膝头', '委内瑞拉红绿灯', '粉红趾', '金直间',
+        '墨西哥金背', '哥伦比亚镭射', '厄瓜多尔蓝镭射', '蓝宝石粉红趾', '越南皇帝',
+        '圭亚那蓝宝石', '苏拉威西白纹', '所罗门食鸟', '巴西巨人金直间', '墨西哥红脚',
+        '特克萨斯棕狼蛛', '智利玫瑰', '几内亚猪鼻蛛'
+      ],
     };
 
     // 初始化
@@ -1093,6 +1294,98 @@
       renderRecommendedSpecies();
       renderSpeciesList();
       renderPets();
+      renderPriceList();
+    }
+
+    // 渲染价格列表
+    function renderPriceList() {
+      const container = document.getElementById('price-list');
+      container.innerHTML = priceData.map(item => {
+        let trendIcon = '';
+        let trendClass = '';
+        if (item.trend === 'up') {
+          trendIcon = '📈';
+          trendClass = 'trend-up';
+        } else if (item.trend === 'down') {
+          trendIcon = '📉';
+          trendClass = 'trend-down';
+        } else {
+          trendIcon = '➡️';
+          trendClass = 'trend-stable';
+        }
+
+        return `
+          <div class="price-card" onclick="addPriceAlert('${item.name}')">
+            <div class="price-info">
+              <div class="price-name">${item.name}</div>
+              <div class="price-range">${item.price}</div>
+            </div>
+            <div class="price-trend ${trendClass}">
+              <span>${trendIcon}</span>
+              <span>${item.change}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 添加价格提醒
+    function addPriceAlert(name) {
+      if (!priceAlerts.includes(name)) {
+        priceAlerts.push(name);
+        showToast(`已添加 ${name} 价格提醒`);
+        renderPriceAlerts();
+      } else {
+        showToast('已在提醒列表中');
+      }
+    }
+
+    // 渲染价格提醒
+    function renderPriceAlerts() {
+      const container = document.getElementById('price-alert-empty');
+      if (priceAlerts.length === 0) {
+        return;
+      }
+
+      let alertHtml = '<div style="margin-top: 10px;">';
+      priceAlerts.forEach(name => {
+        const price = priceData.find(p => p.name === name);
+        alertHtml += `
+          <div class="info-card">
+            <div class="info-icon" style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">🔔</div>
+            <div class="info-content">
+              <div class="info-title">${name}</div>
+              <div class="info-desc">${price ? price.price : ''}</div>
+            </div>
+            <button onclick="removePriceAlert('${name}')" style="background:none;border:none;color:#999;cursor:pointer;">✕</button>
+          </div>
+        `;
+      });
+      alertHtml += '</div>';
+
+      const existingAlerts = document.getElementById('price-alerts');
+      if (existingAlerts) {
+        existingAlerts.innerHTML = alertHtml;
+      } else {
+        const alertSection = document.createElement('div');
+        alertSection.id = 'price-alerts';
+        alertSection.innerHTML = alertHtml;
+        container.parentNode.insertBefore(alertSection, container.nextSibling);
+        container.style.display = 'none';
+      }
+    }
+
+    // 移除价格提醒
+    function removePriceAlert(name) {
+      priceAlerts = priceAlerts.filter(a => a !== name);
+      if (priceAlerts.length === 0) {
+        const alertsDiv = document.getElementById('price-alerts');
+        if (alertsDiv) alertsDiv.remove();
+        document.getElementById('price-alert-empty').style.display = 'block';
+      } else {
+        renderPriceAlerts();
+      }
+      showToast(`已移除 ${name} 提醒`);
     }
 
     // 打开添加爬宠对话框
@@ -1106,13 +1399,15 @@
       document.getElementById('petBirthday').value = '';
       selectedCategory = '';
       selectedSpecies = '';
+      selectedTurtleType = '';
 
       // 重置大类选中状态
       document.querySelectorAll('.category-item').forEach(el => {
         el.classList.remove('selected');
       });
 
-      // 隐藏物种下拉列表
+      // 隐藏龟类细分和物种下拉列表
+      document.getElementById('turtleTypeGroup').style.display = 'none';
       document.getElementById('speciesGroup').style.display = 'none';
     }
 
@@ -1133,7 +1428,27 @@
         }
       });
 
-      // 显示物种下拉列表并更新选项
+      // 隐藏龟类细分选择和物种选择
+      document.getElementById('turtleTypeGroup').style.display = 'none';
+      document.getElementById('speciesGroup').style.display = 'none';
+
+      // 如果选择龟类，显示第二级选择
+      if (category === 'turtle') {
+        document.getElementById('turtleTypeGroup').style.display = 'block';
+        // 重置龟类细分选择
+        document.querySelectorAll('#turtleTypeGroup .category-item').forEach(el => {
+          el.classList.remove('selected');
+        });
+        selectedTurtleType = '';
+        return;
+      }
+
+      // 其他类别直接显示物种列表
+      showSpeciesList(category);
+    }
+
+    // 显示物种列表
+    function showSpeciesList(category) {
       const speciesGroup = document.getElementById('speciesGroup');
       speciesGroup.style.display = 'block';
 
@@ -1149,6 +1464,25 @@
           speciesSelect.appendChild(option);
         });
       }
+    }
+
+    // 选择龟类细分
+    let selectedTurtleType = '';
+
+    function selectTurtleType(turtleType) {
+      selectedTurtleType = turtleType;
+      selectedCategory = turtleType;
+
+      // 更新选中状态
+      document.querySelectorAll('#turtleTypeGroup .category-item').forEach(el => {
+        el.classList.remove('selected');
+        if (el.dataset.turtleType === turtleType) {
+          el.classList.add('selected');
+        }
+      });
+
+      // 显示物种列表
+      showSpeciesList(turtleType);
     }
 
     // 物种选择变化
