@@ -446,9 +446,16 @@
 
     .species-info {
       display: flex;
-      gap: 8px;
+      flex-direction: column;
+      gap: 4px;
       font-size: 12px;
       color: var(--text-secondary);
+    }
+
+    .species-info-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* Action Cards */
@@ -1383,56 +1390,56 @@
     // 数据
     const speciesData = [
       // 蛇类
-      { name: '玉米蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
-      { name: '王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
-      { name: '黑王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
-      { name: '白化王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
-      { name: '加州王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
-      { name: '猪鼻蛇', category: 'snake', difficulty: '简单', lifespan: '10-15年', icon: '🐍' },
-      { name: '牛蛇', category: 'snake', difficulty: '中等', lifespan: '15-20年', icon: '🐍' },
-      { name: '奶蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', icon: '🐍' },
+      { name: '玉米蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '北美洲东部', icon: '🐍' },
+      { name: '王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '北美洲', icon: '🐍' },
+      { name: '黑王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '北美洲西南部', icon: '🐍' },
+      { name: '白化王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '北美洲（人工培育）', icon: '🐍' },
+      { name: '加州王蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '美国加利福尼亚州', icon: '🐍' },
+      { name: '猪鼻蛇', category: 'snake', difficulty: '简单', lifespan: '10-15年', distribution: '北美洲西部', icon: '🐍' },
+      { name: '牛蛇', category: 'snake', difficulty: '中等', lifespan: '15-20年', distribution: '北美洲', icon: '🐍' },
+      { name: '奶蛇', category: 'snake', difficulty: '简单', lifespan: '15-20年', distribution: '北美洲、中美洲', icon: '🐍' },
       // 守宫
-      { name: '豹纹守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
-      { name: '睫角守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
-      { name: '肥尾守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', icon: '🦎' },
-      { name: '瘤尾守宫', category: 'gecko', difficulty: '中等', lifespan: '8-12年', icon: '🦎' },
-      { name: '日行守宫', category: 'gecko', difficulty: '简单', lifespan: '8-10年', icon: '🦎' },
+      { name: '豹纹守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', distribution: '巴基斯坦、阿富汗、印度', icon: '🦎' },
+      { name: '睫角守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', distribution: '新喀里多尼亚', icon: '🦎' },
+      { name: '肥尾守宫', category: 'gecko', difficulty: '简单', lifespan: '10-15年', distribution: '北非（阿尔及利亚、突尼斯）', icon: '🦎' },
+      { name: '瘤尾守宫', category: 'gecko', difficulty: '中等', lifespan: '8-12年', distribution: '澳大利亚中部', icon: '🦎' },
+      { name: '日行守宫', category: 'gecko', difficulty: '简单', lifespan: '8-10年', distribution: '马达加斯加', icon: '🦎' },
       // 蜥蜴
-      { name: '鬃狮蜥', category: 'lizard', difficulty: '中等', lifespan: '10-12年', icon: '🦎' },
-      { name: '蓝舌石龙子', category: 'lizard', difficulty: '简单', lifespan: '15-20年', icon: '🦎' },
-      { name: '王者蜥', category: 'lizard', difficulty: '中等', lifespan: '12-15年', icon: '🦎' },
-      { name: '绿鬣蜥', category: 'lizard', difficulty: '中等', lifespan: '15-20年', icon: '🦎' },
-      { name: '变色龙', category: 'lizard', difficulty: '困难', lifespan: '5-8年', icon: '🦎' },
-      { name: '双冠蜥', category: 'lizard', difficulty: '中等', lifespan: '8-10年', icon: '🦎' },
+      { name: '鬃狮蜥', category: 'lizard', difficulty: '中等', lifespan: '10-12年', distribution: '澳大利亚', icon: '🦎' },
+      { name: '蓝舌石龙子', category: 'lizard', difficulty: '简单', lifespan: '15-20年', distribution: '澳大利亚、印度尼西亚', icon: '🦎' },
+      { name: '王者蜥', category: 'lizard', difficulty: '中等', lifespan: '12-15年', distribution: '中东、阿拉伯半岛', icon: '🦎' },
+      { name: '绿鬣蜥', category: 'lizard', difficulty: '中等', lifespan: '15-20年', distribution: '中美洲、南美洲', icon: '🦎' },
+      { name: '变色龙', category: 'lizard', difficulty: '困难', lifespan: '5-8年', distribution: '非洲、马达加斯加', icon: '🦎' },
+      { name: '双冠蜥', category: 'lizard', difficulty: '中等', lifespan: '8-10年', distribution: '中美洲、南美洲', icon: '🦎' },
       // 水龟
-      { name: '巴西龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
-      { name: '草龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-40年', icon: '🐢' },
-      { name: '巴西红耳龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', icon: '🐢' },
-      { name: '地图龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-25年', icon: '🐢' },
-      { name: '麝香龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-30年', icon: '🐢' },
+      { name: '巴西龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', distribution: '美国东南部、墨西哥', icon: '🐢' },
+      { name: '草龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-40年', distribution: '中国、日本、韩国', icon: '🐢' },
+      { name: '巴西红耳龟', category: 'turtle_water', difficulty: '简单', lifespan: '20-30年', distribution: '美国墨西哥湾沿岸', icon: '🐢' },
+      { name: '地图龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-25年', distribution: '美国密西西比河流域', icon: '🐢' },
+      { name: '麝香龟', category: 'turtle_water', difficulty: '简单', lifespan: '15-30年', distribution: '美国东部、南部', icon: '🐢' },
       // 半水龟
-      { name: '黄缘闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
-      { name: '黄额闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '20-30年', icon: '🐢' },
-      { name: '三趾箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
-      { name: '东部箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', icon: '🐢' },
+      { name: '黄缘闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', distribution: '中国、日本', icon: '🐢' },
+      { name: '黄额闭壳龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '20-30年', distribution: '越南、中国南方', icon: '🐢' },
+      { name: '三趾箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', distribution: '美国东部', icon: '🐢' },
+      { name: '东部箱龟', category: 'turtle_semiterrestrial', difficulty: '中等', lifespan: '30-50年', distribution: '美国东部、加拿大', icon: '🐢' },
       // 陆龟
-      { name: '辐射陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
-      { name: '苏卡达陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
-      { name: '豹纹陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', icon: '🐢' },
-      { name: '缅甸陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '20-30年', icon: '🐢' },
-      { name: '赫曼陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '30-40年', icon: '🐢' },
+      { name: '辐射陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', distribution: '马达加斯加', icon: '🐢' },
+      { name: '苏卡达陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', distribution: '非洲撒哈拉沙漠南部', icon: '🐢' },
+      { name: '豹纹陆龟', category: 'turtle_terrestrial', difficulty: '困难', lifespan: '30-50年', distribution: '非洲', icon: '🐢' },
+      { name: '缅甸陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '20-30年', distribution: '东南亚、印度', icon: '🐢' },
+      { name: '赫曼陆龟', category: 'turtle_terrestrial', difficulty: '中等', lifespan: '30-40年', distribution: '欧洲南部', icon: '🐢' },
       // 两栖
-      { name: '角蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', icon: '🐸' },
-      { name: '老爷树蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-12年', icon: '🐸' },
-      { name: '白化非洲牛蛙', category: 'amphibian', difficulty: '简单', lifespan: '10-15年', icon: '🐸' },
-      { name: '番茄蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', icon: '🐸' },
-      { name: '红眼树蛙', category: 'amphibian', difficulty: '简单', lifespan: '5-8年', icon: '🐸' },
+      { name: '角蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', distribution: '南美洲', icon: '🐸' },
+      { name: '老爷树蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-12年', distribution: '澳大利亚、新几内亚', icon: '🐸' },
+      { name: '白化非洲牛蛙', category: 'amphibian', difficulty: '简单', lifespan: '10-15年', distribution: '非洲（人工培育）', icon: '🐸' },
+      { name: '番茄蛙', category: 'amphibian', difficulty: '简单', lifespan: '8-10年', distribution: '马达加斯加', icon: '🐸' },
+      { name: '红眼树蛙', category: 'amphibian', difficulty: '简单', lifespan: '5-8年', distribution: '中美洲、南美洲', icon: '🐸' },
       // 蜘蛛
-      { name: '墨西哥红膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', icon: '🕷️' },
-      { name: '巴西白膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', icon: '🕷️' },
-      { name: '委内瑞拉红绿灯', category: 'arachnid', difficulty: '中等', lifespan: '5-8年', icon: '🕷️' },
-      { name: '粉红趾', category: 'arachnid', difficulty: '简单', lifespan: '5-7年', icon: '🕷️' },
-      { name: '金直间', category: 'arachnid', difficulty: '简单', lifespan: '8-12年', icon: '🕷️' },
+      { name: '墨西哥红膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', distribution: '墨西哥', icon: '🕷️' },
+      { name: '巴西白膝头', category: 'arachnid', difficulty: '简单', lifespan: '5-10年', distribution: '巴西', icon: '🕷️' },
+      { name: '委内瑞拉红绿灯', category: 'arachnid', difficulty: '中等', lifespan: '5-8年', distribution: '委内瑞拉', icon: '🕷️' },
+      { name: '粉红趾', category: 'arachnid', difficulty: '简单', lifespan: '5-7年', distribution: '南美洲北部', icon: '🕷️' },
+      { name: '金直间', category: 'arachnid', difficulty: '简单', lifespan: '8-12年', distribution: '巴西、巴拉圭', icon: '🕷️' },
     ];
 
     // 市场价格数据
@@ -2038,9 +2045,15 @@
           </div>
           <div class="species-name">${species.name}</div>
           <div class="species-info">
-            <span>${species.difficulty}</span>
-            <span>·</span>
-            <span>${species.lifespan}</span>
+            <div class="species-info-row">
+              <span>${species.difficulty}</span>
+              <span>·</span>
+              <span>${species.lifespan}</span>
+            </div>
+            <div class="species-info-row">
+              <span>📍</span>
+              <span>${species.distribution}</span>
+            </div>
           </div>
         </div>
       `).join('');
@@ -2056,9 +2069,15 @@
           </div>
           <div class="species-name">${species.name}</div>
           <div class="species-info">
-            <span>${species.difficulty}</span>
-            <span>·</span>
-            <span>${species.lifespan}</span>
+            <div class="species-info-row">
+              <span>${species.difficulty}</span>
+              <span>·</span>
+              <span>${species.lifespan}</span>
+            </div>
+            <div class="species-info-row">
+              <span>📍</span>
+              <span>${species.distribution}</span>
+            </div>
           </div>
         </div>
       `).join('');
@@ -2075,9 +2094,15 @@
           </div>
           <div class="species-name">${species.name}</div>
           <div class="species-info">
-            <span>${species.difficulty}</span>
-            <span>·</span>
-            <span>${species.lifespan}</span>
+            <div class="species-info-row">
+              <span>${species.difficulty}</span>
+              <span>·</span>
+              <span>${species.lifespan}</span>
+            </div>
+            <div class="species-info-row">
+              <span>📍</span>
+              <span>${species.distribution}</span>
+            </div>
           </div>
         </div>
       `).join('');
