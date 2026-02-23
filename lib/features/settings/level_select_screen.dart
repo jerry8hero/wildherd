@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme.dart';
 import '../../app/locale_provider.dart';
 import '../../data/models/user.dart';
 import '../../data/local/user_preferences.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-class LevelSelectScreen extends StatefulWidget {
+class LevelSelectScreen extends ConsumerStatefulWidget {
   const LevelSelectScreen({super.key});
 
   @override
-  State<LevelSelectScreen> createState() => _LevelSelectScreenState();
+  ConsumerState<LevelSelectScreen> createState() => _LevelSelectScreenState();
 }
 
-class _LevelSelectScreenState extends State<LevelSelectScreen> {
+class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
   late UserLevel _selectedLevel;
 
   @override
@@ -31,7 +31,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${l10n.success}'),
+          content: Text(l10n.success),
           backgroundColor: Colors.green,
         ),
       );
@@ -40,22 +40,23 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
 
   void _showLanguageDialog() {
     final l10n = AppLocalizations.of(context)!;
-    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final localeNotifier = ref.read(localeProvider.notifier);
+    final currentLocale = ref.read(localeProvider);
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(l10n.selectLanguage),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: LocaleProvider.supportedLocales.map((locale) {
-            final isSelected = localeProvider.locale.languageCode == locale.languageCode;
+          children: LocaleNotifier.supportedLocales.map((locale) {
+            final isSelected = currentLocale.languageCode == locale.languageCode;
             return ListTile(
-              title: Text(localeProvider.getLanguageName(locale.languageCode)),
+              title: Text(localeNotifier.getLanguageName(locale.languageCode)),
               trailing: isSelected ? const Icon(Icons.check, color: Colors.green) : null,
               onTap: () {
-                localeProvider.setLocale(locale);
-                Navigator.pop(context);
+                localeNotifier.setLocale(locale);
+                Navigator.pop(dialogContext);
               },
             );
           }).toList(),
@@ -67,7 +68,8 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final localeProvider = Provider.of<LocaleProvider>(context);
+    final currentLocale = ref.watch(localeProvider);
+    final localeNotifier = ref.read(localeProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +93,7 @@ class _LevelSelectScreenState extends State<LevelSelectScreen> {
               child: ListTile(
                 leading: const Icon(Icons.language, color: AppTheme.primaryColor),
                 title: Text(l10n.language),
-                subtitle: Text(localeProvider.getLanguageName(localeProvider.locale.languageCode)),
+                subtitle: Text(localeNotifier.getLanguageName(currentLocale.languageCode)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: _showLanguageDialog,
               ),

@@ -15,7 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # 状态管理
-  provider: ^6.1.2
+  flutter_riverpod: ^2.5.1
 
   # 本地数据库
   sqflite: ^2.3.3

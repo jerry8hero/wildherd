@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'theme.dart';
 import 'locale_provider.dart';
@@ -12,28 +12,25 @@ import '../features/habitat/habitat_screen.dart';
 import '../features/exhibition/exhibition_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
-class ReptileCareApp extends StatelessWidget {
+class ReptileCareApp extends ConsumerWidget {
   const ReptileCareApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<LocaleProvider>(
-      builder: (context, localeProvider, child) {
-        return MaterialApp(
-          title: 'WildHerd',
-          theme: AppTheme.lightTheme,
-          debugShowCheckedModeBanner: false,
-          locale: localeProvider.locale,
-          supportedLocales: LocaleProvider.supportedLocales,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          home: const MainScreen(),
-        );
-      },
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+    return MaterialApp(
+      title: 'WildHerd',
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
+      locale: locale,
+      supportedLocales: LocaleNotifier.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: const MainScreen(),
     );
   }
 }

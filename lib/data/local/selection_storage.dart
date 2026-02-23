@@ -2,8 +2,6 @@ import 'dart:convert';
 import '../models/selection.dart';
 
 class SelectionStorage {
-  static const String _key = 'candidate_pets';
-
   static List<CandidatePet> _cached = [];
 
   // 获取所有候选宠物

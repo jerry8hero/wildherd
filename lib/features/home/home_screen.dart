@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/reptile.dart';
 import '../../data/models/user.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/repositories/repositories.dart';
 import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
-import '../../app/locale_provider.dart';
 import '../../utils/image_utils.dart';
 import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
@@ -14,14 +13,14 @@ import '../market/price_alert_screen.dart';
 import 'reptile_detail_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final ReptileRepository _repository = ReptileRepository();
   final EncyclopediaRepository _encyclopediaRepository = EncyclopediaRepository();
   List<Reptile> _reptiles = [];
@@ -67,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final localeProvider = Provider.of<LocaleProvider>(context);
 
     return Scaffold(
       appBar: AppBar(

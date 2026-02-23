@@ -387,16 +387,16 @@ class _MarketScreenState extends State<MarketScreen>
                   await _alertRepository.addAlert(alert);
                 }
 
-                if (mounted) {
-                  Navigator.pop(context);
-                  _loadAlertStatus();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('已设置 ${price.nameChinese} 的降价提醒'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                }
+                if (!mounted) return;
+                final scaffoldMessenger = ScaffoldMessenger.of(context);
+                Navigator.pop(context);
+                _loadAlertStatus();
+                scaffoldMessenger.showSnackBar(
+                  SnackBar(
+                    content: Text('已设置 ${price.nameChinese} 的降价提醒'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryColor,

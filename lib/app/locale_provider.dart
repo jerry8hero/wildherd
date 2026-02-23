@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocaleProvider extends ChangeNotifier {
+/// LocaleProvider 使用 Riverpod
+class LocaleNotifier extends StateNotifier<Locale> {
   static const String _localeKey = 'app_locale';
   static const Locale _defaultLocale = Locale('zh');
 
-  Locale _locale = _defaultLocale;
-
-  Locale get locale => _locale;
-
-  LocaleProvider() {
+  LocaleNotifier() : super(_defaultLocale) {
     _loadLocale();
   }
 
@@ -25,18 +23,16 @@ class LocaleProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final localeCode = prefs.getString(_localeKey);
     if (localeCode != null) {
-      _locale = Locale(localeCode);
-      notifyListeners();
+      state = Locale(localeCode);
     }
   }
 
   Future<void> setLocale(Locale locale) async {
-    if (_locale == locale) return;
+    if (state == locale) return;
 
-    _locale = locale;
+    state = locale;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_localeKey, locale.languageCode);
-    notifyListeners();
   }
 
   String getLanguageName(String code) {
@@ -56,3 +52,8 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 }
+
+/// LocaleProvider Riverpod provider
+final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
+  return LocaleNotifier();
+});
