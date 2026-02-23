@@ -435,10 +435,10 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                   return Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: AppTheme.getCategoryColor(species.category).withOpacity(0.1),
+                      color: AppTheme.getCategoryColor(species.category).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: AppTheme.getCategoryColor(species.category).withOpacity(0.3),
+                        color: AppTheme.getCategoryColor(species.category).withValues(alpha: 0.3),
                       ),
                     ),
                     child: Row(
@@ -468,7 +468,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.1),
+                  color: Colors.orange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -521,7 +521,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                         margin: const EdgeInsets.only(top: 4),
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.1),
+                          color: Colors.green.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(

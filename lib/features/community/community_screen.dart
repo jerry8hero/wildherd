@@ -124,7 +124,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -293,7 +293,7 @@ class _CreatePostSheetState extends State<CreatePostSheet> {
 
           // 物种选择
           DropdownButtonFormField<String>(
-            value: _selectedSpecies,
+            initialValue: _selectedSpecies,
             decoration: const InputDecoration(
               labelText: '宠物种类（可选）',
               prefixIcon: Icon(Icons.pets),

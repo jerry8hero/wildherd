@@ -119,7 +119,7 @@ class _PriceAlertScreenState extends State<PriceAlertScreen> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: (isTriggered ? Colors.green : Colors.grey).withOpacity(0.1),
+                    color: (isTriggered ? Colors.green : Colors.grey).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -155,7 +155,7 @@ class _PriceAlertScreenState extends State<PriceAlertScreen> {
                 Switch(
                   value: alert.isEnabled,
                   onChanged: (value) => _toggleAlert(alert.id, value),
-                  activeColor: AppTheme.primaryColor,
+                  activeTrackColor: AppTheme.primaryColor,
                 ),
               ],
             ),

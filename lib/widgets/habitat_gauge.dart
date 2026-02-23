@@ -238,7 +238,7 @@ class OverallScoreCircle extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _getScoreColor(score).withOpacity(0.1),
+        color: _getScoreColor(score).withValues(alpha: 0.1),
         border: Border.all(
           color: _getScoreColor(score),
           width: 3,

@@ -245,7 +245,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
           const Text('选择宠物', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           DropdownButtonFormField<Reptile>(
-            value: _selectedReptile,
+            initialValue: _selectedReptile,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -295,7 +295,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -463,7 +463,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
@@ -499,7 +499,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(

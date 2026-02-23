@@ -187,7 +187,7 @@ class _MarketScreenState extends State<MarketScreen>
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: AppTheme.getCategoryColor(price.category).withOpacity(0.1),
+                color: AppTheme.getCategoryColor(price.category).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -243,7 +243,7 @@ class _MarketScreenState extends State<MarketScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: trendColor.withOpacity(0.1),
+                    color: trendColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(

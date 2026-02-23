@@ -169,7 +169,7 @@ class _CompanionScreenState extends State<CompanionScreen>
                 return Container(
                   width: 50,
                   height: 40,
-                  color: Color(getCompatibilityColor(compat)).withOpacity(0.3),
+                  color: Color(getCompatibilityColor(compat)).withValues(alpha: 0.3),
                   child: Center(
                     child: Text(
                       _getCompatSymbol(compat),
@@ -309,7 +309,7 @@ class _CompanionScreenState extends State<CompanionScreen>
                           style: const TextStyle(fontSize: 12),
                         ),
                         backgroundColor: AppTheme.getCategoryColor(cat.trim())
-                            .withOpacity(0.1),
+                            .withValues(alpha: 0.1),
                       );
                     }).toList(),
                   ),

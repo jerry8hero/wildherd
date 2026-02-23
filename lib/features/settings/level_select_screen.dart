@@ -149,7 +149,7 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -180,7 +180,7 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.1),
+                            color: color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(

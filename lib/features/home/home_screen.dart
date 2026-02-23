@@ -423,7 +423,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -483,7 +483,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.1),
+                  color: Colors.purple.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -573,7 +573,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: color),
@@ -631,7 +631,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 20),

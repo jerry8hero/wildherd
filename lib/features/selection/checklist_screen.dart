@@ -74,7 +74,7 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
           // 进度头
           Container(
             padding: const EdgeInsets.all(16),
-            color: AppTheme.primaryColor.withOpacity(0.1),
+            color: AppTheme.primaryColor.withValues(alpha: 0.1),
             child: Column(
               children: [
                 Row(
