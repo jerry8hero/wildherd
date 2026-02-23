@@ -8,7 +8,6 @@ import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../app/locale_provider.dart';
 import '../../utils/image_utils.dart';
-import '../../widgets/empty_state.dart';
 import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
 import '../market/price_alert_screen.dart';

@@ -8,7 +8,6 @@ import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/community/community_screen.dart';
 import '../features/market/market_screen.dart';
 import '../features/companion/companion_screen.dart';
-import '../features/settings/level_select_screen.dart';
 import '../features/habitat/habitat_screen.dart';
 import '../features/exhibition/exhibition_screen.dart';
 import '../l10n/generated/app_localizations.dart';

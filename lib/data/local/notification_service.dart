@@ -1,4 +1,7 @@
 import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
 import '../models/price_alert.dart';
 import '../repositories/price_alert_repository.dart';
 import '../repositories/price_repository.dart';

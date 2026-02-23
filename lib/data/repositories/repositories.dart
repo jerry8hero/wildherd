@@ -1,10 +1,11 @@
+export 'exhibition_repository.dart';
+export 'price_alert_repository.dart';
+
 import '../local/database_helper.dart';
 import '../models/reptile.dart';
 import '../models/record.dart';
 import '../models/community.dart';
 import '../models/encyclopedia.dart';
-import '../models/exhibition.dart';
-import '../models/article.dart';
 
 class ReptileRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
@@ -229,6 +230,3 @@ class CommunityRepository {
     }
   }
 }
-
-export 'exhibition_repository.dart';
-export 'price_alert_repository.dart';

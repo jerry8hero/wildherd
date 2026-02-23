@@ -16,7 +16,7 @@ class _HabitatCompareScreenState extends State<HabitatCompareScreen> {
   List<HabitatEnvironment> _environments = [];
   Map<String, HabitatStandard> _standards = {};
   Map<String, HabitatScore> _scores = {};
-  Set<String> _selectedIds = {};
+  final Set<String> _selectedIds = {};
   bool _isLoading = true;
 
   @override

@@ -5,7 +5,6 @@ import '../../data/repositories/price_repository.dart';
 import '../../data/repositories/price_alert_repository.dart';
 import '../../app/theme.dart';
 import '../../l10n/generated/app_localizations.dart';
-import 'price_alert_screen.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({super.key});
@@ -24,12 +23,23 @@ class _MarketScreenState extends State<MarketScreen>
   String _searchKeyword = '';
   Map<String, bool> _alertStatus = {}; // 记录哪些物种已设置提醒
 
-  // Categories will be populated from l10n in build method
+  // 默认 categories（用于 initState，build 中会从 l10n 重新获取）
+  final List<Map<String, dynamic>> _defaultCategories = [
+    {'id': 'all', 'name': '全部', 'icon': Icons.apps},
+    {'id': 'snake', 'name': '蛇类', 'icon': Icons.pest_control},
+    {'id': 'lizard', 'name': '蜥蜴', 'icon': Icons.pets},
+    {'id': 'turtle', 'name': '龟类', 'icon': Icons.emoji_nature},
+    {'id': 'gecko', 'name': '守宫', 'icon': Icons.bug_report},
+    {'id': 'mammal', 'name': '哺乳类', 'icon': Icons.pets},
+    {'id': 'bird', 'name': '鸟类', 'icon': Icons.flutter_dash},
+    {'id': 'fish', 'name': '鱼类', 'icon': Icons.water},
+    {'id': 'insect', 'name': '昆虫', 'icon': Icons.bug_report},
+  ];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _categories.length, vsync: this);
+    _tabController = TabController(length: _defaultCategories.length, vsync: this);
     _tabController.addListener(_onTabChanged);
     _loadData();
     _loadAlertStatus();
@@ -124,7 +134,7 @@ class _MarketScreenState extends State<MarketScreen>
                 ? Center(child: Text(l10n.loading))
                 : _prices.isEmpty
                     ? _buildEmptyState(l10n)
-                    : _buildPriceList(l10n),
+                    : _buildPriceList(),
           ),
         ],
       ),

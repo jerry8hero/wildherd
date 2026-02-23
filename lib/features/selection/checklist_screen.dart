@@ -103,7 +103,7 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
                   child: LinearProgressIndicator(
                     value: _progress,
                     backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(
+                    valueColor: const AlwaysStoppedAnimation<Color>(
                       AppTheme.primaryColor,
                     ),
                     minHeight: 10,

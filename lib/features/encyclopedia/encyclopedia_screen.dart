@@ -543,7 +543,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                     ],
                   ),
                 );
-              }).toList(),
+              }),
               const SizedBox(height: 24),
 
               // 开始挑选按钮
@@ -675,7 +675,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
       case 'mammal':
         return '每天1-2次';
       case 'bird':
-        '每天1-2次';
+        return '每天1-2次';
       case 'fish':
         return '每天1-2次，少量投喂';
       default:

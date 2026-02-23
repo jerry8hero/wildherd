@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
-
-// Web平台使用 localStorage，非Web平台使用条件导入
-import 'dart:html' if (dart.library.html) 'dart:html' as html;
+import 'user_preferences.dart';
 
 /// Web平台兼容的数据存储助手
 /// 使用浏览器 localStorage 存储 JSON 数据
@@ -48,16 +45,15 @@ class DatabaseHelper {
   List<Map<String, dynamic>> _getData(String table) {
     final key = _tableKey(table);
 
-    // Web平台使用 localStorage
-    if (kIsWeb) {
-      try {
-        final stored = html.window.localStorage[key];
-        if (stored != null) {
-          final decoded = jsonDecode(stored) as List;
-          return decoded.cast<Map<String, dynamic>>();
-        }
-      } catch (_) {}
-    }
+    // 使用 SharedPreferences (通过 UserPreferences)
+    try {
+      final prefs = UserPreferences.prefs;
+      final stored = prefs.getString(key);
+      if (stored != null) {
+        final decoded = jsonDecode(stored) as List;
+        return decoded.cast<Map<String, dynamic>>();
+      }
+    } catch (_) {}
 
     return _memoryStorage[key] ?? [];
   }
@@ -66,13 +62,12 @@ class DatabaseHelper {
   Future<void> _saveData(String table, List<Map<String, dynamic>> data) async {
     final key = _tableKey(table);
 
-    // Web平台使用 localStorage
-    if (kIsWeb) {
-      try {
-        html.window.localStorage[key] = jsonEncode(data);
-        return;
-      } catch (_) {}
-    }
+    // 使用 SharedPreferences (通过 UserPreferences)
+    try {
+      final prefs = UserPreferences.prefs;
+      await prefs.setString(key, jsonEncode(data));
+      return;
+    } catch (_) {}
 
     _memoryStorage[key] = data;
   }

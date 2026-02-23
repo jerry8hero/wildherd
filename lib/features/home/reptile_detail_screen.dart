@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
-import '../../utils/image_utils.dart';
 import '../../utils/date_utils.dart';
 import '../../utils/gender_utils.dart';
-import '../../widgets/info_row.dart';
 
 class ReptileDetailScreen extends StatefulWidget {
   final Reptile reptile;

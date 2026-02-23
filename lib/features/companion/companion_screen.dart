@@ -129,7 +129,7 @@ class _CompanionScreenState extends State<CompanionScreen>
         ...List.generate(_categories.length, (i) => i + 1)
             .toList()
             .asMap()
-            .map((k, v) => (v, const FixedColumnWidth(50))),
+            .map((k, v) => MapEntry(v, const FixedColumnWidth(50))),
       },
       children: [
         // 表头

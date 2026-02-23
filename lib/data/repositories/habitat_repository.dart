@@ -1,7 +1,6 @@
 import '../local/database_helper.dart';
 import '../models/habitat.dart';
 import '../models/reptile.dart';
-import '../models/encyclopedia.dart';
 
 class HabitatRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;

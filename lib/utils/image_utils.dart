@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 /// 图片工具类 - 统一处理网络图片和本地图片
@@ -12,7 +14,7 @@ class ImageUtils {
       return NetworkImage(imagePath);
     }
     if (imagePath.startsWith('file://')) {
-      return FileImage(Uri.parse(imagePath).toFilePath() as File);
+      return FileImage(File(Uri.parse(imagePath).toFilePath()));
     }
     return AssetImage(imagePath);
   }

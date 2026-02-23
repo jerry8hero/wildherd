@@ -26,7 +26,7 @@ class ResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${speciesName}对比结果'),
+        title: Text('$speciesName对比结果'),
         backgroundColor: AppTheme.primaryColor,
       ),
       body: sorted.isEmpty
@@ -210,7 +210,7 @@ class ResultScreen extends StatelessWidget {
         ...List.generate(candidates.length, (i) => i + 1)
             .toList()
             .asMap()
-            .map((k, v) => (k + 1, const FlexColumnWidth(1))),
+            .map((k, v) => MapEntry(k + 1, const FlexColumnWidth(1))),
       },
       children: [
         // 表头

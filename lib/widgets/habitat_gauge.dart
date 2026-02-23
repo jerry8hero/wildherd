@@ -38,9 +38,9 @@ class HabitatGauge extends StatelessWidget {
             width: size,
             height: size,
             child: CustomPaint(
-              painter: _GaugePainter percentage,
-                color(
-                percentage:: color,
+              painter: _GaugePainter(
+                percentage: percentage,
+                color: color,
                 backgroundColor: Colors.grey[200]!,
               ),
               child: Center(
