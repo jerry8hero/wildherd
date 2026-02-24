@@ -11,6 +11,9 @@ import 'data/local/user_preferences.dart';
 // 定时任务管理
 import 'utils/schedule_manager.dart';
 
+// 成就系统
+import 'utils/achievement_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,6 +23,10 @@ void main() async {
   // 初始化 FFI（桌面平台需要）
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
+
+  // 初始化成就系统
+  final achievementManager = AchievementManager();
+  await achievementManager.init();
 
   // 初始化定时任务管理器
   final scheduleManager = ScheduleManager();

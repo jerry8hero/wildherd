@@ -5,10 +5,10 @@ import 'theme.dart';
 import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
-import '../features/community/community_screen.dart';
 import '../features/qa/qa_screen.dart';
 import '../features/medical/medical_screen.dart';
 import '../features/article/article_screen.dart';
+import '../features/assistant/assistant_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -47,10 +47,10 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const EncyclopediaScreen(),
+    const AssistantScreen(),
     const QAScreen(),
     const ArticleScreen(),
     const MedicalScreen(),
-    const CommunityScreen(),
   ];
 
   @override
@@ -77,6 +77,11 @@ class _MainScreenState extends State<MainScreen> {
             label: '百科',
           ),
           const NavigationDestination(
+            icon: Icon(Icons.smart_toy_outlined),
+            selectedIcon: Icon(Icons.smart_toy),
+            label: '助手',
+          ),
+          const NavigationDestination(
             icon: Icon(Icons.question_answer_outlined),
             selectedIcon: Icon(Icons.question_answer),
             label: '问答',
@@ -90,11 +95,6 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.medical_services_outlined),
             selectedIcon: Icon(Icons.medical_services),
             label: '医疗',
-          ),
-          const NavigationDestination(
-            icon: Icon(Icons.people_outline),
-            selectedIcon: Icon(Icons.people),
-            label: '社区',
           ),
         ],
       ),
