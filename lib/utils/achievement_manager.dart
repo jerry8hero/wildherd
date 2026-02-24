@@ -11,7 +11,6 @@ class AchievementManager {
 
   static const String _keyAchievements = 'achievements_data';
   static const String _keyTotalPoints = 'total_points';
-  static const String _keyLoginDays = 'login_days';
   static const String _keyLastLoginDate = 'last_login_date';
   static const String _keyConsecutiveDays = 'consecutive_days';
 

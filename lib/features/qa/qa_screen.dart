@@ -516,7 +516,7 @@ class _QADetailScreenState extends State<QADetailScreen> {
         color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),
@@ -772,7 +772,9 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
     );
 
     await _repository.addQuestion(question);
-    Navigator.pop(context);
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 }
 

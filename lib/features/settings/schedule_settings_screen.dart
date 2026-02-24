@@ -152,7 +152,7 @@ class _ScheduleSettingsScreenState extends State<ScheduleSettingsScreen> {
         title: Text(title),
         subtitle: Text(subtitle),
         trailing: _updateInterval == _getIntervalFromTitle(title)
-            ? Icon(Icons.check, color: Colors.green)
+            ? const Icon(Icons.check, color: Colors.green)
             : null,
         onTap: () async {
           final interval = _getIntervalFromTitle(title);
@@ -209,7 +209,7 @@ class _ScheduleSettingsScreenState extends State<ScheduleSettingsScreen> {
     return ListTile(
       title: Text(label),
       trailing: isSelected
-          ? Icon(Icons.check, color: Colors.green)
+          ? const Icon(Icons.check, color: Colors.green)
           : null,
       onTap: () async {
         await _scheduleManager.setUpdateInterval(hours);
