@@ -5,6 +5,7 @@ import '../../app/locale_provider.dart';
 import '../../data/models/user.dart';
 import '../../data/local/user_preferences.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'schedule_settings_screen.dart';
 
 class LevelSelectScreen extends ConsumerStatefulWidget {
   const LevelSelectScreen({super.key});
@@ -96,6 +97,24 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
                 subtitle: Text(localeNotifier.getLanguageName(currentLocale.languageCode)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: _showLanguageDialog,
+              ),
+            ),
+            const SizedBox(height: 16),
+            // 定时更新设置
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.timer, color: AppTheme.primaryColor),
+                title: const Text('定时更新'),
+                subtitle: const Text('自动更新展览资讯和文章'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ScheduleSettingsScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 24),
