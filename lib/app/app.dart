@@ -6,10 +6,9 @@ import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/community/community_screen.dart';
-import '../features/market/market_screen.dart';
-import '../features/companion/companion_screen.dart';
-import '../features/habitat/habitat_screen.dart';
-import '../features/exhibition/exhibition_screen.dart';
+import '../features/qa/qa_screen.dart';
+import '../features/medical/medical_screen.dart';
+import '../features/article/article_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -47,12 +46,10 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const HomeScreen(), // TODO: 添加 PetsScreen
     const EncyclopediaScreen(),
-    const MarketScreen(),
-    const HabitatScreen(), // 饲养环境
-    const ExhibitionScreen(), // 展览资讯
-    const CompanionScreen(),
+    const QAScreen(),
+    const ArticleScreen(),
+    const MedicalScreen(),
     const CommunityScreen(),
   ];
 
@@ -61,54 +58,43 @@ class _MainScreenState extends State<MainScreen> {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
+        destinations: [
+          NavigationDestination(
             icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home),
+            selectedIcon: const Icon(Icons.home),
             label: l10n.home,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.pets_outlined),
-            activeIcon: const Icon(Icons.pets),
-            label: l10n.pets,
+          const NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
+            label: '百科',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.menu_book_outlined),
-            activeIcon: const Icon(Icons.menu_book),
-            label: l10n.encyclopedia,
+          const NavigationDestination(
+            icon: Icon(Icons.question_answer_outlined),
+            selectedIcon: Icon(Icons.question_answer),
+            label: '问答',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.trending_up_outlined),
-            activeIcon: const Icon(Icons.trending_up),
-            label: l10n.market,
+          const NavigationDestination(
+            icon: Icon(Icons.article_outlined),
+            selectedIcon: Icon(Icons.article),
+            label: '文章',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.eco_outlined),
-            activeIcon: const Icon(Icons.eco),
-            label: l10n.habitat,
+          const NavigationDestination(
+            icon: Icon(Icons.medical_services_outlined),
+            selectedIcon: Icon(Icons.medical_services),
+            label: '医疗',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.event_outlined),
-            activeIcon: const Icon(Icons.event),
-            label: l10n.information,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite_border),
-            activeIcon: const Icon(Icons.favorite),
-            label: l10n.companion,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.people_outline),
-            activeIcon: const Icon(Icons.people),
-            label: l10n.community,
+          const NavigationDestination(
+            icon: Icon(Icons.people_outline),
+            selectedIcon: Icon(Icons.people),
+            label: '社区',
           ),
         ],
       ),

@@ -12715,5 +12715,598 @@ class DatabaseHelper {
     }
   }
 
+  /// 初始化问答数据
+  Future<void> initQAData() async {
+    final existingData = await query('questions');
+    if (existingData.isNotEmpty) return;
+
+    // 问答标签数据
+    final tagData = [
+      {'id': 't1', 'name': 'feeding', 'name_zh': '饲养', 'question_count': 0},
+      {'id': 't2', 'name': 'environment', 'name_zh': '环境', 'question_count': 0},
+      {'id': 't3', 'name': 'health', 'name_zh': '健康', 'question_count': 0},
+      {'id': 't4', 'name': 'breeding', 'name_zh': '繁殖', 'question_count': 0},
+      {'id': 't5', 'name': 'species', 'name_zh': '物种选择', 'question_count': 0},
+      {'id': 't6', 'name': 'behavior', 'name_zh': '行为习性', 'question_count': 0},
+      {'id': 't7', 'name': 'equipment', 'name_zh': '器材', 'question_count': 0},
+      {'id': 't8', 'name': 'cost', 'name_zh': '费用', 'question_count': 0},
+    ];
+    for (var tag in tagData) {
+      await insert('qa_tags', tag);
+    }
+
+    // 问题数据
+    final questionData = [
+      {
+        'id': 'q1',
+        'title': '玉米蛇拒食怎么办？',
+        'content': '我的玉米蛇已经一周不肯吃饭了，之前都正常吃小白鼠。温度控制在28度左右，湿度60%。请问是什么原因？',
+        'user_id': 'user1',
+        'user_name': '爬宠新手',
+        'species_id': '1',
+        'species_name': '玉米蛇',
+        'tags': 'feeding,health',
+        'view_count': 234,
+        'answer_count': 3,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a1',
+        'created_at': '2026-02-15 10:30:00',
+      },
+      {
+        'id': 'q2',
+        'title': '守宫饲养箱需要多大？',
+        'content': '准备养一只豹纹守宫，请问幼体和成体分别需要多大的饲养箱？',
+        'user_id': 'user2',
+        'user_name': '守宫爱好者',
+        'species_id': '3',
+        'species_name': '豹纹守宫',
+        'tags': 'environment,species',
+        'view_count': 189,
+        'answer_count': 2,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a2',
+        'created_at': '2026-02-16 14:20:00',
+      },
+      {
+        'id': 'q3',
+        'title': '鬃狮蜥便秘如何调理？',
+        'content': '鬃狮蜥便秘三天了，不愿意吃东西，精神还行。喂的蔬菜和蟋蟀。',
+        'user_id': 'user3',
+        'user_name': '蜥蜴玩家',
+        'species_id': '5',
+        'species_name': '鬃狮蜥',
+        'tags': 'health,feeding',
+        'view_count': 156,
+        'answer_count': 4,
+        'is_resolved': 0,
+        'accepted_answer_id': null,
+        'created_at': '2026-02-18 09:15:00',
+      },
+      {
+        'id': 'q4',
+        'title': '绿鬣蜥温度控制多少合适？',
+        'content': '刚入手一只绿鬣蜥苗子，请问晒点和冷区的温度应该控制在多少度？',
+        'user_id': 'user4',
+        'user_name': '绿鬣新手',
+        'species_id': '6',
+        'species_name': '绿鬣蜥',
+        'tags': 'environment,species',
+        'view_count': 98,
+        'answer_count': 2,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a3',
+        'created_at': '2026-02-19 16:45:00',
+      },
+      {
+        'id': 'q5',
+        'title': '龟类冬眠怎么准备？',
+        'content': '坐标北方，准备让黄缘闭壳龟冬眠。需要做哪些准备？',
+        'user_id': 'user5',
+        'user_name': '养龟达人',
+        'species_id': '9',
+        'species_name': '黄缘闭壳龟',
+        'tags': 'breeding,environment',
+        'view_count': 267,
+        'answer_count': 5,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a4',
+        'created_at': '2026-02-10 11:00:00',
+      },
+      {
+        'id': 'q6',
+        'title': '睫角守宫好养吗？',
+        'content': '想入手睫角守宫，请问这种守宫适合新手吗？饲养难度怎么样？',
+        'user_id': 'user6',
+        'user_name': '新手玩家',
+        'species_id': '4',
+        'species_name': '睫角守宫',
+        'tags': 'species,feeding',
+        'view_count': 312,
+        'answer_count': 4,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a5',
+        'created_at': '2026-02-12 13:30:00',
+      },
+      {
+        'id': 'q7',
+        'title': '球蟒不吃饭只睡觉怎么办？',
+        'content': '球蟒到家一周了，一直躲在箱子里不出来，也不吃饭。',
+        'user_id': 'user7',
+        'user_name': '蛇类爱好者',
+        'species_id': '2',
+        'species_name': '球蟒',
+        'tags': 'feeding,behavior',
+        'view_count': 145,
+        'answer_count': 3,
+        'is_resolved': 0,
+        'accepted_answer_id': null,
+        'created_at': '2026-02-20 08:20:00',
+      },
+      {
+        'id': 'q8',
+        'title': '如何区分豹纹守宫性别？',
+        'content': '想买一对豹纹守宫，请问如何区分公母？',
+        'user_id': 'user8',
+        'user_name': '守宫新手',
+        'species_id': '3',
+        'species_name': '豹纹守宫',
+        'tags': 'species,breeding',
+        'view_count': 198,
+        'answer_count': 2,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a6',
+        'created_at': '2026-02-14 19:10:00',
+      },
+      {
+        'id': 'q9',
+        'title': '爬宠加热垫推荐哪个品牌？',
+        'content': '准备给守宫买加热垫，请问有什么品牌推荐吗？',
+        'user_id': 'user9',
+        'user_name': '器材党',
+        'tags': 'equipment,cost',
+        'view_count': 87,
+        'answer_count': 3,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a7',
+        'created_at': '2026-02-17 21:00:00',
+      },
+      {
+        'id': 'q10',
+        'title': '蓝舌石龙子吃什么食物？',
+        'content': '刚入手蓝舌石龙子，请问这种蜥蜴主要吃什么？需要补充什么营养？',
+        'user_id': 'user10',
+        'user_name': '石龙子粉丝',
+        'species_id': '7',
+        'species_name': '蓝舌石龙子',
+        'tags': 'feeding,species',
+        'view_count': 156,
+        'answer_count': 2,
+        'is_resolved': 1,
+        'accepted_answer_id': 'a8',
+        'created_at': '2026-02-13 15:40:00',
+      },
+    ];
+
+    for (var question in questionData) {
+      await insert('questions', question);
+    }
+
+    // 回答数据
+    final answerData = [
+      {
+        'id': 'a1',
+        'question_id': 'q1',
+        'user_id': 'user11',
+        'user_name': '养蛇老手',
+        'content': '玉米蛇拒食常见原因：1. 蜕皮期 - 观察眼睛是否变蓝；2. 温度偏低 - 确保热点温度达到30度；3. 刚到家适应期 - 给1-2周适应；4. 食物大小不合适。可以尝试：提高温度、提供安静环境、换不同大小的鼠、如果是活鼠可以弄死以后喂。',
+        'likes': 15,
+        'is_accepted': 1,
+        'created_at': '2026-02-15 11:00:00',
+      },
+      {
+        'id': 'a2',
+        'question_id': 'q2',
+        'user_id': 'user12',
+        'user_name': '守宫专家',
+        'content': '豹纹守宫饲养箱尺寸：\n- 幼体（10cm以下）：20*15*15cm\n- 成体：45*30*30cm\n- 推荐抽屉式饲养箱，方便清理。\n\n垫材推荐：厨房纸、瓷砖或者爬虫砂。',
+        'likes': 12,
+        'is_accepted': 1,
+        'created_at': '2026-02-16 15:00:00',
+      },
+      {
+        'id': 'a3',
+        'question_id': 'q4',
+        'user_id': 'user13',
+        'user_name': '绿鬣达人',
+        'content': '绿鬣蜥温度控制：\n- 晒点温度：32-35°C\n- 冷区温度：24-26°C\n- 夜间温度：22-24°C\n\n需要UVB灯每天照射10-12小时。',
+        'likes': 8,
+        'is_accepted': 1,
+        'created_at': '2026-02-19 17:30:00',
+      },
+      {
+        'id': 'a4',
+        'question_id': 'q5',
+        'user_id': 'user14',
+        'user_name': '龟类专家',
+        'content': '黄缘闭壳龟冬眠准备：\n1. 提前1个月加强喂食，储存能量\n2. 冬眠前2周停食，排空肠道\n3. 温度降到15度以下再开始冬眠\n4. 冬眠介质：椰土、苔藓、蛭石都可以\n5. 保持湿度，但不能积水\n6. 定期检查龟的状态\n7. 冬眠期间温度保持在5-10度最安全',
+        'likes': 25,
+        'is_accepted': 1,
+        'created_at': '2026-02-10 12:30:00',
+      },
+      {
+        'id': 'a5',
+        'question_id': 'q6',
+        'user_id': 'user15',
+        'user_name': '睫角大户',
+        'content': '睫角守宫非常适合新手！优点：\n- 性格温顺，可以把玩\n- 断尾后会再生（虽然不美观）\n- 饲养简单，杂食性\n- 价格适中\n\n饲养要点：\n- 温度22-28度\n- 湿度70%左右\n- 果泥+昆虫为主食\n- 需要提供攀爬物',
+        'likes': 18,
+        'is_accepted': 1,
+        'created_at': '2026-02-12 14:00:00',
+      },
+      {
+        'id': 'a6',
+        'question_id': 'q8',
+        'user_id': 'user16',
+        'user_name': '繁殖户',
+        'content': '豹纹守宫性别区分：\n- 雄性：有明显的V形鞭毛（大腿内侧的凸起），泄殖孔更宽\n- 雌性：鞭毛不明显或没有\n\n最好在成体后（6个月以上）再区分，比较准确。',
+        'likes': 10,
+        'is_accepted': 1,
+        'created_at': '2026-02-14 20:00:00',
+      },
+      {
+        'id': 'a7',
+        'question_id': 'q9',
+        'user_id': 'user17',
+        'user_name': '器材达人',
+        'content': '加热垫推荐：\n1. Zoo Med - 经典品牌，发热均匀\n2. Exo Terra - 温控精准\n3. 国产的可以考虑卡洛艾特\n\n建议配合温控器使用，安全第一！',
+        'likes': 7,
+        'is_accepted': 1,
+        'created_at': '2026-02-17 21:30:00',
+      },
+      {
+        'id': 'a8',
+        'question_id': 'q10',
+        'user_id': 'user18',
+        'user_name': '石龙子爱好者',
+        'content': '蓝舌石龙子是杂食性的，主要食物：\n- 狗粮（高品质无谷物）\n- 蔬菜（绿叶菜、胡萝卜、南瓜）\n- 昆虫（蟋蟀、面包虫）\n- 水果（偶尔）\n\n注意补充钙粉和维生素。',
+        'likes': 9,
+        'is_accepted': 1,
+        'created_at': '2026-02-13 16:20:00',
+      },
+    ];
+
+    for (var answer in answerData) {
+      await insert('answers', answer);
+    }
+  }
+
+  /// 初始化医疗健康数据
+  Future<void> initMedicalData() async {
+    final existingData = await query('diseases');
+    if (existingData.isNotEmpty) return;
+
+    // 疾病数据
+    final diseaseData = [
+      // 蛇类疾病
+      {
+        'id': 'd1',
+        'name': 'Respiratory Infection',
+        'name_zh': '呼吸道感染',
+        'category': 'respiratory',
+        'species_category': 'snake',
+        'description': '蛇类常见的呼吸道疾病，通常由细菌或病毒引起。',
+        'symptoms': '张嘴呼吸|呼吸有杂音|鼻孔有分泌物|精神不振',
+        'cause': '温度过低|湿度过高|通风不良|应激反应',
+        'treatment': '提高环境温度至30-32度|保持良好通风|使用抗生素治疗|提供安静环境',
+        'prevention': '保持适宜温度|良好通风|减少应激|定期清洁环境',
+        'is_emergency': 0,
+        'related_species': '玉米蛇,球蟒,黑王蛇',
+      },
+      {
+        'id': 'd2',
+        'name': 'Mite Infestation',
+        'name_zh': '螨虫感染',
+        'category': 'parasitic',
+        'species_category': 'snake',
+        'description': '蛇类体外寄生虫，螨虫会吸食血液并传播疾病。',
+        'symptoms': '身上有黑色小点|频繁泡水|摩擦身体|食欲下降',
+        'cause': '新蛇带入|环境不洁|与其他爬宠接触',
+        'treatment': '使用除螨药物浸泡|彻底清洁饲养箱|对环境进行消毒|隔离病蛇',
+        'prevention': '新蛇隔离观察|定期消毒|保持环境清洁|定期检查',
+        'is_emergency': 0,
+        'related_species': '所有蛇类',
+      },
+      {
+        'id': 'd3',
+        'name': 'Scale Rot',
+        'name_zh': '腐鳞病',
+        'category': 'skin',
+        'species_category': 'snake',
+        'description': '细菌感染导致的鳞片腐烂，通常发生在腹部。',
+        'symptoms': '鳞片变色|鳞片下有液体|溃烂|恶臭',
+        'cause': '环境潮湿|垫材不洁|外伤感染',
+        'treatment': '清洁患处|使用抗生素药膏|干养一段时间|严重时口服抗生素',
+        'prevention': '保持垫材干燥|定期清洁|避免外伤|定期检查',
+        'is_emergency': 0,
+        'related_species': '所有蛇类',
+      },
+      // 守宫疾病
+      {
+        'id': 'd4',
+        'name': 'Tail Autotomy',
+        'name_zh': '断尾',
+        'category': 'injury',
+        'species_category': 'gecko',
+        'description': '守宫在受到惊吓或受到攻击时自动断尾逃生。',
+        'symptoms': '尾巴脱落|断尾处出血',
+        'cause': '应激反应|受到惊吓|被抓取尾部',
+        'treatment': '消毒断尾处|保持环境清洁|提供安静环境|补充营养',
+        'prevention': '避免抓取尾部|减少应激|小心操作',
+        'is_emergency': 0,
+        'related_species': '豹纹守宫,睫角守宫,巨人守宫',
+      },
+      {
+        'id': 'd5',
+        'name': 'Stuck Shed',
+        'name_zh': '蜕皮困难',
+        'category': 'skin',
+        'species_category': 'gecko',
+        'description': '守宫蜕皮时部分旧皮未能完全脱落，缠绕在身体部位。',
+        'symptoms': '身上有未脱落的皮|眼睛被覆盖|趾尖肿胀|行动困难',
+        'cause': '湿度不足|营养不良|体质较弱',
+        'treatment': '泡温水澡|用镊子轻轻剥离|提高环境湿度|补充维生素',
+        'prevention': '保持适宜湿度|提供水盆|保证营养|定期检查',
+        'is_emergency': 0,
+        'related_species': '所有守宫',
+      },
+      {
+        'id': 'd6',
+        'name': 'Toe Infection',
+        'name_zh': '趾炎',
+        'category': 'skin',
+        'species_category': 'gecko',
+        'description': '守宫脚趾因感染或外伤导致的炎症，严重时可能导致脚趾脱落。',
+        'symptoms': '脚趾肿胀|发红|化脓|走路跛行',
+        'cause': '垫材卡住脚趾|外伤感染|湿度过高导致细菌滋生',
+        'treatment': '清洁消毒患处|使用抗生素|更换垫材|严重时就医',
+        'prevention': '使用合适垫材|保持环境清洁|定期检查脚趾',
+        'is_emergency': 0,
+        'related_species': '豹纹守宫,睫角守宫',
+      },
+      // 龟类疾病
+      {
+        'id': 'd7',
+        'name': 'Shell Rot',
+        'name_zh': '烂甲病',
+        'category': 'skin',
+        'species_category': 'turtle',
+        'description': '龟甲真菌或细菌感染，导致甲片腐烂。',
+        'symptoms': '甲片变色|甲片变软|有异味|甲片下有脓液',
+        'cause': '水质不洁|外伤感染|环境潮湿',
+        'treatment': '清除坏死组织|消毒患处|使用抗生素|干养一段时间',
+        'prevention': '保持水质清洁|定期换水|提供晒台|避免外伤',
+        'is_emergency': 0,
+        'related_species': '红耳龟,草龟,黄缘闭壳龟',
+      },
+      {
+        'id': 'd8',
+        'name': 'Pneumonia',
+        'name_zh': '肺炎',
+        'category': 'respiratory',
+        'species_category': 'turtle',
+        'description': '龟类严重的呼吸道疾病，可能危及生命。',
+        'symptoms': '张嘴呼吸|呼吸有声|鼻孔有分泌物|精神不振|浮水',
+        'cause': '温度骤变|水质问题|通风不良|抵抗力下降',
+        'treatment': '提高温度|使用抗生素|保持水质|严重时需注射治疗',
+        'prevention': '保持适宜温度|良好水质|避免温度剧烈变化|增强营养',
+        'is_emergency': 1,
+        'related_species': '所有龟类',
+      },
+      {
+        'id': 'd9',
+        'name': 'Eye Infection',
+        'name_zh': '眼病',
+        'category': 'respiratory',
+        'species_category': 'turtle',
+        'description': '龟类眼睛细菌感染，导致肿胀和分泌物。',
+        'symptoms': '眼睛肿胀|眼分泌物|眼睛发红|无法睁眼',
+        'cause': '水质不洁|维生素缺乏|外伤感染',
+        'treatment': '清洁眼部|使用抗生素眼药水|改善水质|补充维生素A',
+        'prevention': '保持水质|定期换水|保证营养|定期检查',
+        'is_emergency': 0,
+        'related_species': '红耳龟,巴西龟,草龟',
+      },
+      // 蜥蜴疾病
+      {
+        'id': 'd10',
+        'name': 'Metabolic Bone Disease',
+        'name_zh': '代谢性骨病',
+        'category': 'metabolic',
+        'species_category': 'lizard',
+        'description': '钙磷代谢异常导致的骨骼疾病，常见于蜥蜴。',
+        'symptoms': '四肢无力|骨骼变形|无法爬行|食欲不振|抽搐',
+        'cause': '钙或维生素D3缺乏|UVB照射不足|饮食不均衡',
+        'treatment': '补充钙和维生素D3|增加UVB照射|调整饮食|严重时就医',
+        'prevention': '保证钙摄入|充足UVB照射|均衡饮食|定期补充',
+        'is_emergency': 1,
+        'related_species': '绿鬣蜥,鬃狮蜥,变色龙',
+      },
+      {
+        'id': 'd11',
+        'name': 'Impaction',
+        'name_zh': '肠道阻塞',
+        'category': 'digestive',
+        'species_category': 'lizard',
+        'description': '消化道被异物或食物阻塞。',
+        'symptoms': '腹胀|便秘|食欲不振|精神不振|无法排便',
+        'cause': '误食垫材|过大食物|脱水|低温',
+        'treatment': '提高温度|泡温水澡|轻轻按摩腹部|严重时就医手术',
+        'prevention': '使用安全垫材|提供适当大小食物|保持适宜温度|保证饮水',
+        'is_emergency': 1,
+        'related_species': '绿鬣蜥,鬃狮蜥,蓝舌石龙子',
+      },
+      {
+        'id': 'd12',
+        'name': 'Mouth Rot',
+        'name_zh': '口腔炎',
+        'category': 'infectious',
+        'species_category': 'lizard',
+        'description': '口腔细菌感染，导致红肿和溃疡。',
+        'symptoms': '口腔红肿|口腔有白色分泌物|食欲下降|流涎',
+        'cause': '外伤感染|免疫力下降|环境不洁',
+        'treatment': '清洁口腔|使用抗生素|提高温度|补充营养',
+        'prevention': '保持环境清洁|避免外伤|增强免疫力|定期检查',
+        'is_emergency': 0,
+        'related_species': '绿鬣蜥,鬃狮蜥',
+      },
+      // 两栖类疾病
+      {
+        'id': 'd13',
+        'name': 'Red Leg Syndrome',
+        'name_zh': '红腿病',
+        'category': 'infectious',
+        'species_category': 'amphibian',
+        'description': '两栖类常见的细菌性疾病，因腿部变红而得名。',
+        'symptoms': '腿部发红|肿胀|嗜睡|食欲不振|皮肤溃烂',
+        'cause': '水质不洁|细菌感染|免疫力下降|外伤',
+        'treatment': '隔离病体|使用抗生素|改善水质|补充营养',
+        'prevention': '保持水质|定期清洁|避免外伤|健康饮食',
+        'is_emergency': 1,
+        'related_species': '角蛙,箭毒蛙,蝾螈',
+      },
+      {
+        'id': 'd14',
+        'name': 'Fungal Infection',
+        'name_zh': '真菌感染',
+        'category': 'skin',
+        'species_category': 'amphibian',
+        'description': '两栖类皮肤真菌感染。',
+        'symptoms': '皮肤上有白色绒毛状物|皮肤变色|溃烂|行为异常',
+        'cause': '水质不洁|环境潮湿|免疫力下降',
+        'treatment': '使用抗真菌药物|改善水质|提高温度|隔离病体',
+        'prevention': '保持水质|定期清洁|避免过度潮湿|健康饮食',
+        'is_emergency': 0,
+        'related_species': '角蛙,蝾螈,所有两栖类',
+      },
+    ];
+
+    for (var disease in diseaseData) {
+      await insert('diseases', disease);
+    }
+
+    // 症状数据
+    final symptomData = [
+      {'id': 's1', 'name': 'lethargy', 'name_zh': '精神不振', 'category': 'behavior', 'related_disease_ids': 'd1,d7,d8,d13'},
+      {'id': 's2', 'name': 'loss_of_appetite', 'name_zh': '食欲不振', 'category': 'behavior', 'related_disease_ids': 'd1,d2,d3,d10,d11,d13'},
+      {'id': 's3', 'name': 'difficulty_breathing', 'name_zh': '呼吸困难', 'category': 'respiratory', 'related_disease_ids': 'd1,d8'},
+      {'id': 's4', 'name': 'discharge_from_nose', 'name_zh': '鼻孔分泌物', 'category': 'respiratory', 'related_disease_ids': 'd1,d8'},
+      {'id': 's5', 'name': 'skin_discoloration', 'name_zh': '皮肤变色', 'category': 'skin', 'related_disease_ids': 'd3,d7,d14'},
+      {'id': 's6', 'name': 'skin_lesions', 'name_zh': '皮肤损伤', 'category': 'skin', 'related_disease_ids': 'd3,d4,d5,d7,d12,d14'},
+      {'id': 's7', 'name': 'swelling', 'name_zh': '肿胀', 'category': 'physical', 'related_disease_ids': 'd6,d7,d9,d13'},
+      {'id': 's8', 'name': 'eye_problems', 'name_zh': '眼睛问题', 'category': 'physical', 'related_disease_ids': 'd5,d9'},
+      {'id': 's9', 'name': 'weakness', 'name_zh': '无力', 'category': 'behavior', 'related_disease_ids': 'd10,d11'},
+      {'id': 's10', 'name': 'deformation', 'name_zh': '变形', 'category': 'physical', 'related_disease_ids': 'd10'},
+      {'id': 's11', 'name': 'constipation', 'name_zh': '便秘', 'category': 'digestive', 'related_disease_ids': 'd11'},
+      {'id': 's12', 'name': 'bloating', 'name_zh': '腹胀', 'category': 'digestive', 'related_disease_ids': 'd11'},
+      {'id': 's13', 'name': 'mouth_sores', 'name_zh': '口腔溃疡', 'category': 'physical', 'related_disease_ids': 'd12'},
+      {'id': 's14', 'name': 'red_legs', 'name_zh': '腿部发红', 'category': 'skin', 'related_disease_ids': 'd13'},
+      {'id': 's15', 'name': 'shedding_problems', 'name_zh': '蜕皮问题', 'category': 'skin', 'related_disease_ids': 'd5'},
+    ];
+
+    for (var symptom in symptomData) {
+      await insert('symptoms', symptom);
+    }
+
+    // 紧急情况指南
+    final emergencyData = [
+      {
+        'id': 'e1',
+        'title': 'Bleeding',
+        'title_zh': '出血处理',
+        'content': '''# 爬宠出血紧急处理指南
+
+## 轻微出血
+1. 用干净的纱布或纸巾按压止血
+2. 保持环境清洁，防止感染
+3. 观察是否有持续出血
+
+## 严重出血
+1. 立即用纱布加压止血
+2. 不要使用止血带
+3. 保持宠物安静
+4. 尽快联系兽医
+
+## 常见原因
+- 外伤
+- 指甲断裂
+- 相互争斗
+
+## 预防措施
+- 提供合适的环境
+- 避免尖锐物品
+- 定期检查宠物身体''',
+        'category': 'bleeding',
+        'priority': 1,
+      },
+      {
+        'id': 'e2',
+        'title': 'Poisoning',
+        'title_zh': '中毒处理',
+        'content': '''# 爬宠中毒紧急处理指南
+
+## 中毒症状
+- 流涎
+- 呕吐
+- 抽搐
+- 呼吸困难
+- 行为异常
+
+## 紧急处理
+1. 立即隔离中毒宠物
+2. 不要自行催吐（可能造成更大伤害）
+3. 保留可能的中毒源样本
+4. 尽快联系兽医
+
+## 常见毒源
+- 农药
+- 清洁剂
+- 有毒植物
+- 变质食物''',
+        'category': 'poisoning',
+        'priority': 1,
+      },
+      {
+        'id': 'e3',
+        'title': 'Heat Stroke',
+        'title_zh': '中暑处理',
+        'content': '''# 爬宠中暑紧急处理指南
+
+## 中暑症状
+- 张嘴呼吸
+- 精神不振
+- 流涎
+- 身体软瘫
+
+## 紧急处理
+1. 立即转移到阴凉处
+2. 用温水（不要用冰水）擦拭身体
+3. 提供少量饮水
+4. 逐步降温，不要骤降
+
+## 预防
+- 确保饲养环境温度适宜
+- 提供足够的遮蔽
+- 保持通风
+- 夏天特别注意降温''',
+        'category': 'heat_stroke',
+        'priority': 2,
+      },
+    ];
+
+    for (var emergency in emergencyData) {
+      await insert('emergency_guides', emergency);
+    }
+  }
+
   Future<void> close() async {}
 }

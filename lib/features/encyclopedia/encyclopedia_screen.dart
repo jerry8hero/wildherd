@@ -20,8 +20,11 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   late TabController _tabController;
   final EncyclopediaRepository _repository = EncyclopediaRepository();
   Map<String, List<ReptileSpecies>> _categorySpecies = {};
+  List<ReptileSpecies> _allSpecies = [];
   bool _isLoading = true;
   UserLevel _userLevel = UserLevel.beginner;
+  String _searchKeyword = '';
+  bool _isSearching = false;
 
   // Categories will be populated from l10n
 
@@ -70,6 +73,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
 
       setState(() {
         _categorySpecies = grouped;
+        _allSpecies = species;
         _isLoading = false;
       });
     } catch (e) {
@@ -82,14 +86,78 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     }
   }
 
+  void _startSearch() {
+    setState(() => _isSearching = true);
+  }
+
+  void _stopSearch() {
+    setState(() {
+      _isSearching = false;
+      _searchKeyword = '';
+    });
+  }
+
+  void _onSearchChanged(String value) {
+    setState(() => _searchKeyword = value);
+  }
+
+  List<ReptileSpecies> _getFilteredSpecies() {
+    if (_searchKeyword.isEmpty) return [];
+    final kw = _searchKeyword.toLowerCase();
+    return _allSpecies.where((s) {
+      return s.nameChinese.toLowerCase().contains(kw) ||
+          s.nameEnglish.toLowerCase().contains(kw) ||
+          s.scientificName.toLowerCase().contains(kw);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final categories = _getCategories(l10n);
 
+    if (_isSearching) {
+      return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: _stopSearch,
+          ),
+          title: TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: '搜索物种...',
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.grey[400]),
+            ),
+            style: const TextStyle(fontSize: 18),
+            onChanged: _onSearchChanged,
+          ),
+          actions: [
+            if (_searchKeyword.isNotEmpty)
+              IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () => _onSearchChanged(''),
+              ),
+          ],
+        ),
+        body: _buildSearchResults(),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.encyclopedia),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: _startSearch,
+          ),
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: () => _showAdvancedFilter(context),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -104,6 +172,63 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                 return _buildSpeciesList(cat['id'] as String);
               }).toList(),
             ),
+    );
+  }
+
+  Widget _buildSearchResults() {
+    final results = _getFilteredSpecies();
+    if (_searchKeyword.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search, size: 60, color: Colors.grey[300]),
+            const SizedBox(height: 16),
+            Text(
+              '输入关键词搜索物种',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          ],
+        ),
+      );
+    }
+    if (results.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search_off, size: 60, color: Colors.grey[300]),
+            const SizedBox(height: 16),
+            Text(
+              '未找到相关物种',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          ],
+        ),
+      );
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        return _buildSpeciesCard(results[index]);
+      },
+    );
+  }
+
+  void _showAdvancedFilter(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => _AdvancedFilterSheet(
+        species: _allSpecies,
+        onApply: (filters) {
+          // 应用筛选
+          setState(() {});
+        },
+      ),
     );
   }
 
@@ -796,5 +921,176 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
       default:
         return commonTips;
     }
+  }
+}
+
+// 高级筛选对话框
+class _AdvancedFilterSheet extends StatefulWidget {
+  final List<ReptileSpecies> species;
+  final Function(Map<String, dynamic>) onApply;
+
+  const _AdvancedFilterSheet({
+    required this.species,
+    required this.onApply,
+  });
+
+  @override
+  State<_AdvancedFilterSheet> createState() => _AdvancedFilterSheetState();
+}
+
+class _AdvancedFilterSheetState extends State<_AdvancedFilterSheet> {
+  int? _selectedDifficulty;
+  String? _selectedDiet;
+  String? _selectedCategory;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 标题
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                '高级筛选',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedDifficulty = null;
+                    _selectedDiet = null;
+                    _selectedCategory = null;
+                  });
+                },
+                child: const Text('重置'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // 饲养难度筛选
+          const Text(
+            '饲养难度',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: [
+              _buildChip(null, '全部', _selectedDifficulty),
+              _buildChip(1, '简单', _selectedDifficulty),
+              _buildChip(2, '中等', _selectedDifficulty),
+              _buildChip(3, '较难', _selectedDifficulty),
+              _buildChip(4, '困难', _selectedDifficulty),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // 食性筛选
+          const Text(
+            '食性',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: [
+              _buildDietChip(null, '全部', _selectedDiet),
+              _buildDietChip('carnivore', '肉食性', _selectedDiet),
+              _buildDietChip('herbivore', '草食性', _selectedDiet),
+              _buildDietChip('omnivore', '杂食性', _selectedDiet),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // 分类筛选
+          const Text(
+            '物种分类',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildCategoryChip(null, '全部', _selectedCategory),
+              _buildCategoryChip('snake', '蛇类', _selectedCategory),
+              _buildCategoryChip('gecko', '守宫', _selectedCategory),
+              _buildCategoryChip('lizard', '蜥蜴', _selectedCategory),
+              _buildCategoryChip('turtle', '龟类', _selectedCategory),
+              _buildCategoryChip('amphibian', '两栖', _selectedCategory),
+              _buildCategoryChip('arachnid', '蜘蛛', _selectedCategory),
+            ],
+          ),
+          const SizedBox(height: 24),
+
+          // 应用按钮
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                widget.onApply({
+                  'difficulty': _selectedDifficulty,
+                  'diet': _selectedDiet,
+                  'category': _selectedCategory,
+                });
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: const Text('应用筛选'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChip(int? value, String label, int? selected) {
+    final isSelected = value == selected;
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (selected) {
+        setState(() {
+          _selectedDifficulty = selected ? value : null;
+        });
+      },
+    );
+  }
+
+  Widget _buildDietChip(String? value, String label, String? selected) {
+    final isSelected = value == selected;
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (selected) {
+        setState(() {
+          _selectedDiet = selected ? value : null;
+        });
+      },
+    );
+  }
+
+  Widget _buildCategoryChip(String? value, String label, String? selected) {
+    final isSelected = value == selected;
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (selected) {
+        setState(() {
+          _selectedCategory = selected ? value : null;
+        });
+      },
+    );
   }
 }
