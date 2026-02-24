@@ -5,10 +5,10 @@ import 'theme.dart';
 import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
+import '../features/virtual_pet/virtual_pet_screen.dart';
 import '../features/qa/qa_screen.dart';
 import '../features/medical/medical_screen.dart';
 import '../features/article/article_screen.dart';
-import '../features/assistant/assistant_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const EncyclopediaScreen(),
-    const AssistantScreen(),
+    const VirtualPetScreen(),
     const QAScreen(),
     const ArticleScreen(),
     const MedicalScreen(),
@@ -77,9 +77,9 @@ class _MainScreenState extends State<MainScreen> {
             label: '百科',
           ),
           const NavigationDestination(
-            icon: Icon(Icons.smart_toy_outlined),
-            selectedIcon: Icon(Icons.smart_toy),
-            label: '助手',
+            icon: Icon(Icons.pets_outlined),
+            selectedIcon: Icon(Icons.pets),
+            label: '养宠',
           ),
           const NavigationDestination(
             icon: Icon(Icons.question_answer_outlined),

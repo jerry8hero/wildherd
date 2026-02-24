@@ -10,6 +10,7 @@ import '../../utils/image_utils.dart';
 import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
 import '../market/price_alert_screen.dart';
+import '../assistant/assistant_screen.dart';
 import 'reptile_detail_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 
@@ -546,10 +547,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         const SizedBox(width: 12),
         Expanded(
           child: _buildActionCard(
-            icon: Icons.camera_alt,
-            title: l10n.growthAlbum,
-            color: Colors.purple,
-            onTap: () {},
+            icon: Icons.smart_toy,
+            title: '知识助手',
+            color: Colors.teal,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AssistantScreen()),
+              );
+            },
           ),
         ),
       ],
