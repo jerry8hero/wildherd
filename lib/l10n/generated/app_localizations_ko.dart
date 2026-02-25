@@ -365,6 +365,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get noRecords => '기록 없음';
 
   @override
+  String get addFirstRecord => '+ 를 눌러 첫 번째 기록을 추가하세요';
+
+  @override
   String get recordDate => '기록 날짜';
 
   @override

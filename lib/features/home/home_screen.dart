@@ -11,6 +11,8 @@ import '../settings/level_select_screen.dart';
 import '../exhibition/exhibition_screen.dart';
 import '../market/price_alert_screen.dart';
 import '../assistant/assistant_screen.dart';
+import 'feeding_record_screen.dart';
+import 'health_record_screen.dart';
 import 'reptile_detail_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 
@@ -532,7 +534,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: Icons.restaurant,
             title: l10n.feedingRecord,
             color: Colors.orange,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FeedingRecordScreen()),
+              );
+            },
           ),
         ),
         const SizedBox(width: 12),
@@ -541,7 +548,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: Icons.medical_services,
             title: l10n.healthRecord,
             color: Colors.blue,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HealthRecordScreen()),
+              );
+            },
           ),
         ),
         const SizedBox(width: 12),

@@ -159,6 +159,7 @@
   "healthCheck": "健康检查",
   "addRecord": "添加记录",
   "noRecords": "暂无记录",
+  "addFirstRecord": "点击\"+\"添加第一条记录",
   "recordDate": "记录日期",
   "notesField": "备注",
 

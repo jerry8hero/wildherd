@@ -128,6 +128,7 @@
   "healthCheck": "健康チェック",
   "addRecord": "記録を追加",
   "noRecords": "記録なし",
+  "addFirstRecord": "+ をタップして最初の記録を追加",
   "recordDate": "記録日",
   "notesField": "メモ",
 

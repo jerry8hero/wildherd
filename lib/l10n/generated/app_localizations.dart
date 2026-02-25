@@ -800,6 +800,12 @@ abstract class AppLocalizations {
   /// **'暂无记录'**
   String get noRecords;
 
+  /// No description provided for @addFirstRecord.
+  ///
+  /// In zh, this message translates to:
+  /// **'点击"+"添加第一条记录'**
+  String get addFirstRecord;
+
   /// No description provided for @recordDate.
   ///
   /// In zh, this message translates to:

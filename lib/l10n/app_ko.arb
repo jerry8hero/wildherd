@@ -128,6 +128,7 @@
   "healthCheck": "건강 검사",
   "addRecord": "기록 추가",
   "noRecords": "기록 없음",
+  "addFirstRecord": "+ 를 눌러 첫 번째 기록을 추가하세요",
   "recordDate": "기록 날짜",
   "notesField": "메모",
 

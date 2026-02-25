@@ -365,6 +365,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noRecords => '記録なし';
 
   @override
+  String get addFirstRecord => '+ をタップして最初の記録を追加';
+
+  @override
   String get recordDate => '記録日';
 
   @override

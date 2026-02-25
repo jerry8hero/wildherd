@@ -365,6 +365,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noRecords => '暂无记录';
 
   @override
+  String get addFirstRecord => '点击"+"添加第一条记录';
+
+  @override
   String get recordDate => '记录日期';
 
   @override

@@ -365,6 +365,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noRecords => 'No records yet';
 
   @override
+  String get addFirstRecord => 'Tap + to add your first record';
+
+  @override
   String get recordDate => 'Record Date';
 
   @override
