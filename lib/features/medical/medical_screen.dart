@@ -608,7 +608,7 @@ class SymptomCheckerScreen extends StatefulWidget {
 class _SymptomCheckerScreenState extends State<SymptomCheckerScreen> {
   final MedicalRepository _repository = MedicalRepository();
   List<Symptom> _symptoms = [];
-  List<String> _selectedSymptomIds = [];
+  final List<String> _selectedSymptomIds = [];
   List<Disease> _matchedDiseases = [];
   bool _isLoading = true;
 

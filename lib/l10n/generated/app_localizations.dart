@@ -803,7 +803,7 @@ abstract class AppLocalizations {
   /// No description provided for @addFirstRecord.
   ///
   /// In zh, this message translates to:
-  /// **'点击"+"添加第一条记录'**
+  /// **'点击\"+\"添加第一条记录'**
   String get addFirstRecord;
 
   /// No description provided for @recordDate.

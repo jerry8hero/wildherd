@@ -1,10 +1,6 @@
-export 'exhibition_repository.dart';
-export 'price_alert_repository.dart';
-
 import '../local/database_helper.dart';
 import '../models/reptile.dart';
 import '../models/record.dart';
-import '../models/community.dart';
 import '../models/encyclopedia.dart';
 import '../models/article.dart';
 import '../models/qa.dart';
@@ -208,68 +204,6 @@ class EncyclopediaRepository {
       return title.contains(kw) || content.contains(kw) || summary.contains(kw);
     }).toList();
     return filtered.map((map) => Article.fromMap(map)).toList();
-  }
-}
-
-class CommunityRepository {
-  final DatabaseHelper _dbHelper = DatabaseHelper.instance;
-
-  // 获取动态列表
-  Future<List<Post>> getPosts({String? category}) async {
-    if (category != null) {
-      final result = await _dbHelper.queryWhere(
-        'posts',
-        where: 'reptile_species = ?',
-        whereArgs: [category],
-        orderBy: 'created_at DESC',
-      );
-      return result.map((map) => Post.fromMap(map)).toList();
-    }
-    final result = await _dbHelper.query('posts', orderBy: 'created_at DESC');
-    return result.map((map) => Post.fromMap(map)).toList();
-  }
-
-  // 发布动态
-  Future<void> addPost(Post post) async {
-    await _dbHelper.insert('posts', post.toMap());
-  }
-
-  // 删除动态
-  Future<void> deletePost(String id) async {
-    await _dbHelper.delete('posts', where: 'id = ?', whereArgs: [id]);
-  }
-
-  // 点赞 - 简化实现
-  Future<void> likePost(String id) async {
-    final posts = await _dbHelper.queryWhere('posts', where: 'id = ?', whereArgs: [id]);
-    if (posts.isNotEmpty) {
-      final post = posts.first;
-      final likes = (post['likes'] ?? 0) as int;
-      await _dbHelper.update('posts', {'likes': likes + 1}, where: 'id = ?', whereArgs: [id]);
-    }
-  }
-
-  // 获取评论
-  Future<List<Comment>> getComments(String postId) async {
-    final result = await _dbHelper.queryWhere(
-      'comments',
-      where: 'post_id = ?',
-      whereArgs: [postId],
-      orderBy: 'created_at ASC',
-    );
-    return result.map((map) => Comment.fromMap(map)).toList();
-  }
-
-  // 添加评论
-  Future<void> addComment(Comment comment) async {
-    await _dbHelper.insert('comments', comment.toMap());
-    // 更新帖子评论数
-    final posts = await _dbHelper.queryWhere('posts', where: 'id = ?', whereArgs: [comment.postId]);
-    if (posts.isNotEmpty) {
-      final post = posts.first;
-      final comments = (post['comments'] ?? 0) as int;
-      await _dbHelper.update('posts', {'comments': comments + 1}, where: 'id = ?', whereArgs: [comment.postId]);
-    }
   }
 }
 

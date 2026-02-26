@@ -8,9 +8,7 @@ import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../settings/level_select_screen.dart';
-import '../exhibition/exhibition_screen.dart';
-import '../market/price_alert_screen.dart';
-import '../assistant/assistant_screen.dart';
+import '../knowledge/knowledge_screen.dart';
 import 'feeding_record_screen.dart';
 import 'health_record_screen.dart';
 import 'reptile_detail_screen.dart';
@@ -86,12 +84,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.notifications_outlined),
+            icon: const Icon(Icons.lightbulb_outlined),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PriceAlertScreen(),
+                  builder: (context) => const KnowledgeScreen(),
                 ),
               );
             },
@@ -123,16 +121,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     _buildSectionTitle(l10n.recommendedFor(_userLevel.displayName)),
                     const SizedBox(height: 12),
                     _buildRecommendedSpecies(l10n),
-
-                    const SizedBox(height: 20),
-
-                    // 价格动态入口
-                    _buildMarketCard(l10n),
-
-                    const SizedBox(height: 16),
-
-                    // 展览资讯入口
-                    _buildExhibitionCard(l10n),
 
                     const SizedBox(height: 20),
 
@@ -411,121 +399,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildMarketCard(AppLocalizations l10n) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          // 跳转到行情页面
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.trending_up,
-                  color: Colors.green,
-                  size: 28,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.priceDynamic,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.priceTrend,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(Icons.chevron_right, color: Colors.grey),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExhibitionCard(AppLocalizations l10n) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ExhibitionScreen(),
-            ),
-          );
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.purple.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.event,
-                  color: Colors.purple,
-                  size: 28,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.exhibitionInfo,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.exhibitionDesc,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(Icons.chevron_right, color: Colors.grey),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildQuickActions(AppLocalizations l10n) {
     return Row(
       children: [
@@ -559,13 +432,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         const SizedBox(width: 12),
         Expanded(
           child: _buildActionCard(
-            icon: Icons.smart_toy,
+            icon: Icons.lightbulb,
             title: '知识助手',
             color: Colors.teal,
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AssistantScreen()),
+                MaterialPageRoute(builder: (context) => const KnowledgeScreen()),
               );
             },
           ),

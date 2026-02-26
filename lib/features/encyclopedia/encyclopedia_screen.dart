@@ -6,7 +6,6 @@ import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
-import '../selection/candidate_list_screen.dart';
 
 class EncyclopediaScreen extends StatefulWidget {
   const EncyclopediaScreen({super.key});
@@ -677,13 +676,10 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CandidateListScreen(
-                          speciesId: species.id,
-                          speciesName: species.nameChinese,
-                        ),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('请在"我的爬宠"中添加您的爬宠'),
+                        duration: Duration(seconds: 2),
                       ),
                     );
                   },

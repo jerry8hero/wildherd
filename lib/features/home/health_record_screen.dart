@@ -75,7 +75,7 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: FilterChip(
-                      label: Text(l10n.all),
+                      label: const Text('全部'),
                       selected: _selectedReptileId == null,
                       onSelected: (selected) {
                         setState(() => _selectedReptileId = null);

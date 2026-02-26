@@ -6,7 +6,6 @@ import '../../data/models/user.dart';
 import '../../data/local/user_preferences.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'schedule_settings_screen.dart';
-import '../achievement/achievement_screen.dart';
 
 class LevelSelectScreen extends ConsumerStatefulWidget {
   const LevelSelectScreen({super.key});
@@ -119,23 +118,6 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            // 成就系统
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.emoji_events, color: AppTheme.primaryColor),
-                title: const Text('成就'),
-                subtitle: const Text('查看你的成就和积分'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AchievementScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
             const SizedBox(height: 24),
             Text(
               l10n.selectLevel,

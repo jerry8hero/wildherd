@@ -603,7 +603,7 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
   final TextEditingController _contentController = TextEditingController();
   String? _selectedSpeciesId;
   String? _selectedSpeciesName;
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
   bool _isSubmitting = false;
 
   @override

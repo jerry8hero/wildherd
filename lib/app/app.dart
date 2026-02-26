@@ -6,9 +6,8 @@ import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/virtual_pet/virtual_pet_screen.dart';
-import '../features/qa/qa_screen.dart';
+import '../features/knowledge/knowledge_screen.dart';
 import '../features/medical/medical_screen.dart';
-import '../features/article/article_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -48,14 +47,12 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const EncyclopediaScreen(),
     const VirtualPetScreen(),
-    const QAScreen(),
-    const ArticleScreen(),
+    const KnowledgeScreen(),
     const MedicalScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: NavigationBar(
@@ -65,33 +62,28 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        destinations: [
+        destinations: const [
           NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
-            label: l10n.home,
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: '我的爬宠',
           ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book),
             label: '百科',
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.pets_outlined),
-            selectedIcon: Icon(Icons.pets),
-            label: '养宠',
+          NavigationDestination(
+            icon: Icon(Icons.trending_up_outlined),
+            selectedIcon: Icon(Icons.trending_up),
+            label: '成长',
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.question_answer_outlined),
-            selectedIcon: Icon(Icons.question_answer),
-            label: '问答',
+          NavigationDestination(
+            icon: Icon(Icons.lightbulb_outlined),
+            selectedIcon: Icon(Icons.lightbulb),
+            label: '知识',
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.article_outlined),
-            selectedIcon: Icon(Icons.article),
-            label: '文章',
-          ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(Icons.medical_services_outlined),
             selectedIcon: Icon(Icons.medical_services),
             label: '医疗',
