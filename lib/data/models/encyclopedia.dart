@@ -59,22 +59,22 @@ class ReptileSpecies {
 
   factory ReptileSpecies.fromMap(Map<String, dynamic> map) {
     return ReptileSpecies(
-      id: map['id'],
-      nameChinese: map['name_chinese'],
-      nameEnglish: map['name_english'],
-      scientificName: map['scientific_name'],
-      category: map['category'],
-      subCategory: map['sub_category'],
-      description: map['description'],
-      difficulty: map['difficulty'],
-      lifespan: map['lifespan'],
+      id: map['id']?.toString() ?? '',
+      nameChinese: map['name_chinese']?.toString() ?? '',
+      nameEnglish: map['name_english']?.toString() ?? '',
+      scientificName: map['scientific_name']?.toString() ?? '',
+      category: map['category']?.toString() ?? '',
+      subCategory: map['sub_category']?.toString(),
+      description: map['description']?.toString() ?? '',
+      difficulty: map['difficulty']?.toInt() ?? 1,
+      lifespan: map['lifespan']?.toInt() ?? 10,
       maxLength: map['max_length']?.toDouble(),
       minTemp: map['min_temp']?.toDouble(),
       maxTemp: map['max_temp']?.toDouble(),
       minHumidity: map['min_humidity']?.toDouble(),
       maxHumidity: map['max_humidity']?.toDouble(),
-      diet: map['diet'],
-      imageUrl: map['image_url'],
+      diet: map['diet']?.toString() ?? 'omnivore',
+      imageUrl: map['image_url']?.toString(),
     );
   }
 }
