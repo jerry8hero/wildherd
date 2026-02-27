@@ -257,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     return SizedBox(
-      height: 120,
+      height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _recommendedSpecies.length,
@@ -271,7 +271,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildRecommendedCard(ReptileSpecies species, AppLocalizations l10n) {
     return Container(
-      width: 160,
+      width: 170,
       margin: const EdgeInsets.only(right: 12),
       child: Card(
         child: InkWell(
@@ -280,15 +280,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 40,
-                      height: 40,
+                      width: 36,
+                      height: 36,
                       decoration: BoxDecoration(
                         color: AppTheme.getCategoryColor(species.category),
                         borderRadius: BorderRadius.circular(8),
@@ -296,56 +297,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: const Icon(
                         Icons.pets,
                         color: Colors.white,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
+                        horizontal: 5,
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         l10n.recommended,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: 9,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
-                  species.nameChinese,
+                  species.nameChinese.isNotEmpty ? species.nameChinese : species.nameEnglish,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Row(
                   children: [
                     Text(
                       l10n.difficulty(species.difficulty),
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     Text(
                       l10n.lifespan(species.lifespan),
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: 12,
+                        fontSize: 11,
                       ),
                     ),
                   ],
