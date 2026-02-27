@@ -159,6 +159,16 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
+          indicatorColor: Colors.white,
+          labelStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontSize: 14,
+          ),
           tabs: categories.map((cat) => Tab(text: cat['name'] as String)).toList(),
         ),
       ),
