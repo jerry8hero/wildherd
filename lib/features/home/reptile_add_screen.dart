@@ -127,6 +127,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 labelText: l10n.petName,
                 prefixIcon: const Icon(Icons.pets),
               ),
+              style: const TextStyle(fontSize: 16),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return '请输入宠物名称';
@@ -144,6 +145,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 prefixIcon: Icon(Icons.category),
                 hintText: '例如: Ball Python',
               ),
+              style: const TextStyle(fontSize: 16),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return '请输入物种';
@@ -161,12 +163,13 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 prefixIcon: Icon(Icons.translate),
                 hintText: '例如: 球蟒',
               ),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
 
             // 性别
             DropdownButtonFormField<String>(
-              value: _selectedGender,
+              initialValue: _selectedGender,
               decoration: InputDecoration(
                 labelText: l10n.gender,
                 prefixIcon: const Icon(Icons.wc),
@@ -225,6 +228,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 prefixIcon: Icon(Icons.monitor_weight),
               ),
               keyboardType: TextInputType.number,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
 
@@ -236,6 +240,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 prefixIcon: Icon(Icons.straighten),
               ),
               keyboardType: TextInputType.number,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
 
@@ -247,6 +252,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
                 prefixIcon: Icon(Icons.note),
               ),
               maxLines: 3,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 24),
 

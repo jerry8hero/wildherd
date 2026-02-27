@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const Color primaryColor = Color(0xFF4CAF50); // 绿色，代表自然
@@ -74,7 +73,6 @@ class AppTheme {
           ),
         ),
       ),
-      textTheme: GoogleFonts.notoSansScTextTheme(),
     );
   }
 
