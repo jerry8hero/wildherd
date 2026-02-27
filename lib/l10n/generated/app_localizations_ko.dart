@@ -341,7 +341,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get notes => '메모';
 
   @override
-  String get recommendedScheme => '推荐方案';
+  String get recommendedScheme => '추천 방안';
 
   @override
   String get checkCompatibility => '호환성 검사';

@@ -30,8 +30,8 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.2.3
 
-  # 字体支持
-  google_fonts: ^6.2.1
+  # 字体支持 (如需使用 Google Fonts 请取消注释)
+  # google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

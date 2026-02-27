@@ -341,7 +341,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notes => 'メモ';
 
   @override
-  String get recommendedScheme => '推荐方案';
+  String get recommendedScheme => '推奨プラン';
 
   @override
   String get checkCompatibility => '相性をチェック';

@@ -341,7 +341,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notes => 'Notas';
 
   @override
-  String get recommendedScheme => '推荐方案';
+  String get recommendedScheme => 'Plan Recomendado';
 
   @override
   String get checkCompatibility => 'Verificar Compatibilidad';
