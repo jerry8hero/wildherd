@@ -440,6 +440,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get add => '추가';
 
   @override
+  String get addPet => '펫 추가';
+
+  @override
   String get close => '닫기';
 
   @override

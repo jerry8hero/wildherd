@@ -156,6 +156,7 @@
   "delete": "Eliminar",
   "edit": "Editar",
   "add": "Agregar",
+  "addPet": "Agregar Mascota",
   "close": "Cerrar",
   "confirmDelete": "Confirmar eliminacion",
   "success": "Exito",

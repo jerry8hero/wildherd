@@ -156,6 +156,7 @@
   "delete": "削除",
   "edit": "編集",
   "add": "追加",
+  "addPet": "ペットを追加",
   "close": "閉じる",
   "confirmDelete": "削除を確認",
   "success": "成功",

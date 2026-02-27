@@ -156,6 +156,7 @@
   "delete": "Delete",
   "edit": "Edit",
   "add": "Add",
+  "addPet": "Add Pet",
   "close": "Close",
   "confirmDelete": "Confirm delete",
   "success": "Success",

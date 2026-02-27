@@ -950,6 +950,12 @@ abstract class AppLocalizations {
   /// **'添加'**
   String get add;
 
+  /// No description provided for @addPet.
+  ///
+  /// In zh, this message translates to:
+  /// **'添加宠物'**
+  String get addPet;
+
   /// No description provided for @close.
   ///
   /// In zh, this message translates to:

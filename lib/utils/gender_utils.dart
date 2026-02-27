@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 class GenderUtils {
   static const List<String> options = ['雄性', '雌性', '未知'];
 
+  /// 根据代码获取性别显示文本
+  static String getGenderText(String? genderCode) {
+    switch (genderCode) {
+      case 'male':
+        return '雄性';
+      case 'female':
+        return '雌性';
+      default:
+        return '未知';
+    }
+  }
+
   /// 获取性别显示文本
   static String getText(String? gender) {
     switch (gender) {

@@ -440,6 +440,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get add => '添加';
 
   @override
+  String get addPet => '添加宠物';
+
+  @override
   String get close => '关闭';
 
   @override

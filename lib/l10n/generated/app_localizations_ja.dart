@@ -440,6 +440,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get add => '追加';
 
   @override
+  String get addPet => 'ペットを追加';
+
+  @override
   String get close => '閉じる';
 
   @override

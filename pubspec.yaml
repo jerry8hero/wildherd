@@ -30,8 +30,8 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.2.3
 
-  # 图表
-  fl_chart: ^0.68.0
+  # 字体支持
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

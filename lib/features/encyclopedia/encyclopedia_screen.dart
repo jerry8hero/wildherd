@@ -32,7 +32,13 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     super.initState();
     _tabController = TabController(length: 10, vsync: this);
     _userLevel = UserPreferences.getUserLevel();
-    _loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = AppLocalizations.of(context)!;
+    _loadData(_getCategories(l10n));
   }
 
   @override
@@ -56,9 +62,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
     ];
   }
 
-  Future<void> _loadData() async {
-    final l10n = AppLocalizations.of(context)!;
-    final categories = _getCategories(l10n);
+  Future<void> _loadData(List<Map<String, dynamic>> categories) async {
     setState(() => _isLoading = true);
     try {
       final species = await _repository.getAllSpecies();
@@ -77,11 +81,6 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
       });
     } catch (e) {
       setState(() => _isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.loadFailed}: $e')),
-        );
-      }
     }
   }
 

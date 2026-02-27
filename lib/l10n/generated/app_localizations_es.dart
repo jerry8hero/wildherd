@@ -440,6 +440,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get add => 'Agregar';
 
   @override
+  String get addPet => 'Agregar Mascota';
+
+  @override
   String get close => 'Cerrar';
 
   @override

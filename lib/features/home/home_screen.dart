@@ -12,6 +12,7 @@ import '../knowledge/knowledge_screen.dart';
 import 'feeding_record_screen.dart';
 import 'health_record_screen.dart';
 import 'reptile_detail_screen.dart';
+import 'reptile_add_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -138,6 +139,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ReptileAddScreen(),
+            ),
+          );
+          if (result == true) {
+            // 添加成功，刷新数据
+            _loadData();
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
