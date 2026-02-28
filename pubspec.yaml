@@ -29,6 +29,7 @@ dependencies:
   # 工具类
   intl: ^0.20.2
   shared_preferences: ^2.2.3
+  url_launcher: ^6.2.5
 
   # 字体支持 (如需使用 Google Fonts 请取消注释)
   # google_fonts: ^6.2.1

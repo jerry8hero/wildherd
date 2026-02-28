@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
@@ -6,10 +7,19 @@ class UserPreferences {
   static const String _hasSelectedLevelKey = 'has_selected_level';
 
   static SharedPreferences? _prefs;
+  static bool _isInitialized = false;
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
+    _isInitialized = true;
+    debugPrint('[UserPreferences] 初始化完成');
+    // 测试写入
+    await _prefs!.setString('_test_key', 'test_value');
+    final test = _prefs!.getString('_test_key');
+    debugPrint('[UserPreferences] 测试读写: $test');
   }
+
+  static bool get isInitialized => _isInitialized;
 
   static SharedPreferences get prefs {
     if (_prefs == null) {

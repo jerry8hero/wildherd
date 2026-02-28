@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'user_preferences.dart';
 
 /// Web平台兼容的数据存储助手
@@ -45,15 +47,17 @@ class DatabaseHelper {
   List<Map<String, dynamic>> _getData(String table) {
     final key = _tableKey(table);
 
-    // 使用 SharedPreferences (通过 UserPreferences)
+    // 直接使用 SharedPreferences
     try {
       final prefs = UserPreferences.prefs;
       final stored = prefs.getString(key);
-      if (stored != null) {
+      if (stored != null && stored.isNotEmpty) {
         final decoded = jsonDecode(stored) as List;
         return decoded.cast<Map<String, dynamic>>();
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('[_getData] 读取失败: $e');
+    }
 
     return _memoryStorage[key] ?? [];
   }
@@ -61,13 +65,21 @@ class DatabaseHelper {
   /// 保存存储数据
   Future<void> _saveData(String table, List<Map<String, dynamic>> data) async {
     final key = _tableKey(table);
+    final jsonStr = jsonEncode(data);
 
-    // 使用 SharedPreferences (通过 UserPreferences)
+    // 直接使用 SharedPreferences
     try {
       final prefs = UserPreferences.prefs;
-      await prefs.setString(key, jsonEncode(data));
+      await prefs.setString(key, jsonStr);
+      debugPrint('[_saveData] 保存成功: $table');
+
+      // 验证
+      final saved = prefs.getString(key);
+      debugPrint('[_saveData] 验证: ${saved?.length ?? 0} 字符');
       return;
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('[_saveData] 保存失败: $e');
+    }
 
     _memoryStorage[key] = data;
   }

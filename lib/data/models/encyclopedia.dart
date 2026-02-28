@@ -16,6 +16,8 @@ class ReptileSpecies {
   final double? maxHumidity; // 最高湿度(%)
   final String diet; // 食性: carnivore, herbivore, omnivore
   final String? imageUrl;
+  final String? purchaseUrl; // 宠物购买链接
+  final String? equipmentUrl; // 物品/用品购买链接
 
   ReptileSpecies({
     required this.id,
@@ -34,6 +36,8 @@ class ReptileSpecies {
     this.maxHumidity,
     required this.diet,
     this.imageUrl,
+    this.purchaseUrl,
+    this.equipmentUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -54,6 +58,8 @@ class ReptileSpecies {
       'max_humidity': maxHumidity,
       'diet': diet,
       'image_url': imageUrl,
+      'purchase_url': purchaseUrl,
+      'equipment_url': equipmentUrl,
     };
   }
 
@@ -75,6 +81,8 @@ class ReptileSpecies {
       maxHumidity: map['max_humidity']?.toDouble(),
       diet: map['diet']?.toString() ?? 'omnivore',
       imageUrl: map['image_url']?.toString(),
+      purchaseUrl: map['purchase_url']?.toString(),
+      equipmentUrl: map['equipment_url']?.toString(),
     );
   }
 }

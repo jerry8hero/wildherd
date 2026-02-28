@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/models/user.dart';
 import '../../data/repositories/repositories.dart';
@@ -679,27 +680,79 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
               }),
               const SizedBox(height: 24),
 
-              // 开始挑选按钮
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('请在"我的爬宠"中添加您的爬宠'),
-                        duration: Duration(seconds: 2),
+              // 购买链接按钮
+              Row(
+                children: [
+                  // 宠物购买链接
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        if (species.purchaseUrl != null && species.purchaseUrl!.isNotEmpty) {
+                          final uri = Uri.parse(species.purchaseUrl!);
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          } else {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('无法打开链接')),
+                              );
+                            }
+                          }
+                        } else {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('暂无宠物购买链接'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.pets),
+                      label: const Text('购买爬宠'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        textStyle: const TextStyle(fontSize: 14),
                       ),
-                    );
-                  },
-                  icon: const Icon(Icons.checklist),
-                  label: const Text('开始挑选'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    textStyle: const TextStyle(fontSize: 16),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 12),
+                  // 物品/用品购买链接
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        if (species.equipmentUrl != null && species.equipmentUrl!.isNotEmpty) {
+                          final uri = Uri.parse(species.equipmentUrl!);
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          } else {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('无法打开链接')),
+                              );
+                            }
+                          }
+                        } else {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('暂无物品购买链接'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.shopping_bag),
+                      label: const Text('购买用品'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        textStyle: const TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
             ],
