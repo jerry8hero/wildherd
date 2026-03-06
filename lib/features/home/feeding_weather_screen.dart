@@ -156,9 +156,10 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
             const Divider(height: 16),
             Row(
               children: [
-                Text(
-                  weather.icon,
-                  style: const TextStyle(fontSize: 48),
+                Icon(
+                  _getWeatherIconData(weather.iconName),
+                  size: 48,
+                  color: _getWeatherIconColor(weather.iconName),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -377,9 +378,10 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Text(
-                      _getWeatherIcon(day.condition),
-                      style: const TextStyle(fontSize: 20),
+                    Icon(
+                      _getWeatherIconData(_getWeatherIcon(day.condition)),
+                      size: 20,
+                      color: _getWeatherIconColor(_getWeatherIcon(day.condition)),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -464,20 +466,61 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
     );
   }
 
+  // 获取天气图标数据
+  IconData _getWeatherIconData(String iconName) {
+    switch (iconName) {
+      case 'wb_sunny':
+        return Icons.wb_sunny;
+      case 'cloud':
+        return Icons.cloud;
+      case 'grain':
+        return Icons.grain;
+      case 'thunderstorm':
+        return Icons.thunderstorm;
+      case 'ac_unit':
+        return Icons.ac_unit;
+      case 'foggy':
+        return Icons.foggy;
+      default:
+        return Icons.wb_cloudy;
+    }
+  }
+
+  // 获取天气图标颜色
+  Color _getWeatherIconColor(String iconName) {
+    switch (iconName) {
+      case 'wb_sunny':
+        return Colors.orange;
+      case 'cloud':
+        return Colors.grey;
+      case 'grain':
+        return Colors.blue;
+      case 'thunderstorm':
+        return Colors.deepPurple;
+      case 'ac_unit':
+        return Colors.lightBlue;
+      case 'foggy':
+        return Colors.blueGrey;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  // 兼容旧的图标名称
   String _getWeatherIcon(String condition) {
     switch (condition.toLowerCase()) {
       case 'sunny':
       case 'clear':
-        return '☀️';
+        return 'wb_sunny';
       case 'cloudy':
-        return '⛅';
+        return 'cloud';
       case 'rain':
       case 'rainy':
-        return '🌧️';
+        return 'grain';
       case 'clouds':
-        return '☁️';
+        return 'cloud';
       default:
-        return '🌤️';
+        return 'wb_cloudy';
     }
   }
 }

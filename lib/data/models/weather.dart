@@ -48,28 +48,28 @@ class WeatherData {
     };
   }
 
-  // 获取天气图标
-  String get icon {
+  // 获取天气图标名称（用于Material Icons）
+  String get iconName {
     switch (condition.toLowerCase()) {
       case 'sunny':
       case 'clear':
-        return '☀️';
+        return 'wb_sunny';
       case 'cloudy':
       case 'partly_cloudy':
-        return '⛅';
+        return 'cloud';
       case 'rainy':
       case 'rain':
-        return '🌧️';
+        return 'grain';
       case 'stormy':
       case 'thunderstorm':
-        return '⛈️';
+        return 'thunderstorm';
       case 'snowy':
-        return '❄️';
+        return 'ac_unit';
       case 'foggy':
       case 'fog':
-        return '🌫️';
+        return 'foggy';
       default:
-        return '🌤️';
+        return 'wb_cloudy';
     }
   }
 
