@@ -75,12 +75,22 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
           _showMessage('获取天气失败，请稍后重试');
         }
       } else {
-        // 定位失败，提示用户打开定位
-        final hasPermission = await LocationService.checkPermission();
-        if (!hasPermission) {
-          _showLocationPermissionDialog();
+        // 定位失败，根据原因显示不同提示
+        if (!mounted) return;
+
+        final isDesktop = Theme.of(context).platform == TargetPlatform.linux ||
+            Theme.of(context).platform == TargetPlatform.macOS ||
+            Theme.of(context).platform == TargetPlatform.windows;
+
+        if (isDesktop) {
+          _showMessage('桌面端暂不支持定位，请在手机/平板上使用此功能');
         } else {
-          _showMessage('无法获取您的位置，请检查定位设置');
+          final hasPermission = await LocationService.checkPermission();
+          if (!hasPermission) {
+            if (mounted) _showLocationPermissionDialog();
+          } else {
+            _showMessage('无法获取您的位置，请检查定位设置');
+          }
         }
       }
     } catch (e) {
