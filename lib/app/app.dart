@@ -5,6 +5,7 @@ import 'theme.dart';
 import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
+import '../features/encyclopedia/species_library_screen.dart';
 import '../features/virtual_pet/virtual_pet_screen.dart';
 import '../features/knowledge/knowledge_screen.dart';
 import '../features/medical/medical_screen.dart';
@@ -46,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const EncyclopediaScreen(),
+    const SpeciesLibraryScreen(),
     const VirtualPetScreen(),
     const KnowledgeScreen(),
     const MedicalScreen(),
@@ -72,6 +74,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book),
             label: '百科',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.pets_outlined),
+            selectedIcon: Icon(Icons.pets),
+            label: '物种库',
           ),
           NavigationDestination(
             icon: Icon(Icons.trending_up_outlined),

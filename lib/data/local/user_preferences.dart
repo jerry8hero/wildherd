@@ -6,8 +6,32 @@ class UserPreferences {
   static const String _levelKey = 'user_level';
   static const String _hasSelectedLevelKey = 'has_selected_level';
 
+  // 位置设置
+  static const String _cityNameKey = 'weather_city_name';
+  static const String _latitudeKey = 'weather_latitude';
+  static const String _longitudeKey = 'weather_longitude';
+
   static SharedPreferences? _prefs;
   static bool _isInitialized = false;
+
+  // 常用城市列表
+  static const Map<String, List<double>> popularCities = {
+    '北京': [39.9, 116.4],
+    '上海': [31.2, 121.5],
+    '广州': [23.1, 113.3],
+    '深圳': [22.5, 114.1],
+    '成都': [30.6, 104.1],
+    '杭州': [30.3, 120.2],
+    '武汉': [30.6, 114.3],
+    '西安': [34.3, 108.9],
+    '南京': [32.1, 118.8],
+    '重庆': [29.6, 106.5],
+    '天津': [39.1, 117.2],
+    '苏州': [31.3, 120.6],
+    '郑州': [34.7, 113.6],
+    '长沙': [28.2, 112.9],
+    '青岛': [36.1, 120.4],
+  };
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -59,5 +83,33 @@ class UserPreferences {
   // 获取难度范围的最大值（用于筛选）
   static int getMaxDifficulty() {
     return getUserLevel().difficultyRange[1];
+  }
+
+  // ===== 位置设置 =====
+
+  // 获取保存的城市名称
+  static String getCityName() {
+    return prefs.getString(_cityNameKey) ?? '北京';
+  }
+
+  // 设置城市
+  static Future<void> setCity(String cityName) async {
+    await prefs.setString(_cityNameKey, cityName);
+    // 如果是预设城市，同时设置经纬度
+    if (popularCities.containsKey(cityName)) {
+      final coords = popularCities[cityName]!;
+      await prefs.setDouble(_latitudeKey, coords[0]);
+      await prefs.setDouble(_longitudeKey, coords[1]);
+    }
+  }
+
+  // 获取纬度
+  static double getLatitude() {
+    return prefs.getDouble(_latitudeKey) ?? popularCities[getCityName()]?[0] ?? 39.9;
+  }
+
+  // 获取经度
+  static double getLongitude() {
+    return prefs.getDouble(_longitudeKey) ?? popularCities[getCityName()]?[1] ?? 116.4;
   }
 }

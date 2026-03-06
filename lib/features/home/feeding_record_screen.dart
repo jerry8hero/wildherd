@@ -3,6 +3,7 @@ import '../../data/models/reptile.dart';
 import '../../data/models/record.dart';
 import '../../data/repositories/repositories.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'feeding_weather_screen.dart';
 
 class FeedingRecordScreen extends StatefulWidget {
   const FeedingRecordScreen({super.key});
@@ -61,6 +62,24 @@ class _FeedingRecordScreenState extends State<FeedingRecordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.feedingRecord),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.cloud),
+            tooltip: '天气喂食推荐',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedingWeatherScreen(
+                    speciesType: _selectedReptileId != null
+                        ? _reptiles.firstWhere((r) => r.id == _selectedReptileId).species
+                        : null,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
