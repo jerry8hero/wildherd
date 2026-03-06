@@ -34,6 +34,31 @@ class UserPreferences {
     '青岛': [36.1, 120.4],
   };
 
+  // 城市名称别名映射（用于兼容定位返回的城市名）
+  static const Map<String, String> cityAliases = {
+    '中山市': '中山',
+    '广州市': '广州',
+    '深圳市': '深圳',
+    '上海市': '上海',
+    '北京市': '北京',
+    '天津市': '天津',
+    '成都市': '成都',
+    '杭州市': '杭州',
+    '武汉市': '武汉',
+    '西安市': '西安',
+    '南京市': '南京',
+    '重庆市': '重庆',
+    '苏州市': '苏州',
+    '郑州市': '郑州',
+    '长沙市': '长沙',
+    '青岛市': '青岛',
+  };
+
+  /// 获取标准城市名称（处理别名）
+  static String getStandardCityName(String cityName) {
+    return cityAliases[cityName] ?? cityName;
+  }
+
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
     _isInitialized = true;

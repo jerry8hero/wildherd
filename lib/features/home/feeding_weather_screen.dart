@@ -65,10 +65,14 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
         );
 
         if (weather != null) {
+          // 将定位返回的城市名转换为标准名称
+          final standardCity = cityName != null
+              ? UserPreferences.getStandardCityName(cityName)
+              : cityName;
           setState(() {
             _currentWeather = weather;
             _forecast = weather.forecast;
-            _selectedCity = cityName ?? '当前位置';
+            _selectedCity = standardCity ?? '当前位置';
             _isManualMode = false;
           });
         } else {
