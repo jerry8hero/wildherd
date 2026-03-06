@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/models/weather.dart';
 import '../../data/services/weather_service.dart';
+import '../../data/services/location_service.dart';
 import '../../data/services/feeding_recommendation_service.dart';
 import '../../data/local/user_preferences.dart';
 
@@ -21,6 +22,7 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
   WeatherData? _currentWeather;
   List<ForecastDay>? _forecast;
   String _selectedCity = '北京';
+  bool _isLocating = false; // 正在定位中
 
   @override
   void initState() {
@@ -38,6 +40,87 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
         _isManualMode = false;
       });
     }
+  }
+
+  /// 通过定位获取天气
+  Future<void> _getWeatherByLocation() async {
+    setState(() {
+      _isLocating = true;
+    });
+
+    try {
+      final position = await LocationService.getCurrentPosition();
+      if (position != null) {
+        // 获取城市名称
+        final cityName = await LocationService.getCityName(
+          position.latitude,
+          position.longitude,
+        );
+
+        // 获取天气数据
+        final weather = await WeatherService.getFullWeather(
+          lat: position.latitude,
+          lon: position.longitude,
+          cityName: cityName ?? '当前位置',
+        );
+
+        if (weather != null) {
+          setState(() {
+            _currentWeather = weather;
+            _forecast = weather.forecast;
+            _selectedCity = cityName ?? '当前位置';
+            _isManualMode = false;
+          });
+        } else {
+          _showMessage('获取天气失败，请稍后重试');
+        }
+      } else {
+        // 定位失败，提示用户打开定位
+        final hasPermission = await LocationService.checkPermission();
+        if (!hasPermission) {
+          _showLocationPermissionDialog();
+        } else {
+          _showMessage('无法获取您的位置，请检查定位设置');
+        }
+      }
+    } catch (e) {
+      _showMessage('定位失败: $e');
+    } finally {
+      setState(() {
+        _isLocating = false;
+      });
+    }
+  }
+
+  void _showMessage(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
+  void _showLocationPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('需要定位权限'),
+        content: const Text('请开启定位权限以获取您所在地区的天气信息。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              LocationService.openAppSettings();
+            },
+            child: const Text('打开设置'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<WeatherData?> _getNetworkWeather() async {
@@ -76,6 +159,19 @@ class _FeedingWeatherScreenState extends State<FeedingWeatherScreen> {
       appBar: AppBar(
         title: const Text('喂食天气'),
         actions: [
+          // 定位按钮
+          IconButton(
+            icon: _isLocating
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.my_location),
+            onPressed: _isLocating ? null : _getWeatherByLocation,
+            tooltip: '定位获取天气',
+          ),
+          // 手动/自动模式切换
           IconButton(
             icon: Icon(_isManualMode ? Icons.cloud_off : Icons.cloud),
             onPressed: () {

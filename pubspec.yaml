@@ -29,6 +29,10 @@ dependencies:
   # 网络请求
   http: ^1.2.0
 
+  # 定位服务
+  geolocator: ^11.0.0
+  geocoding: ^3.0.0
+
   # 工具类
   intl: ^0.20.2
   shared_preferences: ^2.2.3
