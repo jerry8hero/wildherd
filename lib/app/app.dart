@@ -9,6 +9,7 @@ import '../features/encyclopedia/species_library_screen.dart';
 import '../features/virtual_pet/virtual_pet_screen.dart';
 import '../features/knowledge/knowledge_screen.dart';
 import '../features/medical/medical_screen.dart';
+import '../features/breeding/breeding_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -51,6 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     const VirtualPetScreen(),
     const KnowledgeScreen(),
     const MedicalScreen(),
+    const BreedingScreen(),
   ];
 
   @override
@@ -94,6 +96,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.medical_services_outlined),
             selectedIcon: Icon(Icons.medical_services),
             label: '医疗',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.egg_outlined),
+            selectedIcon: Icon(Icons.egg),
+            label: '繁殖',
           ),
         ],
       ),

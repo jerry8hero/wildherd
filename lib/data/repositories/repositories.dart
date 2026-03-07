@@ -9,6 +9,7 @@ import '../models/knowledge_category.dart';
 import '../models/knowledge_tip.dart';
 import '../models/knowledge_collection.dart';
 import '../models/faq.dart';
+import 'breeding_repository.dart';
 
 class ReptileRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
