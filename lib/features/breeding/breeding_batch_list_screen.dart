@@ -3,7 +3,7 @@ import '../../data/models/breeding.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../data/repositories/breeding_repository.dart';
-import '../../app/theme.dart';
+import 'breeding_egg_screen.dart';
 
 class BreedingBatchListScreen extends StatefulWidget {
   const BreedingBatchListScreen({super.key});
@@ -378,28 +378,38 @@ class _BreedingBatchListScreenState extends State<BreedingBatchListScreen> {
             if (batch.hatchedCount != null)
               _buildDetailRow('出壳数量', '${batch.hatchedCount}只'),
             const SizedBox(height: 16),
+
             // 操作按钮
-            Row(
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
               children: [
+                // 查看蛋按钮
+                if (batch.eggLayingDate != null)
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _openEggScreen(batch);
+                    },
+                    icon: const Icon(Icons.egg),
+                    label: Text('蛋 (${batch.eggCount ?? 0})'),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  ),
                 if (batch.status == 'mating' || batch.status == null)
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _updateEggLaying(batch);
-                      },
-                      child: const Text('记录产蛋'),
-                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _updateEggLaying(batch);
+                    },
+                    child: const Text('记录产蛋'),
                   ),
                 if (batch.eggLayingDate != null && batch.status != 'incubating' && batch.status != 'hatched')
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _updateIncubation(batch);
-                      },
-                      child: const Text('开始孵化'),
-                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _updateIncubation(batch);
+                    },
+                    child: const Text('开始孵化'),
                   ),
               ],
             ),
@@ -485,5 +495,15 @@ class _BreedingBatchListScreenState extends State<BreedingBatchListScreen> {
     );
     await _breedingRepo.saveBatch(updated);
     _loadData();
+  }
+
+  /// 打开蛋管理页面
+  void _openEggScreen(BreedingBatch batch) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BreedingEggScreen(batch: batch),
+      ),
+    ).then((_) => _loadData());
   }
 }
