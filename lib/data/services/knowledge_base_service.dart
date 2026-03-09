@@ -46,6 +46,11 @@ class Species {
   final String feeding;
   final String housing;
   final String care;
+  final String? breeding; // 繁殖指南
+  final String? commonDiseases; // 常见疾病
+  final String? selectionTips; // 选购建议
+  final String? personality; // 性格特点
+  final String? morphs; // 品系变异
   final List<String> tags;
   final String imageUrl;
 
@@ -67,6 +72,11 @@ class Species {
     this.feeding = '',
     this.housing = '',
     this.care = '',
+    this.breeding,
+    this.commonDiseases,
+    this.selectionTips,
+    this.personality,
+    this.morphs,
     this.tags = const [],
     this.imageUrl = '',
   });
@@ -90,6 +100,11 @@ class Species {
       feeding: json['feeding'] ?? '',
       housing: json['housing'] ?? '',
       care: json['care'] ?? '',
+      breeding: json['breeding'],
+      commonDiseases: json['commonDiseases'],
+      selectionTips: json['selectionTips'],
+      personality: json['personality'],
+      morphs: json['morphs'],
       tags: (json['tags'] as List?)?.cast<String>() ?? [],
       imageUrl: json['imageUrl'] ?? '',
     );
