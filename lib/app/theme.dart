@@ -20,6 +20,34 @@ class AppTheme {
     'mammal': Color(0xFFFFB74D),    // 橙色 - 哺乳动物
     'bird': Color(0xFF64B5F6),      // 浅蓝 - 鸟类
     'fish': Color(0xFF4DD0E1),      // 青色 - 鱼类
+    // 蛇类
+    'corn_snake': Color(0xFFFF7043),
+    'ball_python': Color(0xFF5C6BC0),
+    'black_kingsnake': Color(0xFF424242),
+    'milk_snake': Color(0xFFEF5350),
+    'hognose_snake': Color(0xFF8D6E63),
+    // 守宫
+    'leopard_gecko': Color(0xFFFFB300),
+    'crested_gecko': Color(0xFFFF8A65),
+    // 蜥蜴
+    'bearded_dragon': Color(0xFF8BC34A),
+    'green_iguana': Color(0xFF66BB6A),
+    'blue_tongue_skink': Color(0xFF78909C),
+    'veiled_chameleon': Color(0xFF26A69A),
+    // 龟类
+    'chinese_turtle': Color(0xFF29B6F6),
+    'red_eared_slider': Color(0xFF26C6DA),
+    'yellow_marginated_box_turtle': Color(0xFFFFCA28),
+    'keeled_box_turtle': Color(0xFF8D6E63),
+    'radiated_tortoise': Color(0xFF9CCC65),
+    'hermanns_tortoise': Color(0xFFFFEE58),
+    // 两栖
+    'pacman_frog': Color(0xFF66BB6A),
+    'axolotl': Color(0xFFEC407A),
+    // 蜘蛛
+    'chilean_rose_tarantula': Color(0xFFEF5350),
+    'mexican_red_knee': Color(0xFFFF7043),
+    'brazilian_white_knee': Color(0xFFEEEEEE),
   };
 
   static ThemeData get lightTheme {
