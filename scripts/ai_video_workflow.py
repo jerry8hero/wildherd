@@ -248,6 +248,85 @@ class AIVideoWorkflow:
             print(f"创建占位图失败: {e}")
         return None
 
+    def run_line_extraction(
+        self,
+        canny_low: int = 40,
+        canny_high: int = 120
+    ) -> List[str]:
+        """
+        Step 2.5: 线条提取后处理
+
+        将AI生成的彩色图像转换为纯线条画风格
+
+        Args:
+            canny_low: Canny边缘检测低阈值
+            canny_high: Canny边缘检测高阈值
+
+        Returns:
+            处理后的图片路径列表
+        """
+        print_step("2.5", "线条提取后处理")
+
+        if not self.frame_paths:
+            print_warning("没有图片需要处理")
+            return []
+
+        try:
+            import cv2
+            import numpy as np
+        except ImportError:
+            print_error("需要安装 OpenCV: pip install opencv-python")
+            return self.frame_paths
+
+        processed_paths = []
+        total = len(self.frame_paths)
+
+        for i, img_path in enumerate(self.frame_paths, 1):
+            try:
+                # 读取图像
+                img = cv2.imread(img_path)
+                if img is None:
+                    print_warning(f"无法读取: {img_path}")
+                    processed_paths.append(img_path)
+                    continue
+
+                # 转换为灰度
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+                # 模糊减少噪声
+                blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+
+                # 边缘检测
+                edges = cv2.Canny(blurred, canny_low, canny_high)
+
+                # 膨胀连接线条
+                kernel = np.ones((2, 2), np.uint8)
+                edges = cv2.dilate(edges, kernel, iterations=1)
+
+                # 腐蚀细化
+                kernel = np.ones((1, 1), np.uint8)
+                edges = cv2.erode(edges, kernel, iterations=1)
+
+                # 反转：白底黑线 -> 黑底白线
+                line_art = 255 - edges
+
+                # 保存
+                path = Path(img_path)
+                output_path = path.parent / f"{path.stem}_lineart{path.suffix}"
+                cv2.imwrite(str(output_path), line_art)
+
+                processed_paths.append(str(output_path))
+                print(f"  [{i}/{total}] 已处理: {path.name}")
+
+            except Exception as e:
+                print_warning(f"处理失败 {img_path}: {e}")
+                processed_paths.append(img_path)
+
+        self.frame_paths = processed_paths
+        print_success(f"线条提取完成: {len(processed_paths)} 张图片")
+
+        return processed_paths
+
     def run_tts(self, voice: str = "xiaoxiao") -> str:
         """
         Step 3: 生成 TTS 配音
@@ -642,6 +721,9 @@ class AIVideoWorkflow:
                     "success": len(frames) > 0,
                     "frames": len(frames)
                 }
+
+                # Step 2.5: 线条提取后处理
+                self.run_line_extraction()
 
             # Step 3: TTS
             audio_path = self.run_tts(voice=voice)

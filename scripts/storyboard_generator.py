@@ -42,8 +42,11 @@ LINEART_PROMPT_TEMPLATE = """
 """
 
 NEGATIVE_PROMPT = """
-照片写实风格, 彩色, 模糊, 噪点, 低质量, 变形, 扭曲, 错误解剖,
-过多手指, 畸形肢体, 面部错误, 暴力, 血腥, 色情, 水印, 文字
+photo realistic, photorealistic, 3d render, real photograph, blurry, noise, low quality,
+distorted, bad anatomy, extra fingers, deformed limbs, bad hands, face errors,
+watermark, text, gray background, grey background, shading, gradient, realistic texture,
+complex lighting, soft shading, detailed shadows, oil painting, watercolor, messy, cluttered,
+dark, moody, dramatic lighting, cinematic
 """
 
 
@@ -143,26 +146,11 @@ class StoryboardGenerator:
         # 生成场景描述
         description = info["raw_text"].replace("\n", " ")[:100]
 
-        # 生成正向提示词
-        prompt_parts = []
+        # 分析场景内容类型，生成对应的视觉描述
+        scene_type = self._analyze_scene_type(scene_text)
 
-        # 风格定义
-        prompt_parts.append("line art, sketch, clean lines, minimal shading")
-
-        # 主体
-        if info["main_subject"]:
-            prompt_parts.append(f"{info['main_subject']}")
-
-        # 关键词
-        for kw in info["keywords"][:5]:
-            if kw != info["main_subject"]:
-                prompt_parts.append(kw)
-
-        # 添加爬宠相关词汇
-        reptile_keywords = ["turtle", "reptile", "aquarium", "water", "nature"]
-        prompt_parts.extend(reptile_keywords)
-
-        prompt = ", ".join(prompt_parts)
+        # 生成专业的线条画提示词
+        prompt = self._build_lineart_prompt(info, scene_type)
 
         return {
             "scene_id": scene_num,
@@ -171,6 +159,65 @@ class StoryboardGenerator:
             "prompt": prompt,
             "negative_prompt": NEGATIVE_PROMPT.strip()
         }
+
+    def _analyze_scene_type(self, scene_text: str) -> str:
+        """分析场景内容类型"""
+        text_lower = scene_text.lower()
+
+        if any(kw in text_lower for kw in ["缸", "水缸", "容器", "饲养"]):
+            return "tank_aquarium"
+        elif any(kw in text_lower for kw in ["过滤", "过滤器", "滤材"]):
+            return "filtration"
+        elif any(kw in text_lower for kw in ["加热", "温度", "加热棒", "恒温"]):
+            return "heating"
+        elif any(kw in text_lower for kw in ["喂食", "吃东西", "开食", "饲料"]):
+            return "feeding"
+        elif any(kw in text_lower for kw in ["安全", "夹子", "手套", "工具"]):
+            return "safety_tools"
+        elif any(kw in text_lower for kw in ["龟", "鳄龟", "爬宠"]):
+            return "turtle"
+        else:
+            return "general"
+
+    def _build_lineart_prompt(self, info: Dict, scene_type: str) -> str:
+        """
+        构建插画提示词
+
+        注意：SDXL不擅长纯线条画，所以这里生成风格化插画，
+        然后通过后处理（Canny边缘检测）提取线条
+        """
+
+        # 场景类型对应的视觉元素 - 使用清晰结构化的描述
+        visual_elements = {
+            "tank_aquarium": "a large glass aquarium tank, clear water, gravel bottom, simple minimal style, clean edges and outlines",
+            "filtration": "an aquarium filtration system, multiple filter boxes, water pump, clean mechanical design, clear structure",
+            "heating": "a water heater rod thermostat, temperature gauge, warm water bubbles, aquarium equipment",
+            "feeding": "a turtle eating food pellets, hand holding tweezers, simple aquarium scene",
+            "safety_tools": "turtle handling tools, long tongs, protective gloves, a turtle, simple composition",
+            "turtle": "an alligator snapping turtle, close up view, visible shell pattern, strong legs, underwater",
+            "general": "a simple clean illustration, clear subject, minimal background"
+        }
+
+        elements = visual_elements.get(scene_type, visual_elements["general"])
+
+        # 主体
+        subject = info.get("main_subject", "turtle")
+        subject_mapping = {
+            "鳄龟": "an alligator snapping turtle",
+            "大鳄龟": "a large alligator snapping turtle",
+            "小鳄龟": "a small turtle",
+            "草龟": "a Chinese pond turtle",
+            "巴西龟": "a red-eared slider turtle",
+            "龟": "a turtle",
+            "爬宠": "a reptile pet"
+        }
+        subject_desc = subject_mapping.get(subject, subject)
+
+        # 构建提示词 - 生成风格化插画
+        # SDXL擅长生成这类内容，然后通过后处理提取线条
+        prompt = f"a clean digital illustration, {subject_desc}, {elements}, minimalist style, clear edges, simple shapes, solid colors, vector art style, flat design, no complex shading"
+
+        return prompt
 
     def _estimate_duration(self, scene_text: str) -> int:
         """
