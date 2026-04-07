@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
 """
-Markdown 转小红书配图工具
+Markdown 转多平台配图工具
+
+支持平台:
+    - 小红书 (3:4 竖屏): 1080x1440
+    - B站 (16:9 横屏): 1920x1080
+    - 抖音 (9:16 竖屏): 1080x1920
+    - 视频号 (9:16 竖屏): 1080x1920
 
 用法:
+    # 生成多平台封面
+    python md2xiaohongshu.py --title "标题" --subtitle "副标题" --output ./output
+
+    # 列出支持的平台
+    python md2xiaohongshu.py --list-platforms
+
+    # Markdown转小红书配图
     python md2xiaohongshu.py <输入.md> [输出目录]
 
 示例:
-    python md2xiaohongshu.py 01-养草龟需要准备什么_小红书配图版.md ./output
+    python md2xiaohongshu.py --title "大鳄龟vs小鳄龟" --subtitle "新手入门"
+    python md2xiaohongshu.py 01-养草龟需要准备什么.md ./output
 
 依赖安装:
     pip install markdown Pillow
@@ -38,6 +52,14 @@ except ImportError:
 # 小红书配图尺寸 (3:4 竖屏)
 XHS_WIDTH = 1080
 XHS_HEIGHT = 1440
+
+# 多平台尺寸配置
+PLATFORM_SIZES = {
+    "xiaohongshu": {"width": 1080, "height": 1440, "name": "小红书", "ratio": "3:4"},
+    "bilibili": {"width": 1920, "height": 1080, "name": "B站", "ratio": "16:9"},
+    "douyin": {"width": 1080, "height": 1920, "name": "抖音", "ratio": "9:16"},
+    "video_account": {"width": 1080, "height": 1920, "name": "视频号", "ratio": "9:16"},
+}
 
 # 颜色配置
 COLORS = {
@@ -250,7 +272,7 @@ def parse_markdown_to_blocks(md_content: str) -> List[dict]:
 
 
 def create_cover_image(title: str, subtitle: str = "", output_path: str = "cover.png") -> str:
-    """创建封面图"""
+    """创建封面图（默认小红书3:4竖屏）"""
     img = Image.new("RGB", (XHS_WIDTH, XHS_HEIGHT), COLORS["dark_bg"])
     draw = ImageDraw.Draw(img)
 
@@ -307,6 +329,135 @@ def create_cover_image(title: str, subtitle: str = "", output_path: str = "cover
     img.save(output_path)
     print(f"封面图已保存: {output_path}")
     return output_path
+
+
+def create_multipplatform_cover(
+    title: str,
+    subtitle: str = "",
+    platform: str = "xiaohongshu",
+    output_dir: str = "output"
+) -> dict:
+    """
+    为多个平台生成不同尺寸的封面
+
+    Args:
+        title: 封面标题
+        subtitle: 副标题
+        platform: 默认平台 (xiaohongshu/bilibili/douyin/video_account)
+        output_dir: 输出目录
+
+    Returns:
+        各平台封面路径字典
+    """
+    os.makedirs(output_dir, exist_ok=True)
+    base_name = title.replace("-", " ").replace(" ", "").replace("/", "_")
+
+    output_files = {}
+
+    for p, config in PLATFORM_SIZES.items():
+        width = config["width"]
+        height = config["height"]
+        platform_name = config["name"]
+
+        img = Image.new("RGB", (width, height), COLORS["dark_bg"])
+        draw = ImageDraw.Draw(img)
+
+        # 根据平台调整布局
+        if p == "bilibili":
+            # B站横屏16:9布局
+            # 顶部装饰条
+            draw.rectangle([(0, 0), (width, 80)], fill=COLORS["accent"])
+
+            # 标题
+            font_title = get_font(100, bold=True)
+            if len(title) > 15:
+                mid = len(title) // 2
+                for i in range(mid, 0, -1):
+                    if title[i] in ' \n-':
+                        break
+                line1 = title[:i].strip()
+                line2 = title[i:].strip()
+                bbox1 = draw.textbbox((0, 0), line1, font=font_title)
+                line1_width = bbox1[2] - bbox1[0]
+                bbox2 = draw.textbbox((0, 0), line2, font=font_title)
+                line2_width = bbox2[2] - bbox2[0]
+                draw.text(((width - line1_width) // 2, 200), line1, fill=COLORS["white"], font=font_title)
+                draw.text(((width - line2_width) // 2, 200 + 120), line2, fill=COLORS["white"], font=font_title)
+                subtitle_y = 200 + 240
+            else:
+                bbox = draw.textbbox((0, 0), title, font=font_title)
+                title_width = bbox[2] - bbox[0]
+                draw.text(((width - title_width) // 2, 250), title, fill=COLORS["white"], font=font_title)
+                subtitle_y = 400
+
+            if subtitle:
+                font_subtitle = get_font(56)
+                bbox = draw.textbbox((0, 0), subtitle, font=font_subtitle)
+                subtitle_width = bbox[2] - bbox[0]
+                draw.text(((width - subtitle_width) // 2, subtitle_y), subtitle, fill=COLORS["accent"], font=font_subtitle)
+
+            # 底部装饰
+            draw.rectangle([(0, height - 120), (width, height)], fill=COLORS["secondary"])
+            font_info = get_font(40)
+            info_text = "B站：爬宠博主"
+            bbox = draw.textbbox((0, 0), info_text, font=font_info)
+            info_width = bbox[2] - bbox[0]
+            draw.text(((width - info_width) // 2, height - 90), info_text, fill=COLORS["white"], font=font_info)
+
+        else:
+            # 竖屏布局（抖音/小红书/视频号）
+            # 顶部装饰条
+            draw.rectangle([(0, 0), (width, 60)], fill=COLORS["accent"])
+
+            # 标题
+            font_title = get_font(80, bold=True)
+            if len(title) > 10:
+                mid = len(title) // 2
+                for i in range(mid, 0, -1):
+                    if title[i] in ' \n-':
+                        break
+                line1 = title[:i].strip()
+                line2 = title[i:].strip()
+                bbox1 = draw.textbbox((0, 0), line1, font=font_title)
+                line1_width = bbox1[2] - bbox1[0]
+                bbox2 = draw.textbbox((0, 0), line2, font=font_title)
+                line2_width = bbox2[2] - bbox2[0]
+                draw.text(((width - line1_width) // 2, 140), line1, fill=COLORS["white"], font=font_title)
+                draw.text(((width - line2_width) // 2, 140 + 95), line2, fill=COLORS["white"], font=font_title)
+                subtitle_y = 140 + 190
+            else:
+                bbox = draw.textbbox((0, 0), title, font=font_title)
+                title_width = bbox[2] - bbox[0]
+                draw.text(((width - title_width) // 2, 180), title, fill=COLORS["white"], font=font_title)
+                subtitle_y = 300
+
+            if subtitle:
+                font_subtitle = get_font(42)
+                bbox = draw.textbbox((0, 0), subtitle, font=font_subtitle)
+                subtitle_width = bbox[2] - bbox[0]
+                draw.text(((width - subtitle_width) // 2, subtitle_y), subtitle, fill=COLORS["accent"], font=font_subtitle)
+
+            # 底部装饰
+            bottom_height = 160 if p == "xiaohongshu" else 140
+            draw.rectangle([(0, height - bottom_height), (width, height)], fill=COLORS["secondary"])
+
+            font_info = get_font(32)
+            if p == "xiaohongshu":
+                info_text = "小红书：爬宠博主"
+            elif p == "douyin":
+                info_text = "抖音：爬宠博主"
+            else:
+                info_text = "视频号：爬宠博主"
+            bbox = draw.textbbox((0, 0), info_text, font=font_info)
+            info_width = bbox[2] - bbox[0]
+            draw.text(((width - info_width) // 2, height - bottom_height + 50), info_text, fill=COLORS["white"], font=font_info)
+
+        output_path = os.path.join(output_dir, f"{base_name}_{p}_cover.png")
+        img.save(output_path)
+        output_files[p] = output_path
+        print(f"{platform_name}封面已保存: {output_path}")
+
+    return output_files
 
 
 def create_page_image(
@@ -804,12 +955,56 @@ def md_to_xiaohongshu(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Markdown 转小红书配图工具")
-    parser.add_argument("input", help="输入的 Markdown 文件路径")
-    parser.add_argument("output", nargs="?", default="output", help="输出目录 (默认: output)")
+    parser = argparse.ArgumentParser(description="Markdown 转多平台配图工具")
+    parser.add_argument("input", nargs="?", help="输入的 Markdown 文件路径")
+    parser.add_argument("--output", "-o", default="output", help="输出目录 (默认: output)")
     parser.add_argument("--theme", "-t", default="nature", choices=["nature", "dark", "light"], help="主题风格")
+    parser.add_argument("--platform", "-p", default="xiaohongshu",
+                        choices=["xiaohongshu", "bilibili", "douyin", "video_account", "all"],
+                        help="目标平台 (默认: xiaohongshu)")
+    parser.add_argument("--title", help="直接指定封面标题 (跳过Markdown解析)")
+    parser.add_argument("--subtitle", default="新手必看", help="封面副标题")
+    parser.add_argument("--list-platforms", action="store_true", help="列出支持的平台")
 
     args = parser.parse_args()
+
+    # 列出支持的平台
+    if args.list_platforms:
+        print("支持的平台:")
+        for p, config in PLATFORM_SIZES.items():
+            print(f"  {p}: {config['name']} ({config['ratio']}) - {config['width']}x{config['height']}")
+        return
+
+    # 多平台封面生成模式
+    if args.title:
+        if not args.input:
+            args.input = "."
+        print(f"生成多平台封面: {args.title}")
+        print(f"副标题: {args.subtitle}")
+        print("-" * 50)
+        output_files = create_multipplatform_cover(
+            title=args.title,
+            subtitle=args.subtitle,
+            platform=args.platform if args.platform != "all" else "xiaohongshu",
+            output_dir=args.output
+        )
+        print("-" * 50)
+        print(f"完成! 共生成 {len(output_files)} 个平台封面")
+        return
+
+    # Markdown 转配图模式
+    if not args.input:
+        print("错误: 请提供 Markdown 文件路径 或使用 --title 直接指定标题")
+        print("用法:")
+        print("  # 生成多平台封面")
+        print("  python md2xiaohongshu.py --title '标题' --subtitle '副标题'")
+        print("")
+        print("  # Markdown转配图")
+        print("  python md2xiaohongshu.py <输入.md>")
+        print("")
+        print("  # 列出支持的平台")
+        print("  python md2xiaohongshu.py --list-platforms")
+        sys.exit(1)
 
     if not os.path.exists(args.input):
         print(f"错误: 文件不存在 {args.input}")

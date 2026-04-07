@@ -1,0 +1,130 @@
+# 爬宠博主发布排期配置
+# 定义内容发布计划和提醒规则
+
+# 发布平台配置
+platforms:
+  bilibili:
+    enabled: true
+    schedule:
+      primary:
+        - day: "周三"
+          time: "19:00-21:00"
+        - day: "周六"
+          time: "19:00-21:00"
+      secondary:
+        - day: "周二"
+          time: "12:00-14:00"
+        - day: "周日"
+          time: "15:00-17:00"
+
+  douyin:
+    enabled: false
+    schedule:
+      daily: true
+      time: "12:00"  # 从B站内容二次创作
+
+  xiaohongshu:
+    enabled: false
+    schedule:
+      - day: "周一"
+        time: "12:00"
+      - day: "周三"
+        time: "12:00"
+      - day: "周五"
+        time: "12:00"
+
+  video_account:
+    enabled: false
+    schedule:
+      - day: "周四"
+        time: "20:00"
+
+# 内容类型配置
+content_types:
+  - name: "新手入门"
+    priority: 1
+    tags: ["新手", "入门", "教程"]
+    platform: ["bilibili"]
+
+  - name: "品种科普"
+    priority: 2
+    tags: ["品种", "科普", "知识"]
+    platform: ["bilibili", "xiaohongshu"]
+
+  - name: "饲养技巧"
+    priority: 2
+    tags: ["饲养", "技巧", "经验"]
+    platform: ["bilibili"]
+
+  - name: "混养安全"
+    priority: 3
+    tags: ["混养", "安全", "警示"]
+    platform: ["bilibili"]
+
+  - name: "健康护理"
+    priority: 2
+    tags: ["健康", "疾病", "治疗"]
+    platform: ["bilibili", "xiaohongshu"]
+
+  - name: "价格分析"
+    priority: 4
+    tags: ["价格", "行情", "推荐"]
+    platform: ["bilibili", "xiaohongshu"]
+
+# 提醒规则
+reminders:
+  before_publish:
+    - days: 1
+      message: "明天有发布计划，请确认内容准备就绪"
+    - days: 0
+      message: "今天是发布日，请登录B站创作者平台进行发布"
+    - hours: 2
+      message: "发布前2小时提醒"
+
+  content_buffer:
+    min_weeks: 2  # 内容缓冲至少2周存量
+    max_weeks: 4  # 最多准备4周内容
+
+# 发布前检查清单
+publish_checklist:
+  - "视频内容已审核无误"
+  - "封面图片已生成"
+  - "标题已确认"
+  - "标签已设置（20个）"
+  - "简介已撰写"
+  - "定时发布已设置"
+  - "评论区置顶内容已准备"
+  - "系列合集已关联"
+
+# 视频规格配置
+video_specs:
+  bilibili:
+    aspect_ratio: "16:9"
+    max_duration: 900  # 15分钟
+    recommended_duration: [300, 600]  # 5-10分钟
+    cover_size: [1920, 1080]
+
+  douyin:
+    aspect_ratio: "9:16"
+    max_duration: 60
+    recommended_duration: [15, 45]
+    cover_size: [1080, 1920]
+
+  xiaohongshu:
+    aspect_ratio: "3:4"
+    max_duration: 300
+    recommended_duration: [60, 180]
+    cover_size: [1080, 1440]
+
+# 数据目标
+goals:
+  monthly:
+    new_videos: 8
+    avg_views: 5000
+    new_followers: 500
+
+  quarterly:
+    new_videos: 24
+    avg_views: 8000
+    new_followers: 2000
+    top_video_views: 50000
