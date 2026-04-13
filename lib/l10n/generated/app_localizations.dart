@@ -1165,6 +1165,54 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'收起'**
   String get less;
+
+  /// No description provided for @exportData.
+  ///
+  /// In zh, this message translates to:
+  /// **'导出数据'**
+  String get exportData;
+
+  /// No description provided for @exportDataDesc.
+  ///
+  /// In zh, this message translates to:
+  /// **'将数据导出为 JSON 文件'**
+  String get exportDataDesc;
+
+  /// No description provided for @exportToMiniProgram.
+  ///
+  /// In zh, this message translates to:
+  /// **'迁移到小程序'**
+  String get exportToMiniProgram;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In zh, this message translates to:
+  /// **'导出成功'**
+  String get exportSuccess;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'导出失败'**
+  String get exportFailed;
+
+  /// No description provided for @exporting.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在导出...'**
+  String get exporting;
+
+  /// No description provided for @shareData.
+  ///
+  /// In zh, this message translates to:
+  /// **'分享数据文件'**
+  String get shareData;
+
+  /// No description provided for @dataBackup.
+  ///
+  /// In zh, this message translates to:
+  /// **'数据备份'**
+  String get dataBackup;
 }
 
 class _AppLocalizationsDelegate

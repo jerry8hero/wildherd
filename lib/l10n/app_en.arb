@@ -197,5 +197,14 @@
 
   "viewAll": "View All",
   "more": "More",
-  "less": "Less"
+  "less": "Less",
+
+  "exportData": "Export Data",
+  "exportDataDesc": "Export data as JSON file",
+  "exportToMiniProgram": "Migrate to Mini Program",
+  "exportSuccess": "Export successful",
+  "exportFailed": "Export failed",
+  "exporting": "Exporting...",
+  "shareData": "Share Data File",
+  "dataBackup": "Data Backup"
 }

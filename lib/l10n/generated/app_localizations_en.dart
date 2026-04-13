@@ -546,4 +546,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get less => 'Less';
+
+  @override
+  String get exportData => 'Export Data';
+
+  @override
+  String get exportDataDesc => 'Export data as JSON file';
+
+  @override
+  String get exportToMiniProgram => 'Migrate to Mini Program';
+
+  @override
+  String get exportSuccess => 'Export successful';
+
+  @override
+  String get exportFailed => 'Export failed';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get shareData => 'Share Data File';
+
+  @override
+  String get dataBackup => 'Data Backup';
 }

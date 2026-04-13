@@ -228,5 +228,14 @@
 
   "viewAll": "查看全部",
   "more": "更多",
-  "less": "收起"
+  "less": "收起",
+
+  "exportData": "导出数据",
+  "exportDataDesc": "将数据导出为 JSON 文件",
+  "exportToMiniProgram": "迁移到小程序",
+  "exportSuccess": "导出成功",
+  "exportFailed": "导出失败",
+  "exporting": "正在导出...",
+  "shareData": "分享数据文件",
+  "dataBackup": "数据备份"
 }

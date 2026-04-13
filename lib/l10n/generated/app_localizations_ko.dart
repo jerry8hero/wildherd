@@ -546,4 +546,28 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get less => '접기';
+
+  @override
+  String get exportData => '导出数据';
+
+  @override
+  String get exportDataDesc => '将数据导出为 JSON 文件';
+
+  @override
+  String get exportToMiniProgram => '迁移到小程序';
+
+  @override
+  String get exportSuccess => '导出成功';
+
+  @override
+  String get exportFailed => '导出失败';
+
+  @override
+  String get exporting => '正在导出...';
+
+  @override
+  String get shareData => '分享数据文件';
+
+  @override
+  String get dataBackup => '数据备份';
 }

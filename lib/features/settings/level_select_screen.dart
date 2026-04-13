@@ -4,6 +4,7 @@ import '../../app/theme.dart';
 import '../../app/locale_provider.dart';
 import '../../data/models/user.dart';
 import '../../data/local/user_preferences.dart';
+import '../../data/services/data_export_service.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'schedule_settings_screen.dart';
 
@@ -16,6 +17,8 @@ class LevelSelectScreen extends ConsumerStatefulWidget {
 
 class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
   late UserLevel _selectedLevel;
+  final DataExportService _exportService = DataExportService();
+  bool _isExporting = false;
 
   @override
   void initState() {
@@ -36,6 +39,51 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
           backgroundColor: Colors.green,
         ),
       );
+    }
+  }
+
+  Future<void> _exportData() async {
+    if (_isExporting) return;
+
+    setState(() {
+      _isExporting = true;
+    });
+
+    try {
+      final l10n = AppLocalizations.of(context)!;
+
+      // 显示正在导出提示
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.exporting),
+          duration: const Duration(seconds: 1),
+        ),
+      );
+
+      final success = await _exportService.shareExport();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(success ? l10n.exportSuccess : l10n.exportFailed),
+            backgroundColor: success ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.exportFailed),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isExporting = false;
+      });
     }
   }
 
@@ -97,6 +145,23 @@ class _LevelSelectScreenState extends ConsumerState<LevelSelectScreen> {
                 subtitle: Text(localeNotifier.getLanguageName(currentLocale.languageCode)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: _showLanguageDialog,
+              ),
+            ),
+            const SizedBox(height: 16),
+            // 数据导出设置
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.upload, color: AppTheme.primaryColor),
+                title: Text(l10n.exportData),
+                subtitle: Text(l10n.exportDataDesc),
+                trailing: _isExporting
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.chevron_right),
+                onTap: _isExporting ? null : _exportData,
               ),
             ),
             const SizedBox(height: 16),
