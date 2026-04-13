@@ -1,0 +1,159 @@
+/* pages/index/index.wxss */
+
+/* 天气卡片 */
+.weather-card {
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  color: white;
+  padding: 40rpx;
+  margin: 20rpx;
+  border-radius: 24rpx;
+}
+
+.weather-main {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+
+.weather-temp {
+  font-size: 80rpx;
+  font-weight: bold;
+  margin-right: 20rpx;
+}
+
+.weather-text {
+  font-size: 32rpx;
+  opacity: 0.9;
+}
+
+.weather-detail {
+  font-size: 28rpx;
+  opacity: 0.85;
+  margin-bottom: 10rpx;
+}
+
+.weather-advice {
+  font-size: 26rpx;
+  opacity: 0.8;
+}
+
+/* 快捷入口 */
+.quick-actions {
+  display: flex;
+  padding: 0 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.action-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-right: 20rpx;
+}
+
+.action-item:last-child {
+  margin-right: 0;
+}
+
+.action-item image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.action-item text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 列表标题 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.add-btn {
+  color: var(--primary-color);
+  font-size: 28rpx;
+}
+
+/* 宠物列表 */
+.pet-list {
+  padding: 0 20rpx;
+}
+
+.pet-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.pet-image {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 24rpx;
+}
+
+.pet-image image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+}
+
+.pet-avatar {
+  width: 100%;
+  height: 100%;
+  background: var(--primary-light);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  border-radius: 16rpx;
+}
+
+.pet-info {
+  flex: 1;
+}
+
+.pet-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.pet-species {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.pet-meta {
+  display: flex;
+  align-items: center;
+}
+
+.pet-arrow {
+  color: var(--text-placeholder);
+}
+
+/* 空状态 */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  padding: 100rpx;
+}

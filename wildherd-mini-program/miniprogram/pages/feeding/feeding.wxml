@@ -1,0 +1,77 @@
+<!-- pages/feeding/feeding.wxml -->
+<view class="page-container">
+  <!-- 宠物筛选 -->
+  <view class="filter-bar" wx:if="{{pets.length > 0}}">
+    <text class="filter-label">筛选爬宠：</text>
+    <picker mode="selector" range="{{pets}}" range-key="name" value="0" bindchange="onPetChange">
+      <view class="filter-value">
+        {{selectedPetId ? (pets.find(p => p._id === selectedPetId)?.name || '全部') : '全部'}}
+        <van-icon name="arrow-down" />
+      </view>
+    </picker>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list">
+    <block wx:if="{{loading}}">
+      <view class="loading-state"><van-loading size="24px">加载中...</van-loading></view>
+    </block>
+    <block wx:elif="{{records.length > 0}}">
+      <view wx:for="{{records}}" wx:key="_id" class="record-card">
+        <view class="record-main">
+          <view class="record-icon feeding-icon"><van-icon name="shopping-o" /></view>
+          <view class="record-info">
+            <view class="record-title">{{item.foodType}}</view>
+            <view class="record-meta">
+              <text wx:if="{{item.foodAmount}}">{{item.foodAmount}}g</text>
+              <text class="ml-20">{{item.feedingTime}}</text>
+            </view>
+          </view>
+        </view>
+        <van-icon name="delete-o" class="delete-btn" bindtap="deleteRecord" data-id="{{item._id}}" />
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-state">
+        <image src="/assets/icons/empty-record.png" mode="aspectFit" />
+        <text>暂无喂食记录</text>
+        <van-button type="primary" size="small" class="mt-20" bindtap="openAddModal">添加记录</van-button>
+      </view>
+    </block>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="fab" bindtap="openAddModal" wx:if="{{records.length > 0}}">+</view>
+
+  <!-- 添加弹窗 -->
+  <van-popup show="{{showAddModal}}" position="bottom" round bind:close="closeModal">
+    <view class="add-modal">
+      <view class="modal-header">
+        <text>添加喂食记录</text>
+        <van-icon name="cross" bindtap="closeModal" />
+      </view>
+      <view class="modal-body">
+        <van-cell-group>
+          <van-cell title="爬宠">
+            <picker mode="selector" range="{{pets}}" range-key="name" value="0" bindchange="onFormChange" data-field="reptileId">
+              <view>{{pets.find(p => p._id === formData.reptileId)?.name || '请选择'}}</view>
+            </picker>
+          </van-cell>
+          <van-cell title="食物类型">
+            <picker mode="selector" range="{{foodTypes}}" range-key="text" value="0" bindchange="onFormChange" data-field="foodType">
+              <view>{{foodTypes.find(f => f.value === formData.foodType)?.text || '请选择'}}</view>
+            </picker>
+          </van-cell>
+          <van-field label="重量(g)" type="digit" placeholder="可选" value="{{formData.foodAmount}}" data-field="foodAmount" bind:change="onFormChange" />
+          <van-cell title="喂食日期">
+            <picker mode="date" value="{{formData.feedingTime}}" bindchange="onFormChange" data-field="feedingTime">
+              <view>{{formData.feedingTime}}</view>
+            </picker>
+          </van-cell>
+          <van-field label="备注" placeholder="可选" value="{{formData.notes}}" data-field="notes" bind:change="onFormChange" />
+        </van-cell-group>
+        <van-button type="primary" size="large" class="mt-20" bindtap="submitRecord">保存</van-button>
+      </view>
+    </view>
+  </van-popup>
+</view>

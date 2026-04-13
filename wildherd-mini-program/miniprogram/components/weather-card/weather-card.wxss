@@ -1,0 +1,36 @@
+/* components/weather-card/weather-card.wxss */
+
+.weather-card {
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  color: white;
+  padding: 40rpx;
+  border-radius: 24rpx;
+}
+
+.weather-main {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+
+.weather-temp {
+  font-size: 80rpx;
+  font-weight: bold;
+  margin-right: 20rpx;
+}
+
+.weather-text {
+  font-size: 32rpx;
+  opacity: 0.9;
+}
+
+.weather-detail {
+  font-size: 28rpx;
+  opacity: 0.85;
+  margin-bottom: 10rpx;
+}
+
+.weather-advice {
+  font-size: 26rpx;
+  opacity: 0.8;
+}

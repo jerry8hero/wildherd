@@ -1,0 +1,10 @@
+/* pages/pet-edit/pet-edit.wxss - 与 pet-add 相同 */
+.page-container { padding-bottom: 120rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; margin-bottom: 30rpx; }
+.image-upload { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 200rpx; height: 200rpx; margin: 0 auto 40rpx; background: var(--bg-color); border-radius: 16rpx; border: 2rpx dashed var(--border-color); }
+.image-upload image { width: 100%; height: 100%; border-radius: 16rpx; }
+.image-upload text { margin-top: 10rpx; font-size: 24rpx; }
+.picker-value { color: var(--text-placeholder); }
+.picker-value:not(:empty) { color: var(--text-primary); }
+.submit-area { position: fixed; bottom: 0; left: 0; right: 0; padding: 20rpx; background: white; box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05); }
+.van-radio-group { display: flex; flex-wrap: wrap; }

@@ -1,0 +1,18 @@
+/* pages/health/health.wxss - 与 feeding.wxss 类似 */
+
+.filter-bar { display: flex; align-items: center; padding: 20rpx; background: white; margin-bottom: 20rpx; }
+.filter-label { font-size: 28rpx; color: var(--text-secondary); }
+.filter-value { display: flex; align-items: center; color: var(--primary-color); font-size: 28rpx; }
+.record-list { padding: 0 20rpx; }
+.record-card { display: flex; align-items: center; justify-content: space-between; background: white; padding: 30rpx; border-radius: 16rpx; margin-bottom: 20rpx; }
+.record-main { display: flex; align-items: center; flex: 1; }
+.record-icon { width: 80rpx; height: 80rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 24rpx; }
+.health-icon { background: #E3F2FD; color: #2196F3; }
+.record-title { font-size: 30rpx; font-weight: bold; margin-bottom: 8rpx; }
+.record-meta { font-size: 26rpx; color: var(--text-secondary); margin-bottom: 8rpx; }
+.record-tags { display: flex; }
+.delete-btn { color: var(--text-placeholder); padding: 10rpx; }
+.fab { position: fixed; right: 40rpx; bottom: 120rpx; width: 100rpx; height: 100rpx; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 60rpx; box-shadow: 0 4rpx 20rpx rgba(76, 175, 80, 0.4); }
+.add-modal { padding: 30rpx; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30rpx; font-size: 32rpx; font-weight: bold; }
+.loading-state { display: flex; justify-content: center; padding: 100rpx; }

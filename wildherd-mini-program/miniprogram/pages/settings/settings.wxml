@@ -1,0 +1,52 @@
+<!-- pages/settings/settings.wxml -->
+<view class="page-container">
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <view class="user-avatar">
+      <image wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view wx:else class="avatar-placeholder">
+        <van-icon name="user-o" size="60rpx" />
+      </view>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo.nickName || '微信用户'}}</text>
+      <text class="user-level text-secondary">Lv.{{userInfo.level || 'beginner'}}</text>
+    </view>
+  </view>
+
+  <!-- 设置列表 -->
+  <view class="settings-group">
+    <van-cell title="语言切换" is-link bindtap="switchLanguage">
+      <view slot="icon">
+        <van-icon name="exchange" class="cell-icon" />
+      </view>
+      <view slot="right-icon">{{language === 'zh' ? '中文' : 'English'}}</view>
+    </van-cell>
+  </view>
+
+  <view class="settings-group">
+    <van-cell title="导出数据" is-link bindtap="exportData">
+      <view slot="icon">
+        <van-icon name="upgrade" class="cell-icon" />
+      </view>
+    </van-cell>
+    <van-cell title="清除缓存" is-link bindtap="clearCache">
+      <view slot="icon">
+        <van-icon name="delete-o" class="cell-icon" />
+      </view>
+    </van-cell>
+  </view>
+
+  <view class="settings-group">
+    <van-cell title="关于我们" is-link bindtap="showAbout">
+      <view slot="icon">
+        <van-icon name="info-o" class="cell-icon" />
+      </view>
+    </van-cell>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="text-secondary">WildHerd v{{version}}</text>
+  </view>
+</view>

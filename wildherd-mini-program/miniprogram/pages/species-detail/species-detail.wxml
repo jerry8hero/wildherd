@@ -1,0 +1,62 @@
+<!-- pages/species-detail/species-detail.wxml -->
+<view class="page-container">
+  <block wx:if="{{loading}}">
+    <view class="loading-state"><van-loading size="24px">加载中...</van-loading></view>
+  </block>
+
+  <block wx:elif="{{species}}">
+    <!-- 头部 -->
+    <view class="species-header">
+      <view class="header-content">
+        <text class="species-name">{{species.nameChinese}}</text>
+        <text class="species-en-name">{{species.nameEnglish}}</text>
+        <view class="species-tags">
+          <van-tag type="{{species.difficulty <= 2 ? 'success' : species.difficulty <= 3 ? 'warning' : 'danger'}}">
+            难度 {{species.difficulty}}/5
+          </van-tag>
+          <van-tag type="primary" class="ml-10">{{species.category}}</van-tag>
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="card">
+      <view class="section-title">基本信息</view>
+      <van-cell-group>
+        <van-cell title="寿命" value="{{species.lifespan}} 年" />
+        <van-cell title="体型" value="{{species.size}}" />
+        <van-cell title="食性" value="{{species.diet}}" />
+        <van-cell title="习性" value="{{species.behavior}}" />
+      </van-cell-group>
+    </view>
+
+    <!-- 环境要求 -->
+    <view class="card">
+      <view class="section-title">环境要求</view>
+      <van-cell-group>
+        <van-cell title="白天温度" value="{{species.tempDay}}°C" />
+        <van-cell title="夜晚温度" value="{{species.tempNight}}°C" />
+        <van-cell title="湿度" value="{{species.humidity}}%" />
+      </van-cell-group>
+    </view>
+
+    <!-- 描述 -->
+    <view class="card" wx:if="{{species.description}}">
+      <view class="section-title">物种描述</view>
+      <text class="description text-secondary">{{species.description}}</text>
+    </view>
+
+    <!-- 饲养提示 -->
+    <view class="card" wx:if="{{species.careTips && species.careTips.length > 0}}">
+      <view class="section-title">饲养提示</view>
+      <view wx:for="{{species.careTips}}" wx:key="index" class="care-tip">
+        <van-tag type="success" size="small">{{index + 1}}</van-tag>
+        <text class="tip-text">{{item}}</text>
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="empty-state"><text>物种不存在</text></view>
+  </block>
+</view>

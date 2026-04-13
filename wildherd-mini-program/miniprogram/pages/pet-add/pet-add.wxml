@@ -1,0 +1,135 @@
+<!-- pages/pet-add/pet-add.wxml -->
+<view class="page-container">
+  <view class="card">
+    <!-- 基本信息 -->
+    <view class="section-title">基本信息</view>
+
+    <!-- 宠物图片 -->
+    <view class="image-upload" bindtap="chooseImage">
+      <block wx:if="{{formData.imageUrl}}">
+        <image src="{{formData.imageUrl}}" mode="aspectFill" />
+      </block>
+      <block wx:else>
+        <van-icon name="photograph" size="60rpx" color="#999" />
+        <text class="text-secondary">点击上传图片</text>
+      </block>
+    </view>
+
+    <!-- 名称 -->
+    <van-field
+      label="名称"
+      placeholder="给爬宠起个名字"
+      value="{{formData.name}}"
+      data-field="name"
+      bind:change="onFieldChange"
+      required
+    />
+
+    <!-- 物种 -->
+    <van-field
+      label="物种"
+      placeholder="如：corn_snake"
+      value="{{formData.species}}"
+      data-field="species"
+      bind:change="onFieldChange"
+      required
+    />
+
+    <!-- 中文名 -->
+    <van-field
+      label="中文名"
+      placeholder="如：玉米蛇"
+      value="{{formData.speciesChinese}}"
+      data-field="speciesChinese"
+      bind:change="onFieldChange"
+    />
+
+    <!-- 性别 -->
+    <van-cell title="性别">
+      <van-radio-group value="{{formData.gender}}" bind:change="onGenderChange">
+        <van-radio name="unknown" shape="square">未知</van-radio>
+        <van-radio name="male" shape="square" class="ml-20">公</van-radio>
+        <van-radio name="female" shape="square" class="ml-20">母</van-radio>
+      </van-radio-group>
+    </van-cell>
+  </view>
+
+  <view class="card">
+    <!-- 详细信息 -->
+    <view class="section-title">详细信息</view>
+
+    <!-- 出生日期 -->
+    <van-cell title="出生日期">
+      <picker mode="date" value="{{formData.birthDate}}" bind:change="onDateChange" data-field="birthDate">
+        <view class="picker-value">
+          {{formData.birthDate || '请选择'}}
+        </view>
+      </picker>
+    </van-cell>
+
+    <!-- 体重 -->
+    <van-field
+      label="体重(g)"
+      type="digit"
+      placeholder="如：150.5"
+      value="{{formData.weight}}"
+      data-field="weight"
+      bind:change="onFieldChange"
+    />
+
+    <!-- 体长 -->
+    <van-field
+      label="体长(cm)"
+      type="digit"
+      placeholder="如：80"
+      value="{{formData.length}}"
+      data-field="length"
+      bind:change="onFieldChange"
+    />
+
+    <!-- 入舍日期 -->
+    <van-cell title="入舍日期">
+      <picker mode="date" value="{{formData.acquisitionDate}}" bind:change="onDateChange" data-field="acquisitionDate">
+        <view class="picker-value">
+          {{formData.acquisitionDate || '请选择'}}
+        </view>
+      </picker>
+    </van-cell>
+
+    <!-- 繁殖状态 -->
+    <van-cell title="繁殖状态">
+      <van-radio-group value="{{formData.breedingStatus}}" bind:change="onStatusChange">
+        <van-radio name="available" shape="square">可繁殖</van-radio>
+        <van-radio name="bred" shape="square" class="ml-20">已繁殖</van-radio>
+        <van-radio name="immature" shape="square" class="ml-20">未成年</van-radio>
+      </van-radio-group>
+    </van-cell>
+  </view>
+
+  <view class="card">
+    <!-- 备注 -->
+    <view class="section-title">备注</view>
+    <van-field
+      type="textarea"
+      placeholder="其他需要记录的信息..."
+      value="{{formData.notes}}"
+      data-field="notes"
+      bind:change="onFieldChange"
+      autosize
+      maxlength="500"
+    />
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-area">
+    <van-button
+      type="primary"
+      size="large"
+      loading="{{submitting}}"
+      bindtap="submit"
+      class="btn-primary"
+    >
+      保存
+    </van-button>
+  </view>
+</view>

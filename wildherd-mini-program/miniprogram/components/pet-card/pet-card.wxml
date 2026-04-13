@@ -1,0 +1,20 @@
+<!-- components/pet-card/pet-card.wxml -->
+<view class="pet-card" bindtap="onTap">
+  <view class="pet-image">
+    <image wx:if="{{pet.imageUrl}}" src="{{pet.imageUrl}}" mode="aspectFill" />
+    <view wx:else class="pet-avatar">{{pet.name[0]}}</view>
+  </view>
+  <view class="pet-info">
+    <view class="pet-name">{{pet.name}}</view>
+    <view class="pet-species">{{pet.speciesChinese || pet.species}}</view>
+    <view class="pet-meta">
+      <van-tag type="{{pet.gender === 'male' ? 'blue' : 'pink'}}" size="small">
+        {{pet.gender === 'male' ? '公' : pet.gender === 'female' ? '母' : '未知'}}
+      </van-tag>
+      <text class="ml-10 text-secondary font-24" wx:if="{{pet.weight}}">
+        {{pet.weight}}g
+      </text>
+    </view>
+  </view>
+  <van-icon name="arrow" class="pet-arrow" />
+</view>

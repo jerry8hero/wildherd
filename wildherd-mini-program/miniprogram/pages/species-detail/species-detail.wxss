@@ -1,0 +1,29 @@
+/* pages/species-detail/species-detail.wxss */
+
+.species-header {
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  color: white;
+  padding: 60rpx 40rpx;
+}
+
+.header-content { display: flex; flex-direction: column; }
+
+.species-name { font-size: 48rpx; font-weight: bold; margin-bottom: 8rpx; }
+
+.species-en-name { font-size: 28rpx; opacity: 0.85; margin-bottom: 20rpx; }
+
+.species-tags { display: flex; }
+
+.section-title { font-size: 32rpx; font-weight: bold; margin-bottom: 30rpx; }
+
+.description { font-size: 28rpx; line-height: 1.6; }
+
+.care-tip {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.tip-text { margin-left: 16rpx; font-size: 28rpx; flex: 1; line-height: 1.5; }
+
+.loading-state { display: flex; justify-content: center; padding: 200rpx; }

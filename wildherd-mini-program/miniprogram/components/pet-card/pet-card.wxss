@@ -1,0 +1,57 @@
+/* components/pet-card/pet-card.wxss */
+
+.pet-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.pet-image {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 24rpx;
+}
+
+.pet-image image,
+.pet-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+}
+
+.pet-avatar {
+  background: var(--primary-light);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+}
+
+.pet-info {
+  flex: 1;
+}
+
+.pet-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.pet-species {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.pet-meta {
+  display: flex;
+  align-items: center;
+}
+
+.pet-arrow {
+  color: var(--text-placeholder);
+}

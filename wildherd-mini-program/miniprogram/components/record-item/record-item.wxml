@@ -1,0 +1,41 @@
+<!-- components/record-item/record-item.wxml -->
+<view class="record-item">
+  <view class="record-main">
+    <view class="record-icon {{type === 'feeding' ? 'feeding-icon' : 'health-icon'}}">
+      <van-icon name="{{type === 'feeding' ? 'shopping-o' : 'plus'}}" />
+    </view>
+    <view class="record-content">
+      <!-- 喂食记录 -->
+      <block wx:if="{{type === 'feeding'}}">
+        <view class="record-title">{{record.foodType}}</view>
+        <view class="record-meta">
+          <text wx:if="{{record.foodAmount}}">{{record.foodAmount}}g</text>
+          <text class="ml-20">{{record.feedingTime}}</text>
+        </view>
+        <view class="record-notes text-secondary" wx:if="{{record.notes}}">
+          {{record.notes}}
+        </view>
+      </block>
+      <!-- 健康记录 -->
+      <block wx:else>
+        <view class="record-title">{{record.recordDate}}</view>
+        <view class="record-meta">
+          <text wx:if="{{record.weight}}">体重: {{record.weight}}g</text>
+          <text wx:if="{{record.length}}" class="ml-20">体长: {{record.length}}cm</text>
+        </view>
+        <view class="record-tags">
+          <van-tag type="{{record.status === 'normal' ? 'success' : 'warning'}}" size="small">
+            {{record.status === 'normal' ? '正常' : '异常'}}
+          </van-tag>
+          <van-tag type="default" size="small" class="ml-10" wx:if="{{record.defecation}}">
+            {{record.defecation === 'normal' ? '排便正常' : record.defecation === 'abnormal' ? '排便异常' : '便秘'}}
+          </van-tag>
+        </view>
+        <view class="record-notes text-secondary" wx:if="{{record.notes}}">
+          {{record.notes}}
+        </view>
+      </block>
+    </view>
+  </view>
+  <van-icon name="delete-o" class="delete-btn" bindtap="onDelete" />
+</view>

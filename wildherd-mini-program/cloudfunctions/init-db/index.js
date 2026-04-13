@@ -1,0 +1,253 @@
+// cloudfunctions/init-db/index.js
+// 数据库初始化云函数 - 用于批量插入物种数据
+
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+
+const db = cloud.database()
+
+// 物种数据
+const speciesData = [
+  {
+    _id: 'corn_snake',
+    nameChinese: '玉米蛇',
+    nameEnglish: 'Corn Snake',
+    category: 'snake',
+    difficulty: 1,
+    lifespan: 15,
+    tempDay: 28,
+    tempNight: 24,
+    humidity: 50,
+    diet: '老鼠',
+    size: '100-150cm',
+    behavior: '温和',
+    description: '玉米蛇是最受欢迎的宠物蛇之一，原产于北美。它们性格温顺，容易饲养，颜色和花纹丰富多变，非常适合初学者。',
+    careTips: [
+      '饲养温度保持在28-32°C，使用加热垫时需配合温控',
+      '湿度维持在50-60%，蜕皮期可适当提高',
+      '喂食频率：幼体5-7天一次，成体10-14天一次',
+      '使用垫材建议选用白杨木屑或纸巾，便于清理'
+    ]
+  },
+  {
+    _id: 'ball_python',
+    nameChinese: '球蟒',
+    nameEnglish: 'Ball Python',
+    category: 'snake',
+    difficulty: 2,
+    lifespan: 20,
+    tempDay: 30,
+    tempNight: 26,
+    humidity: 50,
+    diet: '老鼠',
+    size: '100-150cm',
+    behavior: '胆小、容易紧张',
+    description: '球蟒原产于西非和中非，因受到威胁时会蜷缩成球状而得名。它们是夜行性动物，性格相对温顺，但可能会因为紧张而拒食。',
+    careTips: [
+      '饲养温度30-32°C，夜间可降至26°C',
+      '湿度保持在50-60%，对蜕皮很重要',
+      '球蟒容易紧张，饲养环境需提供躲避穴',
+      '喂食频率：幼体7-10天一次，成体14-21天一次'
+    ]
+  },
+  {
+    _id: 'king_snake',
+    nameChinese: '王蛇',
+    nameEnglish: 'King Snake',
+    category: 'snake',
+    difficulty: 1,
+    lifespan: 15,
+    tempDay: 28,
+    tempNight: 24,
+    humidity: 50,
+    diet: '老鼠',
+    size: '100-180cm',
+    behavior: '活泼、好奇',
+    description: '王蛇分布广泛，主要分布在北美洲。它们的适应能力强，性格活泼好动。值得注意的是王蛇有食蛇性，不可混养。',
+    careTips: [
+      '饲养温度26-30°C，提供温差让蛇自己选择',
+      '湿度40-60%即可',
+      '王蛇食蛇性强，务必单独饲养',
+      '可以喂食解冻老鼠，定期补充营养'
+    ]
+  },
+  {
+    _id: 'leopard_gecko',
+    nameChinese: '豹纹守宫',
+    nameEnglish: 'Leopard Gecko',
+    category: 'lizard',
+    difficulty: 1,
+    lifespan: 15,
+    tempDay: 28,
+    tempNight: 22,
+    humidity: 40,
+    diet: '昆虫（蟋蟀、面包虫）',
+    size: '20-25cm',
+    behavior: '温顺、夜行性',
+    description: '豹纹守宫是最受欢迎的宠物蜥蜴之一，原产于中东地区。它们性格温顺，饲养简单，繁殖容易，并且拥有众多基因变异品种。',
+    careTips: [
+      '饲养温度28-32°C，腹部温度32-33°C',
+      '湿度30-40%，保持干燥环境',
+      '需要提供钙粉和维生素补充',
+      '建议使用纸质垫材，便于观察排便健康'
+    ]
+  },
+  {
+    _id: 'bearded_dragon',
+    nameChinese: '鬃狮蜥',
+    nameEnglish: 'Bearded Dragon',
+    category: 'lizard',
+    difficulty: 2,
+    lifespan: 12,
+    tempDay: 35,
+    tempNight: 22,
+    humidity: 30,
+    diet: '杂食（昆虫+蔬菜）',
+    size: '45-60cm',
+    behavior: '友善、互动性好',
+    description: '鬃狮蜥原产于澳大利亚，是最受欢迎的宠物蜥蜴之一。它们性格友善，容易驯养，可以学会认出主人。幼体以昆虫为主食，成体逐渐转为素食。',
+    careTips: [
+      '需要晒点温度35-40°C，整体饲养箱28-32°C',
+      ' UVB照射每天10-12小时',
+      '幼体饮食：80%昆虫+20%蔬菜',
+      '成体饮食：80%蔬菜+20%昆虫'
+    ]
+  },
+  {
+    _id: 'crested_gecko',
+    nameChinese: '睫角守宫',
+    nameEnglish: 'Crested Gecko',
+    category: 'lizard',
+    difficulty: 1,
+    lifespan: 15,
+    tempDay: 24,
+    tempNight: 20,
+    humidity: 60,
+    diet: '杂食（果泥+昆虫）',
+    size: '20-25cm',
+    behavior: '温顺、树栖',
+    description: '睫角守宫原产于新喀里多尼亚，是夜行性树栖守宫。它们不需要加热灯，饲养相对简单，可以用专用的果泥饲料喂养。',
+    careTips: [
+      '饲养温度20-26°C即可，不需要高温',
+      '湿度60-80%，每天喷水一次',
+      '可喂食专用果泥和蟋蟀',
+      '需要垂直的饲养空间和攀爬物'
+    ]
+  },
+  {
+    _id: 'red_eared_slider',
+    nameChinese: '红耳龟',
+    nameEnglish: 'Red-Eared Slider',
+    category: 'turtle',
+    difficulty: 2,
+    lifespan: 30,
+    tempDay: 28,
+    tempNight: 24,
+    humidity: 80,
+    diet: '杂食（水龟粮+蔬菜+鱼虾）',
+    size: '25-30cm',
+    behavior: '活泼、水栖',
+    description: '红耳龟是最常见的宠物水龟，原产于美国。它们适应能力强，但需要较大的水体和良好的过滤系统。',
+    careTips: [
+      '水温保持在25-28°C，需要晒背平台',
+      ' UVB照射对骨骼发育很重要',
+      '幼体偏肉食，成体偏素',
+      '需要足够大的水体，建议水体容量是龟甲的10倍'
+    ]
+  },
+  {
+    _id: 'russian_tortoise',
+    nameChinese: '俄罗斯陆龟',
+    nameEnglish: 'Russian Tortoise',
+    category: 'turtle',
+    difficulty: 3,
+    lifespan: 50,
+    tempDay: 28,
+    tempNight: 20,
+    humidity: 40,
+    diet: '草食（牧草+蔬菜）',
+    size: '15-25cm',
+    behavior: '活泼、需要冬化',
+    description: '俄罗斯陆龟是中亚地区的陆龟，体型小巧，性格活泼。它们需要冬化来维持健康繁殖，是较为进阶的宠物龟选择。',
+    careTips: [
+      '饲养温度25-30°C，夏季可户外放养',
+      '需要充足的阳光或UVB照射',
+      '饮食以牧草和深绿色蔬菜为主',
+      '需要冬化周期来维持繁殖健康'
+    ]
+  },
+  {
+    _id: 'pacman_frog',
+    nameChinese: '角蛙',
+    nameEnglish: 'Pacman Frog',
+    category: 'frog',
+    difficulty: 1,
+    lifespan: 10,
+    tempDay: 26,
+    tempNight: 24,
+    humidity: 70,
+    diet: '肉食（昆虫、小鱼）',
+    size: '10-15cm',
+    behavior: '伏击型、不爱动',
+    description: '角蛙又称圣诞老人蛙，原产于南美洲。它们因为嘴巴大像吃豆人而得名 Pacman。角蛙是伏击型猎手，几乎不动，等待猎物路过。',
+    careTips: [
+      '温度25-28°C，避免超过30°C',
+      '湿度60-80%，使用潮湿的海绵或水苔',
+      '底材使用椰土或蛭石，保持潮湿',
+      '喂食频率：幼体2-3天一次，成体5-7天一次'
+    ]
+  },
+  {
+    _id: 'axolotl',
+    nameChinese: '六角恐龙',
+    nameEnglish: 'Axolotl',
+    category: 'salamander',
+    difficulty: 2,
+    lifespan: 15,
+    tempDay: 18,
+    tempNight: 16,
+    humidity: 100,
+    diet: '肉食（红虫、小鱼）',
+    size: '20-30cm',
+    behavior: '温顺、水栖',
+    description: '六角恐龙学名墨西哥钝口螈，是墨西哥特有的两栖动物。它们终身保持幼体形态，具有强大的再生能力。是热门的水族宠物。',
+    careTips: [
+      '水温保持在15-20°C，切忌超过24°C',
+      '需要冷水机和过滤系统',
+      '底砂使用细沙，避免划伤',
+      '避免光照太强，会影响蜕皮'
+    ]
+  }
+]
+
+const response = (success, data, message) => ({
+  success,
+  data,
+  message
+})
+
+exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+
+  // 仅管理员可调用（可通过配置判断）
+  try {
+    // 清空现有物种数据（可选）
+    const existingSpecies = await db.collection('species').count()
+
+    // 批量插入物种数据
+    let insertedCount = 0
+    for (const species of speciesData) {
+      try {
+        await db.collection('species').add({ data: species })
+        insertedCount++
+      } catch (e) {
+        console.error(`插入 ${species._id} 失败`, e)
+      }
+    }
+
+    return response(true, { inserted: insertedCount, total: speciesData.length }, '初始化成功')
+  } catch (e) {
+    console.error('初始化失败', e)
+    return response(false, null, e.message)
+  }
+}

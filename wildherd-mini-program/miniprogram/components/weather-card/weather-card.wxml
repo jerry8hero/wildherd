@@ -1,0 +1,19 @@
+<!-- components/weather-card/weather-card.wxml -->
+<view class="weather-card">
+  <block wx:if="{{weather && weather.now}}">
+    <view class="weather-main">
+      <text class="weather-temp">{{weather.now.temp}}°</text>
+      <text class="weather-text">{{weather.now.text}}</text>
+    </view>
+    <view class="weather-detail">
+      <text>湿度 {{weather.now.humidity}}%</text>
+      <text class="ml-20">风速 {{weather.now.windSpeed}} km/h</text>
+    </view>
+    <view class="weather-advice" wx:if="{{weather.now.feelsLike}}">
+      <text>体感温度 {{weather.now.feelsLike}}°</text>
+    </view>
+  </block>
+  <block wx:else>
+    <text class="text-secondary">暂无天气数据</text>
+  </block>
+</view>

@@ -1,0 +1,68 @@
+/* components/record-item/record-item.wxss */
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.record-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.record-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.feeding-icon {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.health-icon {
+  background: #E3F2FD;
+  color: #2196F3;
+}
+
+.record-content {
+  flex: 1;
+}
+
+.record-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.record-meta {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.record-tags {
+  display: flex;
+  margin-bottom: 8rpx;
+}
+
+.record-notes {
+  font-size: 26rpx;
+  margin-top: 8rpx;
+}
+
+.delete-btn {
+  color: var(--text-placeholder);
+  padding: 10rpx;
+}
