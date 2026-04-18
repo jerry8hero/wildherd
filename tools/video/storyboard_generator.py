@@ -348,18 +348,36 @@ def main():
 
     # 保存
     script_name = Path(args.script).stem
-    output_dir = Path(args.script).parent.parent / "storyboards"
-    output_dir.mkdir(parents=True, exist_ok=True)
 
-    if args.format in ["json", "both"]:
-        json_path = output_dir / f"{script_name}_storyboard.json"
-        generator.save_to_json(str(json_path))
-        print(f"\n✓ JSON已保存: {json_path}")
+    # 如果指定了 --output，使用它；否则使用默认路径
+    if args.output:
+        output_path = Path(args.output)
+        output_dir = output_path.parent
+        output_dir.mkdir(parents=True, exist_ok=True)
 
-    if args.format in ["markdown", "both"]:
-        md_path = output_dir / f"{script_name}_storyboard.md"
-        generator.save_to_markdown(str(md_path))
-        print(f"✓ Markdown已保存: {md_path}")
+        if args.format in ["json", "both"]:
+            json_path = output_path if output_path.suffix == ".json" else output_dir / f"{script_name}_storyboard.json"
+            generator.save_to_json(str(json_path))
+            print(f"\n✓ JSON已保存: {json_path}")
+
+        if args.format == "markdown":
+            md_path = output_path if output_path.suffix == ".md" else output_dir / f"{script_name}_storyboard.md"
+            generator.save_to_markdown(str(md_path))
+            print(f"✓ Markdown已保存: {md_path}")
+    else:
+        # 默认保存到 storyboards 目录
+        output_dir = Path(args.script).parent.parent / "storyboards"
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        if args.format in ["json", "both"]:
+            json_path = output_dir / f"{script_name}_storyboard.json"
+            generator.save_to_json(str(json_path))
+            print(f"\n✓ JSON已保存: {json_path}")
+
+        if args.format in ["markdown", "both"]:
+            md_path = output_dir / f"{script_name}_storyboard.md"
+            generator.save_to_markdown(str(md_path))
+            print(f"✓ Markdown已保存: {md_path}")
 
 
 if __name__ == "__main__":
