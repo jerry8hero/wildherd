@@ -41,3 +41,21 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Gradle
+android/.gradle/
+
+# Platform-specific dart tools
+linux/.dart_tool/
+linux/.packages
+macos/.dart_tool/
+macos/.packages
+windows/.dart_tool/
+web/.dart_tool/
+
+# Flutter build outputs
+*.png (generated)
+
+# LFS (if not using git lfs for these)
+# *.png
+# *.jpg
