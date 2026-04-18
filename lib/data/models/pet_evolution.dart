@@ -37,7 +37,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '变异体',
         ),
       ],
@@ -74,7 +74,7 @@ class PetEvolutionData {
           requiredItemId: 'growth_hormone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '巨人守宫',
         ),
       ],
@@ -111,7 +111,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '高冠变异',
         ),
       ],
@@ -148,7 +148,7 @@ class PetEvolutionData {
           requiredItemId: 'ink_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '墨化草龟',
         ),
       ],
@@ -185,7 +185,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '蓝鬣蜥',
         ),
       ],
@@ -222,7 +222,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '变异球蟒',
         ),
       ],
@@ -259,7 +259,7 @@ class PetEvolutionData {
           requiredItemId: 'pattern_token',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '小丑守宫',
         ),
       ],
@@ -296,7 +296,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '白化红耳龟',
         ),
       ],
@@ -333,7 +333,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '墨西哥黑王蛇',
         ),
       ],
@@ -370,7 +370,7 @@ class PetEvolutionData {
           requiredItemId: 'pattern_token',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '洪都拉斯奶蛇',
         ),
       ],
@@ -407,7 +407,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '白化猪鼻蛇',
         ),
       ],
@@ -444,7 +444,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '印尼蓝舌',
         ),
       ],
@@ -481,7 +481,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '也门变色龙',
         ),
       ],
@@ -518,7 +518,7 @@ class PetEvolutionData {
           requiredItemId: 'ink_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '金缘闭壳龟',
         ),
       ],
@@ -555,7 +555,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '越南锯缘',
         ),
       ],
@@ -592,7 +592,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '金辐陆龟',
         ),
       ],
@@ -629,7 +629,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '东部赫曼',
         ),
       ],
@@ -666,7 +666,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '白化角蛙',
         ),
       ],
@@ -703,7 +703,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '金斑蝾螈',
         ),
       ],
@@ -740,7 +740,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '金毛智利红玫瑰',
         ),
       ],
@@ -777,7 +777,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '墨西哥黑玫瑰',
         ),
       ],
@@ -814,7 +814,7 @@ class PetEvolutionData {
           requiredItemId: 'evolution_stone',
         ),
         EvolutionStageConfig(
-          stage: EvolutionStage.final,
+          stage: EvolutionStage.ultimate,
           name: '金丝绒巴西白膝',
         ),
       ],

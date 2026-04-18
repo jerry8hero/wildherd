@@ -1143,7 +1143,7 @@ class _ShopSheetState extends State<_ShopSheet> with SingleTickerProviderStateMi
       case 'eco':
         return Icons.eco;
       case 'nutrition':
-        return Icons.nutrition;
+        return Icons.restaurant;
       case 'diamond':
         return Icons.diamond;
       case 'local_drink':

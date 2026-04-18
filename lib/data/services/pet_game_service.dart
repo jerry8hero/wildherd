@@ -4,10 +4,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'models/electronic_pet.dart';
-import 'models/pet_evolution.dart';
-import 'models/pet_achievement.dart';
-import 'models/pet_item.dart';
+import '../models/electronic_pet.dart';
+import '../models/pet_evolution.dart';
+import '../models/pet_achievement.dart';
+import '../models/pet_item.dart';
 
 /// 电子宠物游戏管理器
 class PetGameManager {
@@ -560,7 +560,7 @@ class PetGameManager {
         newEvolutionStage = EvolutionStage.second;
         break;
       case EvolutionStage.second:
-        newEvolutionStage = EvolutionStage.final;
+        newEvolutionStage = EvolutionStage.ultimate;
         break;
       default:
         return null;
@@ -568,7 +568,7 @@ class PetGameManager {
 
     // 更新成长阶段
     GrowthStage newGrowthStage;
-    if (newEvolutionStage == EvolutionStage.final) {
+    if (newEvolutionStage == EvolutionStage.ultimate) {
       newGrowthStage = GrowthStage.adult;
     } else if (newEvolutionStage.index > pet.evolutionStage.index) {
       newGrowthStage = GrowthStage.subAdult;

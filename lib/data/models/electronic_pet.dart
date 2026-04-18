@@ -33,7 +33,7 @@ enum EvolutionStage {
   none,       // 无进化
   first,      // 第一次进化
   second,     // 第二次进化
-  final,      // 最终形态
+  ultimate,   // 最终形态
 }
 
 /// 进化路线配置
@@ -226,7 +226,7 @@ class ElectronicPet {
         return '(进化)';
       case EvolutionStage.second:
         return '(二阶)';
-      case EvolutionStage.final:
+      case EvolutionStage.ultimate:
         return '(完全体)';
     }
   }
