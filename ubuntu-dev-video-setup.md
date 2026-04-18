@@ -24,6 +24,27 @@
 | **核心工具** | FFmpeg | apt install ffmpeg |
 | **素材库** | Pexels/Pixabay 下载器 | yt-dlp 或 corgutils |
 
+## 协同创作（腾讯系）
+
+| 类别 | 推荐软件 | 说明 |
+|------|----------|------|
+| **企业协同** | 企业微信 | 无 Linux 版，网页版仅限管理员使用，普通员工需客户端 |
+| **视频会议** | 腾讯会议 | 无官方 Linux 版，可使用网页版 |
+| **轻量办公** | TIM（QQ 办公版） | snap install tim 或者官网下载 |
+| **即时通讯** | 微信 | 社区 DeepinWine 版 or 网页版 |
+| **文档协作** | 腾讯文档 | 浏览器访问 docs.qq.com |
+
+```bash
+# TIM（QQ 办公版）
+snap install tim
+# 或下载 .deb: https://tim.qq.com/download.html
+
+# 微信（DeepinWine 兼容层）
+# 社区维护版本，如：https://github.com/zq1997/deepin-wine
+```
+
+> **备注**：腾讯系软件对 Linux 支持较弱，企业微信、腾讯会议均无官方 Linux 桌面版。企业微信网页版（work.weixin.qq.com）仅供管理员登录，普通员工无法使用。建议搭配移动端或虚拟机使用。
+
 ## 其他必备
 
 ```bash
