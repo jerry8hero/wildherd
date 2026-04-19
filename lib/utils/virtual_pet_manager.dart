@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/models/virtual_pet.dart';
 
@@ -28,17 +29,21 @@ class VirtualPetManager {
   Future<void> _loadPets() async {
     final prefs = await SharedPreferences.getInstance();
     final petsJson = prefs.getString(_keyPets);
-    if (petsJson != null) {
-      // 解析宠物数据
-      // 这里简化处理，实际项目可能需要更复杂的解析
-      _pets = [];
+    if (petsJson != null && petsJson.isNotEmpty) {
+      try {
+        final List<dynamic> decoded = jsonDecode(petsJson);
+        _pets = decoded.map((item) => VirtualPet.fromMap(item)).toList();
+      } catch (e) {
+        _pets = [];
+      }
     }
   }
 
   /// 保存宠物数据
   Future<void> _savePets() async {
-    // 保存到 SharedPreferences
-    // TODO: 实现完整的保存逻辑
+    final prefs = await SharedPreferences.getInstance();
+    final petsJson = jsonEncode(_pets.map((pet) => pet.toMap()).toList());
+    await prefs.setString(_keyPets, petsJson);
   }
 
   /// 获取所有虚拟宠物

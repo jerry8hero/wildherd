@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import '../models/article.dart';
 import '../models/knowledge_tip.dart';
@@ -17,7 +18,7 @@ class KnowledgeDataService {
 
       return KnowledgeData.fromJson(jsonData);
     } catch (e) {
-      print('加载知识库数据失败: $e');
+      debugPrint('加载知识库数据失败: $e');
       return null;
     }
   }

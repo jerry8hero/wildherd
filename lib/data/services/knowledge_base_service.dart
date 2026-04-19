@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// 知识库数据模型
@@ -189,7 +190,7 @@ class KnowledgeBaseService {
       _cache = KnowledgeBase.fromJson(jsonData);
       return _cache!;
     } catch (e) {
-      print('加载知识库失败: $e');
+      debugPrint('加载知识库失败: $e');
       return KnowledgeBase(
         version: '1.0',
         lastUpdated: '',

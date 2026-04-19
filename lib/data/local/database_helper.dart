@@ -47,7 +47,7 @@ class DatabaseHelper {
   List<Map<String, dynamic>> _getData(String table) {
     final key = _tableKey(table);
 
-    // 直接使用 SharedPreferences
+    // 优先使用 SharedPreferences
     try {
       final prefs = UserPreferences.prefs;
       final stored = prefs.getString(key);
@@ -56,10 +56,16 @@ class DatabaseHelper {
         return decoded.cast<Map<String, dynamic>>();
       }
     } catch (e) {
-      debugPrint('[_getData] 读取失败: $e');
+      debugPrint('[_getData] SharedPreferences 读取失败，回退到内存: $e');
     }
 
-    return _memoryStorage[key] ?? [];
+    // 回退到内存存储
+    final memoryData = _memoryStorage[key];
+    if (memoryData != null && memoryData.isNotEmpty) {
+      return List<Map<String, dynamic>>.from(memoryData);
+    }
+
+    return [];
   }
 
   /// 保存存储数据
@@ -105,14 +111,9 @@ class DatabaseHelper {
   }) async {
     var allData = _getData(table);
 
-    // 简单的条件过滤
+    // 条件过滤
     if (where != null && whereArgs != null && whereArgs.isNotEmpty) {
-      final parts = where.split(' ');
-      if (parts.length >= 3 && parts[1] == '=') {
-        final field = parts[0];
-        final expectedValue = whereArgs[0];
-        allData = allData.where((row) => row[field] == expectedValue).toList();
-      }
+      allData = _filterData(allData, where, whereArgs);
     }
 
     // 排序
@@ -121,6 +122,131 @@ class DatabaseHelper {
     }
 
     return allData;
+  }
+
+  /// 数据过滤（支持 =, !=, LIKE, AND, OR）
+  List<Map<String, dynamic>> _filterData(
+    List<Map<String, dynamic>> data,
+    String where,
+    List<dynamic> whereArgs,
+  ) {
+    // 处理 OR 条件
+    if (where.toUpperCase().contains(' OR ')) {
+      final orParts = where.toUpperCase().split(' OR ');
+      int argIndex = 0;
+      final orResults = <List<Map<String, dynamic>>>[];
+
+      for (final part in orParts) {
+        final trimmed = part.trim();
+        if (trimmed.isEmpty) continue;
+        // 统计该 part 需要多少个占位符
+        int count = trimmed.split('?').length - 1;
+        final args = whereArgs.sublist(argIndex, argIndex + count);
+        argIndex += count;
+        orResults.add(_filterSingleCondition(data, trimmed, args));
+      }
+
+      // 合并所有 OR 结果（去重）
+      final seen = <String>{};
+      return orResults.expand((list) => list).where((row) {
+        final key = row.toString();
+        if (seen.contains(key)) return false;
+        seen.add(key);
+        return true;
+      }).toList();
+    }
+
+    return _filterSingleCondition(data, where, whereArgs);
+  }
+
+  /// 单个条件过滤（支持 =, !=, LIKE）
+  List<Map<String, dynamic>> _filterSingleCondition(
+    List<Map<String, dynamic>> data,
+    String where,
+    List<dynamic> whereArgs,
+  ) {
+    // 处理 AND 条件
+    if (where.toUpperCase().contains(' AND ')) {
+      final andParts = where.toUpperCase().split(' AND ');
+      int argIndex = 0;
+      var result = data;
+
+      for (final part in andParts) {
+        final trimmed = part.trim();
+        if (trimmed.isEmpty) continue;
+        int count = trimmed.split('?').length - 1;
+        final args = whereArgs.sublist(argIndex, argIndex + count);
+        argIndex += count;
+        result = _applyCondition(result, trimmed, args);
+      }
+
+      return result;
+    }
+
+    return _applyCondition(data, where, whereArgs);
+  }
+
+  /// 应用单个比较条件
+  List<Map<String, dynamic>> _applyCondition(
+    List<Map<String, dynamic>> data,
+    String where,
+    List<dynamic> whereArgs,
+  ) {
+    final upperWhere = where.toUpperCase();
+    int argIndex = 0;
+
+    // field = ?
+    if (upperWhere.contains(' = ')) {
+      final match = RegExp(r'(\w+)\s*=\s*\?').firstMatch(where);
+      if (match != null) {
+        final field = match.group(1)!;
+        final value = whereArgs.isNotEmpty ? whereArgs[argIndex++] : null;
+        return data.where((row) => row[field] == value).toList();
+      }
+    }
+
+    // field != ?
+    if (upperWhere.contains(' != ')) {
+      final match = RegExp(r'(\w+)\s*!=\s*\?').firstMatch(where);
+      if (match != null) {
+        final field = match.group(1)!;
+        final value = whereArgs.isNotEmpty ? whereArgs[argIndex++] : null;
+        return data.where((row) => row[field] != value).toList();
+      }
+    }
+
+    // field LIKE ?
+    if (upperWhere.contains(' LIKE ')) {
+      final match = RegExp(r'(\w+)\s*LIKE\s*\?').firstMatch(where);
+      if (match != null) {
+        final field = match.group(1)!;
+        final pattern = whereArgs.isNotEmpty ? whereArgs[argIndex++].toString().toLowerCase() : '';
+        return data.where((row) {
+          final cellValue = row[field]?.toString().toLowerCase() ?? '';
+          if (pattern.startsWith('%') && pattern.endsWith('%')) {
+            // %keyword% 包含匹配
+            return cellValue.contains(pattern.substring(1, pattern.length - 1));
+          } else if (pattern.endsWith('%')) {
+            // keyword% 前缀匹配
+            return cellValue.startsWith(pattern.substring(0, pattern.length - 1));
+          } else if (pattern.startsWith('%')) {
+            // %keyword 后缀匹配
+            return cellValue.endsWith(pattern.substring(1));
+          }
+          return cellValue == pattern;
+        }).toList();
+      }
+    }
+
+    // 默认回退：当作 = 条件处理
+    final parts = where.trim().split(RegExp(r'\s+'));
+    if (parts.length >= 3 && parts[1] == '=') {
+      final field = parts[0];
+      final value = whereArgs.isNotEmpty ? whereArgs[0] : null;
+      return data.where((row) => row[field] == value).toList();
+    }
+
+    return data;
   }
 
   /// 插入数据

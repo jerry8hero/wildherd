@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/reptile.dart';
@@ -54,7 +55,7 @@ class DataExportService {
 
       return file.path;
     } catch (e) {
-      print('数据导出失败: $e');
+      debugPrint('数据导出失败: $e');
       return null;
     }
   }
@@ -74,7 +75,7 @@ class DataExportService {
       );
       return true;
     } catch (e) {
-      print('分享失败: $e');
+      debugPrint('分享失败: $e');
       return false;
     }
   }
