@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 
 /// 在线百科搜索结果
 class OnlineEncyclopediaResult {
@@ -31,6 +32,7 @@ class OnlineEncyclopediaResult {
 /// 在线百科服务 - 使用 Wikipedia API
 class OnlineEncyclopediaService {
   static const String _baseUrl = 'https://en.wikipedia.org/w/api.php';
+  static const Duration _requestDelay = Duration(milliseconds: 100);
 
   /// 搜索百科知识
   /// [keyword] 搜索关键词
@@ -49,7 +51,10 @@ class OnlineEncyclopediaService {
         'origin': '*',
       });
 
-      final response = await http.get(uri);
+      final response = await http.get(uri).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => throw Exception('请求超时'),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as List;
@@ -72,7 +77,7 @@ class OnlineEncyclopediaService {
       }
       return [];
     } catch (e) {
-      print('Wikipedia search error: $e');
+      debugPrint('Wikipedia search error: $e');
       return [];
     }
   }
@@ -95,7 +100,10 @@ class OnlineEncyclopediaService {
         'origin': '*',
       });
 
-      final response = await http.get(uri);
+      final response = await http.get(uri).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => throw Exception('请求超时'),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -125,7 +133,7 @@ class OnlineEncyclopediaService {
       }
       return null;
     } catch (e) {
-      print('Wikipedia get detail error: $e');
+      debugPrint('Wikipedia get detail error: $e');
       return null;
     }
   }
@@ -170,7 +178,7 @@ class OnlineEncyclopediaService {
         results.add(detail);
       }
       // 添加小延迟避免请求过快
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(_requestDelay);
     }
 
     return results;

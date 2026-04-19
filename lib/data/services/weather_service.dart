@@ -29,7 +29,10 @@ class WeatherService {
           '&current=temperature_2m,relative_humidity_2m,weather_code'
           '&timezone=auto';
 
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => throw Exception('请求超时'),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -63,7 +66,10 @@ class WeatherService {
           '&timezone=auto'
           '&forecast_days=$days';
 
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => throw Exception('请求超时'),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -145,12 +151,15 @@ class WeatherService {
           '&appid=$_openWeatherMapKey'
           '&units=metric';
 
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => throw Exception('请求超时'),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final main = data['main'];
-        final weather = data['weather'][0];
+        final weather = data['weather'][0] as Map<String, dynamic>;
 
         return WeatherData(
           location: data['name'],
