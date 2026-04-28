@@ -8,35 +8,34 @@
 
 ## Review 文案
 
-文案生成后，使用 DeepSeek 进行多轮迭代 Review：
+文案生成后，使用 MiniMax 进行多轮迭代 Review：
 
-```bash
-# 单次 review（只看不改）
-python3 tools/review/deepseek_reviewer.py review <文件路径>
+1. **复制文案** → 打开 `docs/video/prompts/review-prompt-template.md` 获取快捷版 Prompt
+2. **粘贴到 MiniMax** → 使用 `x claude mm` 命令调用 MiniMax
+3. **Review + 修改** → 根据建议修改文案
+4. **迭代优化** → 重复 Review 直到满意
 
-# review + 自动修改
-python3 tools/review/deepseek_reviewer.py review <文件路径> --apply
+### 快捷流程
 
-# 多轮迭代 review + 修改（默认3轮）
-python3 tools/review/deepseek_reviewer.py iterate <文件路径>
-
-# 自定义迭代轮数
-python3 tools/review/deepseek_reviewer.py iterate <文件路径> --rounds 5
+```
+review 并修改以下文案，保持B站风格，直接输出完整修改版：
+[粘贴文案]
 ```
 
-## 推荐流程
+### 分步流程
 
-1. **生成文案** → Claude Code + MiniMax
-2. **第一轮 Review** → `python3 tools/review/deepseek_reviewer.py review <文件> --apply`
-3. **检查修改** → 查看文件内容，确认是否符合预期
-4. **如需继续优化** → `python3 tools/review/deepseek_reviewer.py iterate <文件> --rounds 2`
-5. **定稿** → 提交到远程 repo
+```
+# 第一轮 Review
+review 以下文案，给出修改建议：
+[粘贴文案]
 
-## 注意事项
+# 修改
+根据建议修改文案，直接输出完整新版：
 
-- Review 前确保文案已保存
-- 每次修改会自动创建 `.bak` 备份
-- `--reviewer bilibili` 会对 B站特性进行优化
+# 迭代确认
+再 review 一次，确认是否定稿：
+[粘贴当前文案]
+```
 
 ## 生成封面图片提示词
 
