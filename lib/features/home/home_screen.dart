@@ -5,7 +5,6 @@ import '../../data/models/reptile.dart';
 import '../../data/models/user.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/repositories/repositories.dart';
-import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../settings/level_select_screen.dart';
@@ -133,6 +132,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                     const SizedBox(height: 20),
 
+                    // 繁殖指南
+                    _buildSectionTitle('繁殖指南'),
+                    const SizedBox(height: 12),
+                    _buildBreedingGuides(l10n),
+
+                    const SizedBox(height: 20),
+
                     // 今日提醒
                     _buildSectionTitle(l10n.todayReminder),
                     const SizedBox(height: 12),
@@ -174,6 +180,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 定位标语
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: const Text(
+              '知识型爬宠管理工具',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
           Text(
             l10n.welcome,
             style: const TextStyle(
@@ -547,6 +570,102 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  Widget _buildBreedingGuides(AppLocalizations l10n) {
+    final breedingGuides = [
+      _BreedingGuideItem(
+        title: '草龟繁殖保姆级教程',
+        summary: '从亲龟选择到冬化、孵化、育雏的完整指南',
+        icon: Icons.egg,
+        color: Colors.green,
+      ),
+      _BreedingGuideItem(
+        title: '红面蛋龟繁殖指南',
+        summary: '全年加温，长周期孵化进阶指南',
+        icon: Icons.water,
+        color: Colors.blue,
+      ),
+      _BreedingGuideItem(
+        title: '繁殖冷知识与应对',
+        summary: '常见问题及解决方案大全',
+        icon: Icons.lightbulb,
+        color: Colors.orange,
+      ),
+    ];
+
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: breedingGuides.length,
+        itemBuilder: (context, index) {
+          final guide = breedingGuides[index];
+          return _buildBreedingGuideCard(guide);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBreedingGuideCard(_BreedingGuideItem guide) {
+    return Container(
+      width: 200,
+      margin: const EdgeInsets.only(right: 12),
+      child: Card(
+        child: InkWell(
+          onTap: () {
+            // 跳转到知识详情
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const KnowledgeScreen()),
+            );
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: guide.color.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(guide.icon, color: guide.color, size: 18),
+                    ),
+                    const Spacer(),
+                    Icon(Icons.arrow_forward_ios, size: 12, color: Colors.grey[400]),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  guide.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  guide.summary,
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 11,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildReminderItem({
     required IconData icon,
     required String title,
@@ -585,4 +704,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
     );
   }
+}
+
+class _BreedingGuideItem {
+  final String title;
+  final String summary;
+  final IconData icon;
+  final Color color;
+
+  _BreedingGuideItem({
+    required this.title,
+    required this.summary,
+    required this.icon,
+    required this.color,
+  });
 }

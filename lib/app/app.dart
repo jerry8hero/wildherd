@@ -6,11 +6,9 @@ import 'locale_provider.dart';
 import '../features/home/home_screen.dart';
 import '../features/encyclopedia/encyclopedia_screen.dart';
 import '../features/encyclopedia/species_library_screen.dart';
-import '../features/virtual_pet/electronic_pet_screen.dart';
 import '../features/knowledge/knowledge_screen.dart';
 import '../features/medical/medical_screen.dart';
 import '../features/breeding/breeding_screen.dart';
-import '../features/business/business_screen.dart';
 import '../l10n/generated/app_localizations.dart';
 
 class ReptileCareApp extends ConsumerWidget {
@@ -50,11 +48,9 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const EncyclopediaScreen(),
     const SpeciesLibraryScreen(),
-    const ElectronicPetScreen(),
     const KnowledgeScreen(),
     const MedicalScreen(),
     const BreedingScreen(),
-    const BusinessScreen(),
   ];
 
   @override
@@ -85,11 +81,6 @@ class _MainScreenState extends State<MainScreen> {
             label: '物种库',
           ),
           NavigationDestination(
-            icon: Icon(Icons.trending_up_outlined),
-            selectedIcon: Icon(Icons.trending_up),
-            label: '成长',
-          ),
-          NavigationDestination(
             icon: Icon(Icons.lightbulb_outlined),
             selectedIcon: Icon(Icons.lightbulb),
             label: '知识',
@@ -103,11 +94,6 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.egg_outlined),
             selectedIcon: Icon(Icons.egg),
             label: '繁殖',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.store_outlined),
-            selectedIcon: Icon(Icons.store),
-            label: '经营',
           ),
         ],
       ),
