@@ -213,26 +213,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               fontSize: 14,
             ),
           ),
-          // 调试信息 - 显示宠物名称
-          if (_reptiles.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(
-              '宠物: ${_reptiles.map((r) => r.name).join(", ")}',
-              style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 12,
-              ),
-            ),
-          ],
-          // 调试信息 - 显示 reptile 数量
-          const SizedBox(height: 4),
-          Text(
-            '爬宠数据条数: ${_reptiles.length}',
-            style: const TextStyle(
-              color: Colors.white60,
-              fontSize: 10,
-            ),
-          ),
         ],
       ),
     );

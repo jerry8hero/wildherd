@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../constants/habitat_constants.dart';
 import '../../data/models/habitat.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/habitat_repository.dart';
@@ -23,8 +24,8 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
   HabitatScore? _score;
 
   // 环境参数
-  double _temperature = 25;
-  double _humidity = 50;
+  double _temperature = HabitatConstants.defaultTemperature;
+  double _humidity = HabitatConstants.defaultHumidity;
   double? _uvIndex;
   String? _substrate;
   String? _lighting;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../constants/brumation_constants.dart';
 import '../../data/models/breeding.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/breeding_repository.dart';
@@ -187,12 +188,7 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
   }
 
   Color _getTempColor(double temp) {
-    if (temp < 5) return Colors.blue;
-    if (temp < 10) return Colors.lightBlue;
-    if (temp < 15) return Colors.teal;
-    if (temp < 20) return Colors.green;
-    if (temp < 25) return Colors.orange;
-    return Colors.red;
+    return BrumationConstants.getTempColor(temp);
   }
 
   String _formatDate(DateTime date) {
@@ -203,7 +199,7 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
     final temp = await showDialog<double>(
       context: context,
       builder: (context) {
-        double temperature = 10;
+        double temperature = BrumationConstants.defaultTemp;
         double? humidity;
         return AlertDialog(
           title: const Text('添加温度记录'),

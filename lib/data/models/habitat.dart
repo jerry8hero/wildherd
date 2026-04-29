@@ -1,4 +1,5 @@
 // 饲养环境数据模型
+import '../../constants/habitat_constants.dart';
 
 class HabitatEnvironment {
   final String id;
@@ -39,8 +40,8 @@ class HabitatEnvironment {
       reptileId: map['reptile_id'] ?? '',
       reptileName: map['reptile_name'] ?? '',
       speciesId: map['species_id'] ?? '',
-      temperature: (map['temperature'] ?? 25).toDouble(),
-      humidity: (map['humidity'] ?? 50).toDouble(),
+      temperature: (map['temperature'] ?? HabitatConstants.defaultTemperature).toDouble(),
+      humidity: (map['humidity'] ?? HabitatConstants.defaultHumidity).toDouble(),
       uvIndex: map['uv_index']?.toDouble(),
       substrate: map['substrate'],
       lighting: map['lighting'],
@@ -141,18 +142,18 @@ class HabitatStandard {
   factory HabitatStandard.fromMap(Map<String, dynamic> map) {
     return HabitatStandard(
       speciesId: map['species_id'] ?? '',
-      minTemp: (map['min_temp'] ?? 20).toDouble(),
-      maxTemp: (map['max_temp'] ?? 30).toDouble(),
-      idealTemp: (map['ideal_temp'] ?? 25).toDouble(),
-      minHumidity: (map['min_humidity'] ?? 30).toDouble(),
-      maxHumidity: (map['max_humidity'] ?? 70).toDouble(),
+      minTemp: (map['min_temp'] ?? HabitatConstants.defaultMinTemp).toDouble(),
+      maxTemp: (map['max_temp'] ?? HabitatConstants.defaultMaxTemp).toDouble(),
+      idealTemp: (map['ideal_temp'] ?? HabitatConstants.defaultIdealTemp).toDouble(),
+      minHumidity: (map['min_humidity'] ?? HabitatConstants.defaultMinHumidity).toDouble(),
+      maxHumidity: (map['max_humidity'] ?? HabitatConstants.defaultMaxHumidity).toDouble(),
       idealHumidity: map['ideal_humidity']?.toDouble(),
       idealUV: map['ideal_uv']?.toDouble(),
       suitableSubstrates: map['suitable_substrates'] != null
           ? List<String>.from(map['suitable_substrates'])
           : [],
       lightingNeed: map['lighting_need'] ?? '需适量UVB',
-      minTankSize: map['min_tank_size'] ?? 60,
+      minTankSize: map['min_tank_size'] ?? HabitatConstants.minTankSize.toInt(),
       heatingRecommendation: map['heating_recommendation'],
       ventilationNeed: map['ventilation_need'],
     );

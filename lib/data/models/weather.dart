@@ -1,3 +1,5 @@
+import '../../constants/feeding_constants.dart';
+
 /// 天气数据模型
 class WeatherData {
   final String location;
@@ -145,49 +147,49 @@ class FeedingRecommendation {
   // 基于温度生成推荐
   factory FeedingRecommendation.fromTemperature(double temp) {
     // 爬宠消化最佳温度通常在25-35°C
-    if (temp < 18) {
+    if (temp < FeedingConstants.tempStopFeeding) {
       return FeedingRecommendation(
         canFeed: false,
         title: '不建议喂食',
         reason: '温度过低，爬宠消化系统运作缓慢',
-        suggestedInterval: 3,
+        suggestedInterval: FeedingConstants.intervalCold,
         warning: '低于18°C时应停止喂食，避免食物在肠道中腐烂',
       );
-    } else if (temp < 22) {
+    } else if (temp < FeedingConstants.tempCaution) {
       return FeedingRecommendation(
         canFeed: false,
         title: '谨慎喂食',
         reason: '温度偏低，消化效率较低',
-        suggestedInterval: 2,
+        suggestedInterval: FeedingConstants.intervalCool,
         warning: '建议等温度回升后再喂食',
       );
-    } else if (temp < 25) {
+    } else if (temp < FeedingConstants.tempNormalLow) {
       return FeedingRecommendation(
         canFeed: true,
         title: '可以喂食',
         reason: '温度适宜，但消化较慢',
-        suggestedInterval: 2,
+        suggestedInterval: FeedingConstants.intervalCool,
       );
-    } else if (temp <= 32) {
+    } else if (temp <= FeedingConstants.tempOptimalHigh) {
       return FeedingRecommendation(
         canFeed: true,
         title: '适合喂食',
         reason: '温度适宜，消化系统活跃',
-        suggestedInterval: 1,
+        suggestedInterval: FeedingConstants.intervalNormal,
       );
-    } else if (temp <= 35) {
+    } else if (temp <= FeedingConstants.tempWarning) {
       return FeedingRecommendation(
         canFeed: true,
         title: '可以喂食',
         reason: '温度较高，注意保持水分',
-        suggestedInterval: 1,
+        suggestedInterval: FeedingConstants.intervalNormal,
       );
     } else {
       return FeedingRecommendation(
         canFeed: false,
         title: '不建议喂食',
         reason: '温度过高，爬宠可能中暑',
-        suggestedInterval: 1,
+        suggestedInterval: FeedingConstants.intervalNormal,
         warning: '高于35°C时应减少活动，避免喂食',
       );
     }
