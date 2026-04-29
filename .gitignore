@@ -53,6 +53,10 @@ macos/.packages
 windows/.dart_tool/
 web/.dart_tool/
 
+# Platform build directories
+linux/
+macos/
+
 # Flutter build outputs
 *.png (generated)
 
