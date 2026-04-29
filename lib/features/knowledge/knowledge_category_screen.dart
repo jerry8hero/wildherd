@@ -130,7 +130,7 @@ class _KnowledgeCategoryScreenState extends State<KnowledgeCategoryScreen>
                         children: _subCategories.map((sub) {
                           return ActionChip(
                             label: Text(sub.name),
-                            avatar: Icon(
+                            avatar: const Icon(
                               Icons.subdirectory_arrow_right,
                               size: 16,
                             ),

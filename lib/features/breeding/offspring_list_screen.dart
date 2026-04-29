@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/breeding.dart';
 import '../../data/repositories/breeding_repository.dart';
-import '../../app/theme.dart';
 
 class OffspringListScreen extends ConsumerStatefulWidget {
   const OffspringListScreen({super.key});
@@ -115,13 +114,13 @@ class _OffspringListScreenState extends ConsumerState<OffspringListScreen> {
               Row(
                 children: [
                   if (offspring.gender != null) ...[
-                    Icon(Icons.wc, size: 16, color: Colors.grey),
+                    const Icon(Icons.wc, size: 16, color: Colors.grey),
                     const SizedBox(width: 4),
                     Text(offspring.gender!, style: TextStyle(color: Colors.grey[600])),
                     const SizedBox(width: 12),
                   ],
                   if (offspring.currentWeight != null) ...[
-                    Icon(Icons.monitor_weight, size: 16, color: Colors.grey),
+                    const Icon(Icons.monitor_weight, size: 16, color: Colors.grey),
                     const SizedBox(width: 4),
                     Text('${offspring.currentWeight}g', style: TextStyle(color: Colors.grey[600])),
                   ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/breeding.dart';
 import '../../data/repositories/breeding_repository.dart';
-import '../../app/theme.dart';
 
 class BreedingEggScreen extends StatefulWidget {
   final BreedingBatch batch;

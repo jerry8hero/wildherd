@@ -220,7 +220,7 @@ class _BreedingStatsScreenState extends ConsumerState<BreedingStatsScreen> {
                     ),
                     child: Text(
                       '${entry.value}次',
-                      style: TextStyle(color: AppTheme.primaryColor),
+                      style: const TextStyle(color: AppTheme.primaryColor),
                     ),
                   ),
                 ],

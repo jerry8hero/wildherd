@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/brumation_constants.dart';
 import '../../data/models/breeding.dart';
 import '../../data/models/reptile.dart';
-import '../../data/repositories/breeding_repository.dart';
 import '../../data/repositories/repositories.dart';
 
 class BrumationScreen extends ConsumerStatefulWidget {
@@ -85,7 +84,7 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
           labelText: '选择爬宠',
           border: OutlineInputBorder(),
         ),
-        value: _selectedReptile,
+        initialValue: _selectedReptile,
         items: _reptiles.map((reptile) {
           return DropdownMenuItem(
             value: reptile,
@@ -200,7 +199,6 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
       context: context,
       builder: (context) {
         double temperature = BrumationConstants.defaultTemp;
-        double? humidity;
         return AlertDialog(
           title: const Text('添加温度记录'),
           content: Column(
@@ -223,9 +221,6 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
                   labelText: '湿度 (%) - 可选',
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) {
-                  humidity = double.tryParse(value);
-                },
               ),
             ],
           ),

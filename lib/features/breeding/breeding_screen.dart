@@ -273,9 +273,9 @@ class _BreedingScreenState extends ConsumerState<BreedingScreen> {
           ...activeBatches.take(3).map((batch) => Card(
             margin: const EdgeInsets.only(bottom: 8),
             child: ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundColor: AppTheme.primaryColor,
-                child: const Icon(Icons.egg, color: Colors.white),
+                child: Icon(Icons.egg, color: Colors.white),
               ),
               title: Text(batch.reptileName),
               subtitle: Text(batch.stage),
