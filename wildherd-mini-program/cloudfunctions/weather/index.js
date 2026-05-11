@@ -1,19 +1,10 @@
 // cloudfunctions/weather/index.js
 // 天气查询云函数 - 使用和风天气 API
 
-const cloud = require('wx-server-sdk')
+const { response } = require('shared/utils')
 const https = require('https')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-
-// 统一响应格式
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
 
 // 和风天气 API 配置
-// 请替换为你的和风天气 KEY
 const HEFENG_KEY = 'YOUR_HEFENG_KEY'
 const HEFENG_BASE_URL = 'https://devapi.qweather.com/v7'
 
@@ -92,7 +83,6 @@ exports.main = async (event, context) => {
 
       case 'getLocation':
         // 获取当前位置（通过微信小程序获取的坐标）
-        // 微信小程序的坐标是 wgs84 类型，需要转换
         if (!data.lat || !data.lon) {
           return response(false, null, '缺少位置信息')
         }

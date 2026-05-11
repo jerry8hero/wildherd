@@ -1,20 +1,7 @@
 // cloudfunctions/reptile/index.js
 // 爬宠管理云函数
 
-const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-
-const db = cloud.database()
-
-// 统一响应格式
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
-
-// 获取用户 openid
-const getOpenId = () => cloud.getWXContext().OPENID
+const { response, getOpenId, db } = require('shared/utils')
 
 exports.main = async (event, context) => {
   const { action, data } = event

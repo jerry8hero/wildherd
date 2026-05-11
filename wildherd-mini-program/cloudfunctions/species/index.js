@@ -1,17 +1,7 @@
 // cloudfunctions/species/index.js
 // 物种百科云函数 - 只读查询预置数据
 
-const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-
-const db = cloud.database()
-
-// 统一响应格式
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
+const { response, db } = require('shared/utils')
 
 exports.main = async (event, context) => {
   const { action, data } = event

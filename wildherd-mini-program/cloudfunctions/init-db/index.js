@@ -1,10 +1,7 @@
 // cloudfunctions/init-db/index.js
 // 数据库初始化云函数 - 用于批量插入物种数据
 
-const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-
-const db = cloud.database()
+const { response, db } = require('shared/utils')
 
 // 物种数据
 const speciesData = [
@@ -220,14 +217,7 @@ const speciesData = [
   }
 ]
 
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
-
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
 
   // 仅管理员可调用（可通过配置判断）
   try {

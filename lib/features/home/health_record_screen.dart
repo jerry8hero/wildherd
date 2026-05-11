@@ -3,6 +3,9 @@ import '../../data/models/reptile.dart';
 import '../../data/models/record.dart';
 import '../../data/repositories/repositories.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../utils/date_utils.dart';
+import '../../widgets/empty_state.dart';
+import '../../widgets/delete_confirm_dialog.dart';
 
 class HealthRecordScreen extends StatefulWidget {
   const HealthRecordScreen({super.key});
@@ -102,7 +105,11 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
             child: _isLoading
                 ? Center(child: Text(l10n.loading))
                 : _records.isEmpty
-                    ? _buildEmptyState(l10n)
+                    ? EmptyState(
+                        icon: Icons.medical_services,
+                        title: l10n.noRecords,
+                        subtitle: l10n.addFirstRecord,
+                      )
                     : RefreshIndicator(
                         onRefresh: _loadData,
                         child: ListView.builder(
@@ -122,27 +129,6 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
               onPressed: _showAddRecordDialog,
               child: const Icon(Icons.add),
             ),
-    );
-  }
-
-  Widget _buildEmptyState(AppLocalizations l10n) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.medical_services, size: 60, color: Colors.grey[300]),
-          const SizedBox(height: 16),
-          Text(
-            l10n.noRecords,
-            style: TextStyle(color: Colors.grey[600]),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.addFirstRecord,
-            style: TextStyle(color: Colors.grey[500], fontSize: 12),
-          ),
-        ],
-      ),
     );
   }
 
@@ -222,7 +208,7 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  _formatDate(record.recordDate),
+                  DateTimeUtils.formatRelativeTime(record.recordDate),
                   style: TextStyle(color: Colors.grey[500], fontSize: 12),
                 ),
                 if (record.defecation != null) ...[
@@ -336,41 +322,10 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
   }
 
   Future<void> _deleteRecord(String id) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('删除记录'),
-        content: const Text('确定要删除这条健康记录吗？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('取消'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('删除'),
-          ),
-        ],
-      ),
-    );
-
+    final confirmed = await DeleteConfirmDialog.show(context, recordLabel: '健康记录');
     if (confirmed == true) {
       await _repository.deleteHealthRecord(id);
       _loadData();
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final diff = now.difference(date);
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}分钟前';
-    } else if (diff.inHours < 24) {
-      return '${diff.inHours}小时前';
-    } else if (diff.inDays < 7) {
-      return '${diff.inDays}天前';
-    } else {
-      return '${date.month}-${date.day}';
     }
   }
 }

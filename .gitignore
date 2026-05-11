@@ -60,6 +60,9 @@ macos/
 # Flutter build outputs
 *.png (generated)
 
+# Environment variables
+.env
+
 # LFS (if not using git lfs for these)
 # *.png
 # *.jpg

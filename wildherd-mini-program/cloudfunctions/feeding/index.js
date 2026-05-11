@@ -1,27 +1,7 @@
 // cloudfunctions/feeding/index.js
 // 喂食记录云函数
 
-const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-
-const db = cloud.database()
-
-// 统一响应格式
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
-
-// 获取用户 openid
-const getOpenId = () => cloud.getWXContext().OPENID
-
-// 验证爬宠归属
-async function validateReptile(reptileId, openid) {
-  if (!reptileId) return false
-  const reptile = await db.collection('reptiles').doc(reptileId).get()
-  return reptile.data && reptile.data.userId === openid
-}
+const { response, getOpenId, validateReptile, db } = require('shared/utils')
 
 exports.main = async (event, context) => {
   const { action, data } = event

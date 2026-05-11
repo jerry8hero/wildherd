@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 """测试天气API"""
 
+import os
 import requests
-import json
 
-API_KEY = '4a79ec0dbe836c6fa5619541c39efa7b'
+API_KEY = os.environ.get('OPENWEATHER_API_KEY')
+if not API_KEY:
+    raise SystemExit('请设置环境变量 OPENWEATHER_API_KEY')
+
 CITY = 'Beijing'
 
 url = f'https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric'

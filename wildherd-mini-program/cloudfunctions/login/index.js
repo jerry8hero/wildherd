@@ -1,22 +1,12 @@
 // cloudfunctions/login/index.js
 // 微信登录云函数 - 获取 OpenID 和用户信息
 
-const cloud = require('wx-server-sdk')
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const { response, db, getOpenId } = require('shared/utils')
 
-const db = cloud.database()
 const MAX_LOGIN_DAYS = 7 // 记住登录状态的天数
 
-// 统一响应格式
-const response = (success, data, message) => ({
-  success,
-  data,
-  message
-})
-
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const openid = getOpenId()
 
   if (!openid) {
     return response(false, null, '获取 OpenID 失败')
