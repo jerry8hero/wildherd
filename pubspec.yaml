@@ -37,6 +37,12 @@ dependencies:
   uuid: ^4.5.1
   share_plus: ^7.2.2
 
+  # 图表
+  fl_chart: ^0.69.0
+
+  # 本地通知
+  flutter_local_notifications: ^18.0.1
+
   # 字体支持 (如需使用 Google Fonts 请取消注释)
   # google_fonts: ^6.2.1
 

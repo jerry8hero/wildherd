@@ -6,6 +6,9 @@ import '../../app/theme.dart';
 import '../../utils/date_utils.dart';
 import '../../utils/gender_utils.dart';
 import '../../app/providers.dart';
+import '../shedding/shedding_screen.dart';
+import '../reminders/reminder_list_screen.dart';
+import 'growth_chart_screen.dart';
 
 class ReptileDetailScreen extends ConsumerStatefulWidget {
   final Reptile reptile;
@@ -254,6 +257,79 @@ class _ReptileDetailScreenState extends ConsumerState<ReptileDetailScreen> {
                   child: const Text('保存修改'),
                 ),
               ),
+
+            // 功能入口（非编辑模式显示）
+            if (!_isEditing) ...[
+              const SizedBox(height: 16),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '功能',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _FeatureCard(
+                      icon: Icons.show_chart,
+                      label: '成长图表',
+                      color: Colors.green,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => GrowthChartScreen(
+                              reptileId: _reptile.id,
+                              reptileName: _reptile.name,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _FeatureCard(
+                      icon: Icons.auto_awesome,
+                      label: '蜕皮记录',
+                      color: Colors.purple,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SheddingScreen(
+                              reptileId: _reptile.id,
+                              reptileName: _reptile.name,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _FeatureCard(
+                      icon: Icons.notifications_active,
+                      label: '喂食提醒',
+                      color: Colors.orange,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ReminderListScreen(
+                              reptileId: _reptile.id,
+                              reptileName: _reptile.name,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
@@ -275,6 +351,48 @@ class _ReptileDetailScreenState extends ConsumerState<ReptileDetailScreen> {
           ),
           Expanded(child: child),
         ],
+      ),
+    );
+  }
+}
+
+class _FeatureCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _FeatureCard({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Column(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, color: color, size: 22),
+              ),
+              const SizedBox(height: 8),
+              Text(label, style: const TextStyle(fontSize: 13)),
+            ],
+          ),
+        ),
       ),
     );
   }

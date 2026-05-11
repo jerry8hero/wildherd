@@ -7,6 +7,8 @@ export 'medical_repository.dart';
 export 'knowledge_repository.dart';
 export 'habitat_repository.dart';
 export 'breeding_repository.dart';
+export 'shedding_repository.dart';
+export 'reminder_repository.dart';
 
 // 保留 KnowledgeSearchResult 类供兼容
 export 'knowledge_repository.dart' show KnowledgeSearchResult;
