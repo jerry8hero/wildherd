@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/article.dart';
 import '../../data/models/faq.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 import '../../data/services/online_encyclopedia_service.dart';
 import 'knowledge_detail_screen.dart';
 
 /// 搜索模式：本地或联网
 enum SearchMode { local, online }
 
-class KnowledgeSearchScreen extends StatefulWidget {
+class KnowledgeSearchScreen extends ConsumerStatefulWidget {
   const KnowledgeSearchScreen({super.key});
 
   @override
-  State<KnowledgeSearchScreen> createState() => _KnowledgeSearchScreenState();
+  ConsumerState<KnowledgeSearchScreen> createState() => _KnowledgeSearchScreenState();
 }
 
-class _KnowledgeSearchScreenState extends State<KnowledgeSearchScreen> {
+class _KnowledgeSearchScreenState extends ConsumerState<KnowledgeSearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final KnowledgeRepository _repository = KnowledgeRepository();
   final FocusNode _focusNode = FocusNode();
 
   String _keyword = '';
@@ -58,7 +58,7 @@ class _KnowledgeSearchScreenState extends State<KnowledgeSearchScreen> {
       _onlineResults = await OnlineEncyclopediaService.searchReptile(keyword);
     } else {
       // 本地搜索
-      _searchResult = await _repository.searchAll(keyword);
+      _searchResult = await ref.read(knowledgeRepositoryProvider).searchAll(keyword);
     }
 
     setState(() {

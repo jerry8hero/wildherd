@@ -34,6 +34,7 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.2.3
   url_launcher: ^6.2.5
+  uuid: ^4.5.1
   share_plus: ^7.2.2
 
   # 字体支持 (如需使用 Google Fonts 请取消注释)

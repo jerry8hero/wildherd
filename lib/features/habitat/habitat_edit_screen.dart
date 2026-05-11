@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../constants/habitat_constants.dart';
 import '../../data/models/habitat.dart';
 import '../../data/models/reptile.dart';
-import '../../data/repositories/habitat_repository.dart';
+import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../widgets/habitat_gauge.dart';
 import '../../widgets/habitat_advice_card.dart';
 
-class HabitatEditScreen extends StatefulWidget {
+class HabitatEditScreen extends ConsumerStatefulWidget {
   final HabitatEnvironment? environment;
 
   const HabitatEditScreen({super.key, this.environment});
 
   @override
-  State<HabitatEditScreen> createState() => _HabitatEditScreenState();
+  ConsumerState<HabitatEditScreen> createState() => _HabitatEditScreenState();
 }
 
-class _HabitatEditScreenState extends State<HabitatEditScreen> {
-  final HabitatRepository _repository = HabitatRepository();
+class _HabitatEditScreenState extends ConsumerState<HabitatEditScreen> {
   List<Reptile> _reptiles = [];
   Reptile? _selectedReptile;
   HabitatStandard? _standard;
@@ -44,7 +45,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
 
   Future<void> _initData() async {
     try {
-      final reptiles = await _repository.getUserReptiles();
+      final reptiles = await ref.read(habitatRepositoryProvider).getUserReptiles();
 
       if (widget.environment != null) {
         // 编辑模式
@@ -66,12 +67,12 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
         _selectedReptile = reptile;
 
         // 加载标准
-        _standard = await _repository.getStandard(env.speciesId);
+        _standard = await ref.read(habitatRepositoryProvider).getStandard(env.speciesId);
       } else {
         // 新增模式
         if (reptiles.isNotEmpty) {
           _selectedReptile = reptiles.first;
-          _standard = await _repository.getStandard(_selectedReptile!.species);
+          _standard = await ref.read(habitatRepositoryProvider).getStandard(_selectedReptile!.species);
           if (_standard != null) {
             _temperature = _standard!.idealTemp;
             _humidity = _standard!.idealHumidity ?? 50;
@@ -118,7 +119,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
     );
 
     setState(() {
-      _score = _repository.calculateScore(env, _standard!);
+      _score = ref.read(habitatRepositoryProvider).calculateScore(env, _standard!);
     });
   }
 
@@ -129,7 +130,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
       _selectedReptile = reptile;
     });
 
-    final standard = await _repository.getStandard(reptile.species);
+    final standard = await ref.read(habitatRepositoryProvider).getStandard(reptile.species);
     if (standard != null) {
       setState(() {
         _standard = standard;
@@ -153,7 +154,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
 
     try {
       final env = HabitatEnvironment(
-        id: widget.environment?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        id: widget.environment?.id ?? const Uuid().v7(),
         reptileId: _selectedReptile!.id,
         reptileName: _selectedReptile!.name,
         speciesId: _selectedReptile!.species,
@@ -169,7 +170,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
         updatedAt: DateTime.now(),
       );
 
-      await _repository.saveEnvironment(env);
+      await ref.read(habitatRepositoryProvider).saveEnvironment(env);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -549,7 +550,7 @@ class _HabitatEditScreenState extends State<HabitatEditScreen> {
     );
 
     if (confirmed == true && _selectedReptile != null) {
-      await _repository.deleteEnvironment(_selectedReptile!.id);
+      await ref.read(habitatRepositoryProvider).deleteEnvironment(_selectedReptile!.id);
       if (mounted) {
         Navigator.pop(context);
       }

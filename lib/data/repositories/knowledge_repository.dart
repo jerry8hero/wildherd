@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:uuid/uuid.dart';
 import '../local/database_helper.dart';
 import '../models/article.dart';
 import '../models/knowledge_category.dart';
@@ -269,7 +270,7 @@ class KnowledgeRepository {
       return false;
     } else {
       final collection = KnowledgeCollection(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: const Uuid().v7(),
         itemId: itemId,
         itemType: itemType,
         title: title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/breeding.dart';
 import '../../data/repositories/breeding_repository.dart';
 
@@ -305,7 +306,7 @@ class _AddLogDialogState extends State<_AddLogDialog> {
         : null;
 
     final log = BreedingLog(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: const Uuid().v7(),
       reptileId: '',
       logDate: DateTime.now(),
       title: _titleController.text,

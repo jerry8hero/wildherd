@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/reptile.dart';
 import '../../data/models/record.dart';
 import '../../data/repositories/repositories.dart';
@@ -6,17 +8,16 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../utils/date_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/delete_confirm_dialog.dart';
+import '../../app/providers.dart';
 
-class HealthRecordScreen extends StatefulWidget {
+class HealthRecordScreen extends ConsumerStatefulWidget {
   const HealthRecordScreen({super.key});
 
   @override
-  State<HealthRecordScreen> createState() => _HealthRecordScreenState();
+  ConsumerState<HealthRecordScreen> createState() => _HealthRecordScreenState();
 }
 
-class _HealthRecordScreenState extends State<HealthRecordScreen> {
-  final RecordRepository _repository = RecordRepository();
-  final ReptileRepository _reptileRepository = ReptileRepository();
+class _HealthRecordScreenState extends ConsumerState<HealthRecordScreen> {
   List<Reptile> _reptiles = [];
   List<HealthRecord> _records = [];
   bool _isLoading = true;
@@ -31,16 +32,16 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final reptiles = await _reptileRepository.getAllReptiles();
+      final reptiles = await ref.read(reptileRepositoryProvider).getAllReptiles();
       List<HealthRecord> records;
 
       if (_selectedReptileId != null) {
-        records = await _repository.getHealthRecords(_selectedReptileId!);
+        records = await ref.read(recordRepositoryProvider).getHealthRecords(_selectedReptileId!);
       } else {
         // 获取所有爬宠的记录
         records = [];
         for (var reptile in reptiles) {
-          final reptileRecords = await _repository.getHealthRecords(reptile.id);
+          final reptileRecords = await ref.read(recordRepositoryProvider).getHealthRecords(reptile.id);
           records.addAll(reptileRecords);
         }
         // 按时间排序
@@ -322,7 +323,7 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
         reptiles: _reptiles,
         selectedReptileId: _selectedReptileId ?? _reptiles.first.id,
         onSave: (record) async {
-          await _repository.addHealthRecord(record);
+          await ref.read(recordRepositoryProvider).addHealthRecord(record);
           _loadData();
         },
       ),
@@ -332,7 +333,7 @@ class _HealthRecordScreenState extends State<HealthRecordScreen> {
   Future<void> _deleteRecord(String id) async {
     final confirmed = await DeleteConfirmDialog.show(context, recordLabel: '健康记录');
     if (confirmed == true) {
-      await _repository.deleteHealthRecord(id);
+      await ref.read(recordRepositoryProvider).deleteHealthRecord(id);
       _loadData();
     }
   }
@@ -541,7 +542,7 @@ class _AddHealthRecordSheetState extends State<_AddHealthRecordSheet> {
 
   void _saveRecord() {
     final record = HealthRecord(
-      id: 'h${DateTime.now().millisecondsSinceEpoch}',
+      id: 'h${const Uuid().v7()}',
       reptileId: _selectedReptileId,
       recordDate: DateTime.now(),
       weight: double.tryParse(_weightController.text),

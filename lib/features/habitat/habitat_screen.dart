@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/habitat.dart';
-import '../../data/repositories/habitat_repository.dart';
+import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../widgets/habitat_gauge.dart';
 import 'habitat_edit_screen.dart';
 import 'habitat_compare_screen.dart';
 
-class HabitatScreen extends StatefulWidget {
+class HabitatScreen extends ConsumerStatefulWidget {
   const HabitatScreen({super.key});
 
   @override
-  State<HabitatScreen> createState() => _HabitatScreenState();
+  ConsumerState<HabitatScreen> createState() => _HabitatScreenState();
 }
 
-class _HabitatScreenState extends State<HabitatScreen> {
-  final HabitatRepository _repository = HabitatRepository();
+class _HabitatScreenState extends ConsumerState<HabitatScreen> {
   List<HabitatEnvironment> _environments = [];
   Map<String, HabitatStandard> _standards = {};
   Map<String, HabitatScore> _scores = {};
@@ -29,17 +29,17 @@ class _HabitatScreenState extends State<HabitatScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final environments = await _repository.getAllEnvironments();
+      final environments = await ref.read(habitatRepositoryProvider).getAllEnvironments();
 
       // 加载每个环境的标准和评分
       final standards = <String, HabitatStandard>{};
       final scores = <String, HabitatScore>{};
 
       for (var env in environments) {
-        final standard = await _repository.getStandard(env.speciesId);
+        final standard = await ref.read(habitatRepositoryProvider).getStandard(env.speciesId);
         if (standard != null) {
           standards[env.reptileId] = standard;
-          scores[env.reptileId] = _repository.calculateScore(env, standard);
+          scores[env.reptileId] = ref.read(habitatRepositoryProvider).calculateScore(env, standard);
         }
       }
 
@@ -272,7 +272,7 @@ class _HabitatScreenState extends State<HabitatScreen> {
   }
 
   Future<void> _addEnvironment() async {
-    final reptiles = await _repository.getUserReptiles();
+    final reptiles = await ref.read(habitatRepositoryProvider).getUserReptiles();
     if (reptiles.isEmpty) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

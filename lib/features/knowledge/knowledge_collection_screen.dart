@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/knowledge_collection.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 import 'knowledge_detail_screen.dart';
 
-class KnowledgeCollectionScreen extends StatefulWidget {
+class KnowledgeCollectionScreen extends ConsumerStatefulWidget {
   const KnowledgeCollectionScreen({super.key});
 
   @override
-  State<KnowledgeCollectionScreen> createState() => _KnowledgeCollectionScreenState();
+  ConsumerState<KnowledgeCollectionScreen> createState() => _KnowledgeCollectionScreenState();
 }
 
-class _KnowledgeCollectionScreenState extends State<KnowledgeCollectionScreen> {
-  final KnowledgeRepository _repository = KnowledgeRepository();
+class _KnowledgeCollectionScreenState extends ConsumerState<KnowledgeCollectionScreen> {
   List<KnowledgeCollection> _collections = [];
   bool _isLoading = true;
 
@@ -23,12 +23,12 @@ class _KnowledgeCollectionScreenState extends State<KnowledgeCollectionScreen> {
 
   Future<void> _loadCollections() async {
     setState(() => _isLoading = true);
-    _collections = await _repository.getCollections();
+    _collections = await ref.read(knowledgeRepositoryProvider).getCollections();
     setState(() => _isLoading = false);
   }
 
   Future<void> _removeCollection(KnowledgeCollection collection) async {
-    await _repository.removeCollection(collection.itemId);
+    await ref.read(knowledgeRepositoryProvider).removeCollection(collection.itemId);
     await _loadCollections();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -41,7 +41,7 @@ class _KnowledgeCollectionScreenState extends State<KnowledgeCollectionScreen> {
   }
 
   void _navigateToArticle(String articleId) async {
-    final article = await _repository.getArticleDetail(articleId);
+    final article = await ref.read(knowledgeRepositoryProvider).getArticleDetail(articleId);
     if (article != null && mounted) {
       Navigator.push(
         context,
@@ -91,7 +91,7 @@ class _KnowledgeCollectionScreenState extends State<KnowledgeCollectionScreen> {
                         onPressed: () async {
                           Navigator.pop(context);
                           for (var collection in _collections) {
-                            await _repository.removeCollection(collection.itemId);
+                            await ref.read(knowledgeRepositoryProvider).removeCollection(collection.itemId);
                           }
                           await _loadCollections();
                         },

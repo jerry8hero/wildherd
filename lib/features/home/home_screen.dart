@@ -13,6 +13,7 @@ import 'feeding_record_screen.dart';
 import 'health_record_screen.dart';
 import 'reptile_detail_screen.dart';
 import 'reptile_add_screen.dart';
+import '../../app/providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -23,8 +24,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final ReptileRepository _repository = ReptileRepository();
-  final EncyclopediaRepository _encyclopediaRepository = EncyclopediaRepository();
   List<Reptile> _reptiles = [];
   List<ReptileSpecies> _recommendedSpecies = [];
   bool _isLoading = true;
@@ -40,8 +39,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final reptiles = await _repository.getAllReptiles();
-      final allSpecies = await _encyclopediaRepository.getAllSpecies();
+      final reptiles = await ref.read(reptileRepositoryProvider).getAllReptiles();
+      final allSpecies = await ref.read(encyclopediaRepositoryProvider).getAllSpecies();
 
       // 根据用户等级筛选推荐物种
       final difficultyRange = _userLevel.difficultyRange;

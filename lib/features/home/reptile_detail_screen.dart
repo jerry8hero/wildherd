@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../app/theme.dart';
 import '../../utils/date_utils.dart';
 import '../../utils/gender_utils.dart';
+import '../../app/providers.dart';
 
-class ReptileDetailScreen extends StatefulWidget {
+class ReptileDetailScreen extends ConsumerStatefulWidget {
   final Reptile reptile;
 
   const ReptileDetailScreen({super.key, required this.reptile});
 
   @override
-  State<ReptileDetailScreen> createState() => _ReptileDetailScreenState();
+  ConsumerState<ReptileDetailScreen> createState() => _ReptileDetailScreenState();
 }
 
-class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
-  final ReptileRepository _repository = ReptileRepository();
+class _ReptileDetailScreenState extends ConsumerState<ReptileDetailScreen> {
   late Reptile _reptile;
   bool _isEditing = false;
 
@@ -50,7 +51,7 @@ class _ReptileDetailScreenState extends State<ReptileDetailScreen> {
       updatedAt: DateTime.now(),
     );
 
-    await _repository.updateReptile(updatedReptile);
+    await ref.read(reptileRepositoryProvider).updateReptile(updatedReptile);
     setState(() {
       _reptile = updatedReptile;
       _isEditing = false;

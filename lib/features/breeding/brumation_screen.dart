@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../constants/brumation_constants.dart';
 import '../../data/models/breeding.dart';
 import '../../data/models/reptile.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 
 class BrumationScreen extends ConsumerStatefulWidget {
   const BrumationScreen({super.key});
@@ -13,8 +14,6 @@ class BrumationScreen extends ConsumerStatefulWidget {
 }
 
 class _BrumationScreenState extends ConsumerState<BrumationScreen> {
-  final BreedingRepository _breedingRepo = BreedingRepository();
-  final ReptileRepository _reptileRepo = ReptileRepository();
   List<Reptile> _reptiles = [];
   Reptile? _selectedReptile;
   List<BrumationTemp> _temps = [];
@@ -28,7 +27,7 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
   }
 
   Future<void> _loadReptiles() async {
-    final reptiles = await _reptileRepo.getAllReptiles();
+    final reptiles = await ref.read(reptileRepositoryProvider).getAllReptiles();
     setState(() {
       _reptiles = reptiles;
       _isLoading = false;
@@ -38,8 +37,8 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
   Future<void> _loadTemps() async {
     if (_selectedReptile == null) return;
 
-    final temps = await _breedingRepo.getBrumationTemps(_selectedReptile!.id);
-    final stats = await _breedingRepo.getTemperatureStats(_selectedReptile!.id);
+    final temps = await ref.read(breedingRepositoryProvider).getBrumationTemps(_selectedReptile!.id);
+    final stats = await ref.read(breedingRepositoryProvider).getTemperatureStats(_selectedReptile!.id);
 
     setState(() {
       _temps = temps;
@@ -176,7 +175,7 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
             trailing: IconButton(
               icon: const Icon(Icons.delete_outline),
               onPressed: () async {
-                await _breedingRepo.deleteBrumationTemp(temp.id);
+                await ref.read(breedingRepositoryProvider).deleteBrumationTemp(temp.id);
                 _loadTemps();
               },
             ),
@@ -240,13 +239,13 @@ class _BrumationScreenState extends ConsumerState<BrumationScreen> {
 
     if (temp != null && _selectedReptile != null) {
       final brumationTemp = BrumationTemp(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: const Uuid().v7(),
         reptileId: _selectedReptile!.id,
         recordDate: DateTime.now(),
         temperature: temp,
         createdAt: DateTime.now(),
       );
-      await _breedingRepo.addBrumationTemp(brumationTemp);
+      await ref.read(breedingRepositoryProvider).addBrumationTemp(brumationTemp);
       _loadTemps();
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/breeding.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
@@ -321,7 +322,7 @@ class _BreedingBatchListScreenState extends State<BreedingBatchListScreen> {
   void _addBatch(Reptile female, Reptile? male) async {
     final now = DateTime.now();
     final batch = BreedingBatch(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: const Uuid().v7(),
       reptileId: female.id,      // 母体ID
       fatherId: male?.id,       // 父体ID
       reptileName: female.name,

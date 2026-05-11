@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/medical.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 
-class MedicalScreen extends StatefulWidget {
+class MedicalScreen extends ConsumerStatefulWidget {
   const MedicalScreen({super.key});
 
   @override
-  State<MedicalScreen> createState() => _MedicalScreenState();
+  ConsumerState<MedicalScreen> createState() => _MedicalScreenState();
 }
 
-class _MedicalScreenState extends State<MedicalScreen> with SingleTickerProviderStateMixin {
-  final MedicalRepository _repository = MedicalRepository();
+class _MedicalScreenState extends ConsumerState<MedicalScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Disease> _diseases = [];
   List<Symptom> _symptoms = [];
@@ -34,9 +34,9 @@ class _MedicalScreenState extends State<MedicalScreen> with SingleTickerProvider
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final diseases = await _repository.getAllDiseases();
-      final symptoms = await _repository.getAllSymptoms();
-      final guides = await _repository.getEmergencyGuides();
+      final diseases = await ref.read(medicalRepositoryProvider).getAllDiseases();
+      final symptoms = await ref.read(medicalRepositoryProvider).getAllSymptoms();
+      final guides = await ref.read(medicalRepositoryProvider).getEmergencyGuides();
       setState(() {
         _diseases = diseases;
         _symptoms = symptoms;
@@ -335,7 +335,7 @@ class _MedicalScreenState extends State<MedicalScreen> with SingleTickerProvider
   void _showSearchDialog(BuildContext context) {
     showSearch(
       context: context,
-      delegate: MedicalSearchDelegate(repository: _repository),
+      delegate: MedicalSearchDelegate(repository: ref.read(medicalRepositoryProvider)),
     );
   }
 
@@ -461,8 +461,7 @@ class DiseaseDetailScreen extends StatefulWidget {
   State<DiseaseDetailScreen> createState() => _DiseaseDetailScreenState();
 }
 
-class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
-  final MedicalRepository _repository = MedicalRepository();
+class _DiseaseDetailScreenState extends ConsumerState<DiseaseDetailScreen> {
   Disease? _disease;
   bool _isLoading = true;
 
@@ -474,7 +473,7 @@ class _DiseaseDetailScreenState extends State<DiseaseDetailScreen> {
 
   Future<void> _loadData() async {
     try {
-      final disease = await _repository.getDiseaseDetail(widget.diseaseId);
+      final disease = await ref.read(medicalRepositoryProvider).getDiseaseDetail(widget.diseaseId);
       setState(() {
         _disease = disease;
         _isLoading = false;
@@ -621,8 +620,7 @@ class SymptomCheckerScreen extends StatefulWidget {
   State<SymptomCheckerScreen> createState() => _SymptomCheckerScreenState();
 }
 
-class _SymptomCheckerScreenState extends State<SymptomCheckerScreen> {
-  final MedicalRepository _repository = MedicalRepository();
+class _SymptomCheckerScreenState extends ConsumerState<SymptomCheckerScreen> {
   List<Symptom> _symptoms = [];
   final List<String> _selectedSymptomIds = [];
   List<Disease> _matchedDiseases = [];
@@ -636,7 +634,7 @@ class _SymptomCheckerScreenState extends State<SymptomCheckerScreen> {
 
   Future<void> _loadSymptoms() async {
     try {
-      final symptoms = await _repository.getAllSymptoms();
+      final symptoms = await ref.read(medicalRepositoryProvider).getAllSymptoms();
       setState(() {
         _symptoms = symptoms;
         _isLoading = false;
@@ -661,7 +659,7 @@ class _SymptomCheckerScreenState extends State<SymptomCheckerScreen> {
       );
       return;
     }
-    final diseases = await _repository.findDiseasesBySymptoms(_selectedSymptomIds);
+    final diseases = await ref.read(medicalRepositoryProvider).findDiseasesBySymptoms(_selectedSymptomIds);
     setState(() => _matchedDiseases = diseases);
   }
 
@@ -801,9 +799,6 @@ class _SymptomCheckerScreenState extends State<SymptomCheckerScreen> {
 
 // 搜索代理
 class MedicalSearchDelegate extends SearchDelegate<String> {
-  final MedicalRepository repository;
-
-  MedicalSearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -838,7 +833,7 @@ class MedicalSearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索疾病'));
     }
     return FutureBuilder<List<Disease>>(
-      future: repository.searchDiseases(query),
+      future: ref.read(medicalRepositoryProvider).searchDiseases(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/article.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 
-class ArticleScreen extends StatefulWidget {
+class ArticleScreen extends ConsumerStatefulWidget {
   const ArticleScreen({super.key});
 
   @override
-  State<ArticleScreen> createState() => _ArticleScreenState();
+  ConsumerState<ArticleScreen> createState() => _ArticleScreenState();
 }
 
-class _ArticleScreenState extends State<ArticleScreen> {
-  final EncyclopediaRepository _repository = EncyclopediaRepository();
+class _ArticleScreenState extends ConsumerState<ArticleScreen> {
   List<Article> _articles = [];
   List<Article> _featuredArticles = [];
   bool _isLoading = true;
@@ -25,8 +25,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      await _repository.initArticleData();
-      final articles = await _repository.getAllArticles();
+      await ref.read(encyclopediaRepositoryProvider).initArticleData();
+      final articles = await ref.read(encyclopediaRepositoryProvider).getAllArticles();
       final featured = articles.where((a) => a.isFeatured).toList();
       setState(() {
         _articles = articles;
@@ -47,8 +47,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
   }
 
   Future<List<Article>> getAllArticles() async {
-    await _repository.initArticleData();
-    return await _repository.getAllArticles();
+    await ref.read(encyclopediaRepositoryProvider).initArticleData();
+    return await ref.read(encyclopediaRepositoryProvider).getAllArticles();
   }
 
   @override
@@ -337,7 +337,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   void _showSearchDialog(BuildContext context) {
     showSearch(
       context: context,
-      delegate: ArticleSearchDelegate(repository: _repository),
+      delegate: ArticleSearchDelegate(repository: ref.read(encyclopediaRepositoryProvider)),
     );
   }
 }
@@ -352,8 +352,7 @@ class ArticleDetailScreen extends StatefulWidget {
   State<ArticleDetailScreen> createState() => _ArticleDetailScreenState();
 }
 
-class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
-  final EncyclopediaRepository _repository = EncyclopediaRepository();
+class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
   Article? _article;
   bool _isLoading = true;
 
@@ -365,8 +364,8 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
 
   Future<void> _loadData() async {
     try {
-      await _repository.initArticleData();
-      final article = await _repository.getArticleDetail(widget.articleId);
+      await ref.read(encyclopediaRepositoryProvider).initArticleData();
+      final article = await ref.read(encyclopediaRepositoryProvider).getArticleDetail(widget.articleId);
       setState(() {
         _article = article;
         _isLoading = false;
@@ -536,9 +535,6 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
 
 // 搜索代理
 class ArticleSearchDelegate extends SearchDelegate<String> {
-  final EncyclopediaRepository repository;
-
-  ArticleSearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -573,7 +569,7 @@ class ArticleSearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索文章'));
     }
     return FutureBuilder<List<Article>>(
-      future: repository.searchArticles(query),
+      future: ref.read(encyclopediaRepositoryProvider).searchArticles(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/knowledge_category.dart';
 import '../../data/models/article.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 import 'knowledge_search_screen.dart';
 import 'knowledge_category_screen.dart';
 import 'knowledge_detail_screen.dart';
 import 'knowledge_collection_screen.dart';
 
-class KnowledgeScreen extends StatefulWidget {
+class KnowledgeScreen extends ConsumerStatefulWidget {
   const KnowledgeScreen({super.key});
 
   @override
-  State<KnowledgeScreen> createState() => _KnowledgeScreenState();
+  ConsumerState<KnowledgeScreen> createState() => _KnowledgeScreenState();
 }
 
-class _KnowledgeScreenState extends State<KnowledgeScreen> {
-  final KnowledgeRepository _repository = KnowledgeRepository();
+class _KnowledgeScreenState extends ConsumerState<KnowledgeScreen> {
   List<KnowledgeCategory> _topCategories = [];
   List<Article> _featuredArticles = [];
   bool _isLoading = true;
@@ -29,8 +29,8 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
 
-    _topCategories = _repository.getTopCategories();
-    _featuredArticles = await _repository.getFeaturedArticles();
+    _topCategories = ref.read(knowledgeRepositoryProvider).getTopCategories();
+    _featuredArticles = await ref.read(knowledgeRepositoryProvider).getFeaturedArticles();
 
     setState(() => _isLoading = false);
   }

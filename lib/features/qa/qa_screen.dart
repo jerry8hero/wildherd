@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/qa.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 
-class QAScreen extends StatefulWidget {
+class QAScreen extends ConsumerStatefulWidget {
   const QAScreen({super.key});
 
   @override
-  State<QAScreen> createState() => _QAScreenState();
+  ConsumerState<QAScreen> createState() => _QAScreenState();
 }
 
-class _QAScreenState extends State<QAScreen> {
-  final QARepository _repository = QARepository();
+class _QAScreenState extends ConsumerState<QAScreen> {
   List<Question> _questions = [];
   List<QATag> _tags = [];
   bool _isLoading = true;
@@ -26,8 +26,8 @@ class _QAScreenState extends State<QAScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final questions = await _repository.getAllQuestions(sortBy: _sortBy);
-      final tags = await _repository.getTags();
+      final questions = await ref.read(qaRepositoryProvider).getAllQuestions(sortBy: _sortBy);
+      final tags = await ref.read(qaRepositoryProvider).getTags();
       setState(() {
         _questions = questions;
         _tags = tags;
@@ -268,14 +268,14 @@ class _QAScreenState extends State<QAScreen> {
   void _showSearchDialog(BuildContext context) {
     showSearch(
       context: context,
-      delegate: QASearchDelegate(repository: _repository),
+      delegate: QASearchDelegate(repository: ref.read(qaRepositoryProvider)),
     );
   }
 
   Future<void> _loadQuestionsByTag(String tag) async {
     setState(() => _isLoading = true);
     try {
-      final questions = await _repository.getQuestionsByTag(tag);
+      final questions = await ref.read(qaRepositoryProvider).getQuestionsByTag(tag);
       setState(() {
         _questions = questions;
         _isLoading = false;
@@ -322,8 +322,7 @@ class QADetailScreen extends StatefulWidget {
   State<QADetailScreen> createState() => _QADetailScreenState();
 }
 
-class _QADetailScreenState extends State<QADetailScreen> {
-  final QARepository _repository = QARepository();
+class _QADetailScreenState extends ConsumerState<QADetailScreen> {
   Question? _question;
   List<Answer> _answers = [];
   bool _isLoading = true;
@@ -338,9 +337,9 @@ class _QADetailScreenState extends State<QADetailScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final question = await _repository.getQuestionDetail(widget.questionId);
-      final answers = await _repository.getAnswers(widget.questionId);
-      await _repository.viewQuestion(widget.questionId);
+      final question = await ref.read(qaRepositoryProvider).getQuestionDetail(widget.questionId);
+      final answers = await ref.read(qaRepositoryProvider).getAnswers(widget.questionId);
+      await ref.read(qaRepositoryProvider).viewQuestion(widget.questionId);
       setState(() {
         _question = question;
         _answers = answers;
@@ -581,18 +580,18 @@ class _QADetailScreenState extends State<QADetailScreen> {
       content: _answerController.text,
       createdAt: DateTime.now(),
     );
-    await _repository.addAnswer(answer);
+    await ref.read(qaRepositoryProvider).addAnswer(answer);
     _answerController.clear();
     _loadData();
   }
 
   Future<void> _likeAnswer(String answerId) async {
-    await _repository.likeAnswer(answerId);
+    await ref.read(qaRepositoryProvider).likeAnswer(answerId);
     _loadData();
   }
 
   Future<void> _acceptAnswer(String answerId) async {
-    await _repository.acceptAnswer(widget.questionId, answerId);
+    await ref.read(qaRepositoryProvider).acceptAnswer(widget.questionId, answerId);
     _loadData();
   }
 
@@ -621,8 +620,7 @@ class AskQuestionScreen extends StatefulWidget {
   State<AskQuestionScreen> createState() => _AskQuestionScreenState();
 }
 
-class _AskQuestionScreenState extends State<AskQuestionScreen> {
-  final QARepository _repository = QARepository();
+class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   String? _selectedSpeciesId;
@@ -795,7 +793,7 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
       createdAt: DateTime.now(),
     );
 
-    await _repository.addQuestion(question);
+    await ref.read(qaRepositoryProvider).addQuestion(question);
     if (mounted) {
       Navigator.pop(context);
     }
@@ -804,9 +802,6 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
 
 // 搜索代理
 class QASearchDelegate extends SearchDelegate<String> {
-  final QARepository repository;
-
-  QASearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -841,7 +836,7 @@ class QASearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索问题'));
     }
     return FutureBuilder<List<Question>>(
-      future: repository.searchQuestions(query),
+      future: ref.read(qaRepositoryProvider).searchQuestions(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

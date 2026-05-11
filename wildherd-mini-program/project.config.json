@@ -42,7 +42,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.25.0",
-  "appid": "YOUR_APPID",
+  "appid": "",
   "projectname": "wildherd-mini-program",
   "condition": {},
   "editorSetting": {

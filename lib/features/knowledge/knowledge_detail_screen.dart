@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/article.dart';
 import '../../data/models/knowledge_collection.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 
-class KnowledgeDetailScreen extends StatefulWidget {
+class KnowledgeDetailScreen extends ConsumerStatefulWidget {
   final Article article;
 
   const KnowledgeDetailScreen({super.key, required this.article});
 
   @override
-  State<KnowledgeDetailScreen> createState() => _KnowledgeDetailScreenState();
+  ConsumerState<KnowledgeDetailScreen> createState() => _KnowledgeDetailScreenState();
 }
 
-class _KnowledgeDetailScreenState extends State<KnowledgeDetailScreen> {
-  final KnowledgeRepository _repository = KnowledgeRepository();
+class _KnowledgeDetailScreenState extends ConsumerState<KnowledgeDetailScreen> {
   late Article _article;
   bool _isCollected = false;
   bool _isLoading = true;
@@ -26,7 +27,7 @@ class _KnowledgeDetailScreenState extends State<KnowledgeDetailScreen> {
   }
 
   Future<void> _loadArticleDetail() async {
-    final detail = await _repository.getArticleDetail(_article.id);
+    final detail = await ref.read(knowledgeRepositoryProvider).getArticleDetail(_article.id);
     if (detail != null) {
       setState(() {
         _article = detail;
@@ -35,8 +36,8 @@ class _KnowledgeDetailScreenState extends State<KnowledgeDetailScreen> {
     }
 
     // 添加阅读历史
-    await _repository.addReadHistory(ReadHistory(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+    await ref.read(knowledgeRepositoryProvider).addReadHistory(ReadHistory(
+      id: const Uuid().v7(),
       itemId: _article.id,
       itemType: 'article',
       title: _article.title,
@@ -48,7 +49,7 @@ class _KnowledgeDetailScreenState extends State<KnowledgeDetailScreen> {
   }
 
   Future<void> _toggleCollection() async {
-    final result = await _repository.toggleCollection(
+    final result = await ref.read(knowledgeRepositoryProvider).toggleCollection(
       itemId: _article.id,
       itemType: 'article',
       title: _article.title,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/breeding.dart';
 import '../../data/repositories/breeding_repository.dart';
 
@@ -264,7 +265,7 @@ class _BreedingEggScreenState extends State<BreedingEggScreen> {
 
     if (result == true) {
       final egg = BreedingEgg(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: const Uuid().v7(),
         batchId: widget.batch.id,
         eggNumber: eggNumber,
         createdAt: DateTime.now(),

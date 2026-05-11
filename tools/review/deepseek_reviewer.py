@@ -33,6 +33,7 @@ import re
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 from datetime import datetime
+from errors import APIError, ReviewError
 
 try:
     import requests
@@ -125,7 +126,7 @@ def call_deepseek(messages: list, temperature: float = 0.7, max_tokens: int = 40
     response = requests.post(DEEPSEEK_API_URL, headers=headers, json=data, timeout=120)
 
     if response.status_code != 200:
-        raise Exception(f"API 调用失败: {response.status_code} - {response.text}")
+        raise APIError("DeepSeek", response.status_code, f"API 调用失败: {response.text}")
 
     result = response.json()
     return result["choices"][0]["message"]["content"]
@@ -341,6 +342,12 @@ def review_script(file_path: str, reviewer_type: str = "bilibili", apply: bool =
 
         return True
 
+    except ReviewError as e:
+        print(colored(f"\n❌ Review Error: {e}", "red"))
+        return False
+    except APIError as e:
+        print(colored(f"\n❌ API Error: {e}", "red"))
+        return False
     except Exception as e:
         print(colored(f"\n❌ Error: {e}", "red"))
         return False
@@ -424,8 +431,24 @@ def iterate_review(file_path: str, rounds: int = 3, reviewer_type: str = "bilibi
                 print(colored(f"   文本行数: {old_lines} → {new_lines}", "yellow"))
                 backup_content = current_content
 
+        except ReviewError as e:
+            print(colored(f"\n❌ 第 {i} 轮 Review Error: {e}", "red"))
+            # 恢复到最后一次成功的内容
+            if backup_content != original_content:
+                print(colored("   恢复到最后一次保存的版本...", "yellow"))
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write(backup_content)
+            continue
+        except APIError as e:
+            print(colored(f"\n❌ 第 {i} 轮 API Error: {e}", "red"))
+            # 恢复到最后一次成功的内容
+            if backup_content != original_content:
+                print(colored("   恢复到最后一次保存的版本...", "yellow"))
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write(backup_content)
+            continue
         except Exception as e:
-            print(colored(f"\n❌ 第 {i} 轮出错: {e}", "red"))
+            print(colored(f"\n❌ 第 {i} 轮 Error: {e}", "red"))
             # 恢复到最后一次成功的内容
             if backup_content != original_content:
                 print(colored("   恢复到最后一次保存的版本...", "yellow"))

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/encyclopedia.dart';
 import '../../data/models/user.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 import '../../data/local/user_preferences.dart';
 import '../../app/theme.dart';
 import '../../utils/image_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-class EncyclopediaScreen extends StatefulWidget {
+class EncyclopediaScreen extends ConsumerStatefulWidget {
   const EncyclopediaScreen({super.key});
 
   @override
-  State<EncyclopediaScreen> createState() => _EncyclopediaScreenState();
+  ConsumerState<EncyclopediaScreen> createState() => _EncyclopediaScreenState();
 }
 
-class _EncyclopediaScreenState extends State<EncyclopediaScreen>
+class _EncyclopediaScreenState extends ConsumerState<EncyclopediaScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final EncyclopediaRepository _repository = EncyclopediaRepository();
   Map<String, List<ReptileSpecies>> _categorySpecies = {};
   List<ReptileSpecies> _allSpecies = [];
   bool _isLoading = true;
@@ -66,7 +66,7 @@ class _EncyclopediaScreenState extends State<EncyclopediaScreen>
   Future<void> _loadData(List<Map<String, dynamic>> categories) async {
     setState(() => _isLoading = true);
     try {
-      final species = await _repository.getAllSpecies();
+      final species = await ref.read(encyclopediaRepositoryProvider).getAllSpecies();
       final grouped = <String, List<ReptileSpecies>>{};
 
       for (var cat in categories) {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/breeding.dart';
-import '../../data/repositories/breeding_repository.dart';
+import '../../app/providers.dart';
 
-class BreedingCalendarScreen extends StatefulWidget {
+class BreedingCalendarScreen extends ConsumerStatefulWidget {
   const BreedingCalendarScreen({super.key});
 
   @override
-  State<BreedingCalendarScreen> createState() => _BreedingCalendarScreenState();
+  ConsumerState<BreedingCalendarScreen> createState() => _BreedingCalendarScreenState();
 }
 
-class _BreedingCalendarScreenState extends State<BreedingCalendarScreen> {
-  final BreedingRepository _repository = BreedingRepository();
+class _BreedingCalendarScreenState extends ConsumerState<BreedingCalendarScreen> {
   List<BreedingBatch> _batches = [];
   DateTime _focusedMonth = DateTime.now();
   DateTime? _selectedDate;
@@ -22,7 +22,7 @@ class _BreedingCalendarScreenState extends State<BreedingCalendarScreen> {
   }
 
   Future<void> _loadData() async {
-    final batches = await _repository.getAllBatches();
+    final batches = await ref.read(breedingRepositoryProvider).getAllBatches();
     setState(() {
       _batches = batches;
     });

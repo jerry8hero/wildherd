@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/reptile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../utils/gender_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../app/providers.dart';
 
-class ReptileAddScreen extends StatefulWidget {
+class ReptileAddScreen extends ConsumerStatefulWidget {
   const ReptileAddScreen({super.key});
 
   @override
-  State<ReptileAddScreen> createState() => _ReptileAddScreenState();
+  ConsumerState<ReptileAddScreen> createState() => _ReptileAddScreenState();
 }
 
-class _ReptileAddScreenState extends State<ReptileAddScreen> {
-  final ReptileRepository _repository = ReptileRepository();
+class _ReptileAddScreenState extends ConsumerState<ReptileAddScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -64,7 +66,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
     try {
       final now = DateTime.now();
       final reptile = Reptile(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: const Uuid().v7(),
         name: _nameController.text.trim(),
         species: _speciesController.text.trim(),
         speciesChinese: _speciesChineseController.text.trim().isEmpty
@@ -86,7 +88,7 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
         updatedAt: now,
       );
 
-      await _repository.addReptile(reptile);
+      await ref.read(reptileRepositoryProvider).addReptile(reptile);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

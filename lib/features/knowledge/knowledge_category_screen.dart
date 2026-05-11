@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/knowledge_category.dart';
 import '../../data/models/article.dart';
 import '../../data/models/knowledge_tip.dart';
 import '../../data/models/faq.dart';
-import '../../data/repositories/repositories.dart';
+import '../../app/providers.dart';
 import 'knowledge_detail_screen.dart';
 
-class KnowledgeCategoryScreen extends StatefulWidget {
+class KnowledgeCategoryScreen extends ConsumerStatefulWidget {
   final KnowledgeCategory category;
 
   const KnowledgeCategoryScreen({super.key, required this.category});
 
   @override
-  State<KnowledgeCategoryScreen> createState() => _KnowledgeCategoryScreenState();
+  ConsumerState<KnowledgeCategoryScreen> createState() => _KnowledgeCategoryScreenState();
 }
 
-class _KnowledgeCategoryScreenState extends State<KnowledgeCategoryScreen>
+class _KnowledgeCategoryScreenState extends ConsumerState<KnowledgeCategoryScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final KnowledgeRepository _repository = KnowledgeRepository();
 
   List<KnowledgeCategory> _subCategories = [];
   List<Article> _articles = [];
@@ -42,10 +42,10 @@ class _KnowledgeCategoryScreenState extends State<KnowledgeCategoryScreen>
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
 
-    _subCategories = _repository.getSubCategories(widget.category.id);
-    _articles = await _repository.getArticlesByCategory(widget.category.id);
-    _tips = await _repository.getTipsByCategory(widget.category.id);
-    _faqs = await _repository.getFAQsByCategory(widget.category.id);
+    _subCategories = ref.read(knowledgeRepositoryProvider).getSubCategories(widget.category.id);
+    _articles = await ref.read(knowledgeRepositoryProvider).getArticlesByCategory(widget.category.id);
+    _tips = await ref.read(knowledgeRepositoryProvider).getTipsByCategory(widget.category.id);
+    _faqs = await ref.read(knowledgeRepositoryProvider).getFAQsByCategory(widget.category.id);
 
     setState(() => _isLoading = false);
   }

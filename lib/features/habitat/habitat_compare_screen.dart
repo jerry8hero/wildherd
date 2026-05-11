@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/habitat.dart';
-import '../../data/repositories/habitat_repository.dart';
+import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../widgets/habitat_gauge.dart';
 
-class HabitatCompareScreen extends StatefulWidget {
+class HabitatCompareScreen extends ConsumerStatefulWidget {
   const HabitatCompareScreen({super.key});
 
   @override
-  State<HabitatCompareScreen> createState() => _HabitatCompareScreenState();
+  ConsumerState<HabitatCompareScreen> createState() => _HabitatCompareScreenState();
 }
 
-class _HabitatCompareScreenState extends State<HabitatCompareScreen> {
-  final HabitatRepository _repository = HabitatRepository();
+class _HabitatCompareScreenState extends ConsumerState<HabitatCompareScreen> {
   List<HabitatEnvironment> _environments = [];
   Map<String, HabitatStandard> _standards = {};
   Map<String, HabitatScore> _scores = {};
@@ -27,16 +27,16 @@ class _HabitatCompareScreenState extends State<HabitatCompareScreen> {
 
   Future<void> _loadData() async {
     try {
-      final environments = await _repository.getAllEnvironments();
+      final environments = await ref.read(habitatRepositoryProvider).getAllEnvironments();
 
       final standards = <String, HabitatStandard>{};
       final scores = <String, HabitatScore>{};
 
       for (var env in environments) {
-        final standard = await _repository.getStandard(env.speciesId);
+        final standard = await ref.read(habitatRepositoryProvider).getStandard(env.speciesId);
         if (standard != null) {
           standards[env.reptileId] = standard;
-          scores[env.reptileId] = _repository.calculateScore(env, standard);
+          scores[env.reptileId] = ref.read(habitatRepositoryProvider).calculateScore(env, standard);
         }
       }
 

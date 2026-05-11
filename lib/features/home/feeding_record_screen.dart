@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../data/models/reptile.dart';
 import '../../data/models/record.dart';
 import '../../data/repositories/repositories.dart';
@@ -7,17 +9,16 @@ import '../../utils/date_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/delete_confirm_dialog.dart';
 import 'feeding_weather_screen.dart';
+import '../../app/providers.dart';
 
-class FeedingRecordScreen extends StatefulWidget {
+class FeedingRecordScreen extends ConsumerStatefulWidget {
   const FeedingRecordScreen({super.key});
 
   @override
-  State<FeedingRecordScreen> createState() => _FeedingRecordScreenState();
+  ConsumerState<FeedingRecordScreen> createState() => _FeedingRecordScreenState();
 }
 
-class _FeedingRecordScreenState extends State<FeedingRecordScreen> {
-  final RecordRepository _repository = RecordRepository();
-  final ReptileRepository _reptileRepository = ReptileRepository();
+class _FeedingRecordScreenState extends ConsumerState<FeedingRecordScreen> {
   List<Reptile> _reptiles = [];
   List<FeedingRecord> _records = [];
   bool _isLoading = true;
@@ -32,16 +33,16 @@ class _FeedingRecordScreenState extends State<FeedingRecordScreen> {
   Future<void> _loadData() async {
     setState(() => _isLoading = true);
     try {
-      final reptiles = await _reptileRepository.getAllReptiles();
+      final reptiles = await ref.read(reptileRepositoryProvider).getAllReptiles();
       List<FeedingRecord> records;
 
       if (_selectedReptileId != null) {
-        records = await _repository.getFeedingRecords(_selectedReptileId!);
+        records = await ref.read(recordRepositoryProvider).getFeedingRecords(_selectedReptileId!);
       } else {
         // 获取所有爬宠的记录
         records = [];
         for (var reptile in reptiles) {
-          final reptileRecords = await _repository.getFeedingRecords(reptile.id);
+          final reptileRecords = await ref.read(recordRepositoryProvider).getFeedingRecords(reptile.id);
           records.addAll(reptileRecords);
         }
         // 按时间排序
@@ -274,7 +275,7 @@ class _FeedingRecordScreenState extends State<FeedingRecordScreen> {
         reptiles: _reptiles,
         selectedReptileId: _selectedReptileId ?? _reptiles.first.id,
         onSave: (record) async {
-          await _repository.addFeedingRecord(record);
+          await ref.read(recordRepositoryProvider).addFeedingRecord(record);
           _loadData();
         },
       ),
@@ -284,7 +285,7 @@ class _FeedingRecordScreenState extends State<FeedingRecordScreen> {
   Future<void> _deleteRecord(String id) async {
     final confirmed = await DeleteConfirmDialog.show(context, recordLabel: '喂食记录');
     if (confirmed == true) {
-      await _repository.deleteFeedingRecord(id);
+      await ref.read(recordRepositoryProvider).deleteFeedingRecord(id);
       _loadData();
     }
   }
@@ -453,7 +454,7 @@ class _AddFeedingRecordSheetState extends State<_AddFeedingRecordSheet> {
 
   void _saveRecord() {
     final record = FeedingRecord(
-      id: 'f${DateTime.now().millisecondsSinceEpoch}',
+      id: 'f${const Uuid().v7()}',
       reptileId: _selectedReptileId,
       feedingTime: DateTime.now(),
       foodType: _selectedFoodType,
