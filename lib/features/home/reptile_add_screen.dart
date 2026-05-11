@@ -95,9 +95,10 @@ class _ReptileAddScreenState extends State<ReptileAddScreen> {
         Navigator.pop(context, true); // 返回 true 表示添加成功
       }
     } catch (e) {
+      debugPrint('保存爬宠失败: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('添加失败: $e')),
+          const SnackBar(content: Text('保存失败，请检查输入后重试')),
         );
       }
     } finally {

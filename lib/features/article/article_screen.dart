@@ -35,6 +35,14 @@ class _ArticleScreenState extends State<ArticleScreen> {
       });
     } catch (e) {
       setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('加载失败，请重试'),
+            action: SnackBarAction(label: '重试', onPressed: _loadData),
+          ),
+        );
+      }
     }
   }
 
@@ -365,6 +373,14 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       });
     } catch (e) {
       setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('加载失败，请重试'),
+            action: SnackBarAction(label: '重试', onPressed: _loadData),
+          ),
+        );
+      }
     }
   }
 

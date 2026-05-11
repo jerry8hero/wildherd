@@ -1,7 +1,9 @@
 // cloudfunctions/feeding/index.js
 // 喂食记录云函数
 
-const { response, getOpenId, validateReptile, db } = require('shared/utils')
+const { response, getOpenId, validateReptile, db, isOneOf, isInRange } = require('shared/utils')
+
+const ALLOWED_FOOD_TYPES = ['小白鼠', '大麦虫', '面包虫', '蟋蟀', '小鱼', '饲料', '水果', '蔬菜', '其他']
 
 exports.main = async (event, context) => {
   const { action, data } = event
@@ -42,6 +44,12 @@ exports.main = async (event, context) => {
         // 添加喂食记录
         if (!data.reptileId || !data.foodType) {
           return response(false, null, '爬宠和食物类型不能为空')
+        }
+        if (!isOneOf(data.foodType, ALLOWED_FOOD_TYPES)) {
+          return response(false, null, '无效的食物类型')
+        }
+        if (data.foodAmount != null && !isInRange(data.foodAmount, 0, 10000)) {
+          return response(false, null, '食物量数值无效')
         }
         if (!(await validateReptile(data.reptileId, openid))) {
           return response(false, null, '爬宠不存在或无权限访问')

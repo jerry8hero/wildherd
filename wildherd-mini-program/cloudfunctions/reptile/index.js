@@ -1,7 +1,10 @@
 // cloudfunctions/reptile/index.js
 // 爬宠管理云函数
 
-const { response, getOpenId, db } = require('shared/utils')
+const { response, getOpenId, db, isNonEmptyString, isOneOf, isInRange } = require('shared/utils')
+
+const ALLOWED_GENDERS = ['male', 'female', 'unknown']
+const ALLOWED_BREEDING_STATUSES = ['available', 'breeding', 'pregnant', 'resting']
 
 exports.main = async (event, context) => {
   const { action, data } = event
@@ -39,6 +42,24 @@ exports.main = async (event, context) => {
         // 添加爬宠
         if (!data.name || !data.species) {
           return response(false, null, '名称和物种不能为空')
+        }
+        if (!isNonEmptyString(data.name) || data.name.length > 50) {
+          return response(false, null, '名称长度无效')
+        }
+        if (!isNonEmptyString(data.species) || data.species.length > 100) {
+          return response(false, null, '物种长度无效')
+        }
+        if (data.gender && !isOneOf(data.gender, ALLOWED_GENDERS)) {
+          return response(false, null, '无效的性别值')
+        }
+        if (data.weight != null && !isInRange(data.weight, 0, 100000)) {
+          return response(false, null, '体重数值无效')
+        }
+        if (data.length != null && !isInRange(data.length, 0, 1000)) {
+          return response(false, null, '体长数值无效')
+        }
+        if (data.breedingStatus && !isOneOf(data.breedingStatus, ALLOWED_BREEDING_STATUSES)) {
+          return response(false, null, '无效的繁殖状态')
         }
         const newReptile = {
           userId: openid,

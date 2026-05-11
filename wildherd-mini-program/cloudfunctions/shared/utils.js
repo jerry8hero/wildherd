@@ -16,4 +16,10 @@ async function validateReptile(reptileId, openid) {
   }
 }
 
-module.exports = { response, getOpenId, validateReptile, db }
+// 输入校验辅助函数
+const isNumber = (v) => typeof v === 'number' && isFinite(v)
+const isNonEmptyString = (v) => typeof v === 'string' && v.trim().length > 0
+const isInRange = (v, min, max) => isNumber(v) && v >= min && v <= max
+const isOneOf = (v, list) => list.includes(v)
+
+module.exports = { response, getOpenId, validateReptile, db, isNumber, isNonEmptyString, isInRange, isOneOf }

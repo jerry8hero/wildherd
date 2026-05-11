@@ -59,7 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.loadFailed}: $e')),
+          SnackBar(content: Text(l10n.loadFailed)),
         );
       }
     }

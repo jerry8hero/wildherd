@@ -1,7 +1,10 @@
 // cloudfunctions/health/index.js
 // 健康记录云函数
 
-const { response, getOpenId, validateReptile, db } = require('shared/utils')
+const { response, getOpenId, validateReptile, db, isOneOf, isInRange } = require('shared/utils')
+
+const ALLOWED_STATUSES = ['normal', 'shedding', 'sick', 'lethargy']
+const ALLOWED_DEFECATIONS = ['normal', 'abnormal', 'none']
 
 exports.main = async (event, context) => {
   const { action, data } = event
@@ -42,6 +45,18 @@ exports.main = async (event, context) => {
         // 添加健康记录
         if (!data.reptileId) {
           return response(false, null, '爬宠不能为空')
+        }
+        if (data.weight != null && !isInRange(data.weight, 0, 100000)) {
+          return response(false, null, '体重数值无效')
+        }
+        if (data.length != null && !isInRange(data.length, 0, 1000)) {
+          return response(false, null, '体长数值无效')
+        }
+        if (data.status && !isOneOf(data.status, ALLOWED_STATUSES)) {
+          return response(false, null, '无效的状态值')
+        }
+        if (data.defecation && !isOneOf(data.defecation, ALLOWED_DEFECATIONS)) {
+          return response(false, null, '无效的排便状态')
         }
         if (!(await validateReptile(data.reptileId, openid))) {
           return response(false, null, '爬宠不存在或无权限访问')
