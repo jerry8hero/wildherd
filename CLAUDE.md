@@ -10,6 +10,34 @@
 
 文案生成后，使用 MiniMax 进行多轮迭代 Review：
 
+### 方式一：自动 Review（推荐）
+
+使用 `scripts/auto_review.py` 进行 3 轮分维度自动优化：
+
+```bash
+cd scripts
+
+# 处理 005-020
+python auto_review.py 5 20
+
+# 处理 002-101
+python auto_review.py 2 101
+
+# 指定子目录
+python auto_review.py 2 10 "冷到你唔信/第一册-哺乳动物"
+```
+
+**评审维度：**
+| 轮次 | 重点 | 说明 |
+|------|------|------|
+| 第1轮 | 开场吸引力 | 检查开头是否 5 秒内抓住观众 |
+| 第2轮 | 叙事结构 | 检查信息密度、逻辑流畅性 |
+| 第3轮 | 结尾互动性 | 检查三件套、顺口溜、悬念 |
+
+**特性：** 失败自动重试（3次）| 断点续传 | 生成 JSON 报告
+
+### 方式二：手动 Review（MiniMax）
+
 1. **复制文案** → 打开 `docs/video/prompts/review-prompt-template.md` 获取快捷版 Prompt
 2. **粘贴到 MiniMax** → 使用 `x claude mm` 命令调用 MiniMax
 3. **Review + 修改** → 根据建议修改文案
