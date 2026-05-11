@@ -1,0 +1,22 @@
+{
+    "api": {
+        "endpoint": "https://api.minimaxi.com/anthropic/v1/messages",
+        "model": "MiniMax-M2.2",
+        "max_tokens": 8000,
+        "timeout": 120
+    },
+    "review": {
+        "rounds": 3,
+        "retry_times": 3,
+        "retry_delay": 5
+    },
+    "paths": {
+        "scripts_base": "/home/bigrice/workspace/github/private/wildherd/docs/video/scripts",
+        "prompts_dir": "prompts",
+        "state_dir": "state"
+    },
+    "default_range": {
+        "start": 2,
+        "end": 101
+    }
+}
