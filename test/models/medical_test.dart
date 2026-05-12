@@ -55,7 +55,7 @@ void main() {
         id: '', name: '', nameZh: '', category: 'respiratory',
         description: '', symptoms: [], cause: '', treatment: '', prevention: '',
       );
-      expect(d.categoryName, '呼吸道');
+      expect(d.categoryName, '呼吸道疾病');
     });
   });
 

@@ -19,6 +19,6 @@ final habitatRepositoryProvider = Provider<HabitatRepository>((ref) => HabitatRe
 
 final medicalRepositoryProvider = Provider<MedicalRepository>((ref) => MedicalRepository());
 
-final qaRepositoryProvider = Provider<QaRepository>((ref) => QaRepository());
+final qaRepositoryProvider = Provider<QARepository>((ref) => QARepository());
 
 final breedingRepositoryProvider = Provider<BreedingRepository>((ref) => BreedingRepository());

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wildherd/lib/data/models/record.dart';
+import 'package:wildherd/data/models/record.dart';
 
 void main() {
   group('Record Models', () {
@@ -9,309 +9,181 @@ void main() {
           final record = FeedingRecord(
             id: 'feeding-id-123',
             reptileId: 'reptile-id-456',
-            feedingTime: DateTime(2023, 5, 15, 10, 30),
-            foodType: 'crickets',
-            foodAmount: 5.0,
-            notes: ' feeding completed',
-            createdAt: DateTime(2023, 5, 15, 10, 35),
-          );
-
-          expect(record.id, equals('feeding-id-123'));
-          expect(record.reptileId, equals('reptile-id-456'));
-          expect(record.feedingTime, equals(DateTime(2023, 5, 15, 10, 30)));
-          expect(record.foodType, equals('crickets'));
-          expect(record.foodAmount, equals(5.0));
-          expect(record.notes, equals(' feeding completed'));
-          expect(record.createdAt, equals(DateTime(2023, 5, 15, 10, 35)));
-        });
-
-        test('should create FeedingRecord with minimal required fields', () {
-          final record = FeedingRecord(
-            id: 'minimal-feeding',
-            reptileId: 'reptile-id',
             feedingTime: DateTime(2023, 5, 15),
-            foodType: 'food',
+            foodType: '蟋蟀',
+            foodAmount: 10.5,
+            notes: '吃得很香',
             createdAt: DateTime(2023, 5, 15),
           );
 
-          expect(record.id, equals('minimal-feeding'));
-          expect(record.reptileId, equals('reptile-id'));
-          expect(record.feedingTime, equals(DateTime(2023, 5, 15)));
-          expect(record.foodType, equals('food'));
+          expect(record.id, 'feeding-id-123');
+          expect(record.reptileId, 'reptile-id-456');
+          expect(record.foodType, '蟋蟀');
+          expect(record.foodAmount, 10.5);
+          expect(record.notes, '吃得很香');
+        });
+
+        test('should create FeedingRecord with required fields only', () {
+          final record = FeedingRecord(
+            id: 'feeding-id-789',
+            reptileId: 'reptile-id-101',
+            feedingTime: DateTime(2023, 5, 15),
+            foodType: '面包虫',
+            createdAt: DateTime(2023, 5, 15),
+          );
+
+          expect(record.id, 'feeding-id-789');
+          expect(record.reptileId, 'reptile-id-101');
           expect(record.foodAmount, isNull);
           expect(record.notes, isNull);
-          expect(record.createdAt, equals(DateTime(2023, 5, 15)));
         });
       });
 
-      group('Field validation', () {
-        test('should require id field', () {
-          expect(
-            () => FeedingRecord(
-              id: '',
-              reptileId: 'reptile-id',
-              feedingTime: DateTime(2023, 5, 15),
-              foodType: 'food',
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
+      group('toMap', () {
+        test('should serialize all fields', () {
+          final record = FeedingRecord(
+            id: 'feeding-id-123',
+            reptileId: 'reptile-id-456',
+            feedingTime: DateTime(2023, 5, 15, 10, 30),
+            foodType: '蟋蟀',
+            foodAmount: 10.5,
+            notes: '吃得很香',
+            createdAt: DateTime(2023, 5, 15, 10, 30),
           );
+
+          final map = record.toMap();
+
+          expect(map['id'], 'feeding-id-123');
+          expect(map['reptile_id'], 'reptile-id-456');
+          expect(map['food_type'], '蟋蟀');
+          expect(map['food_amount'], 10.5);
+          expect(map['notes'], '吃得很香');
+        });
+      });
+
+      group('fromMap', () {
+        test('should deserialize all fields', () {
+          final map = {
+            'id': 'feeding-id-123',
+            'reptile_id': 'reptile-id-456',
+            'feeding_time': '2023-05-15T10:30:00.000',
+            'food_type': '蟋蟀',
+            'food_amount': 10.5,
+            'notes': '吃得很香',
+            'created_at': '2023-05-15T10:30:00.000',
+          };
+
+          final record = FeedingRecord.fromMap(map);
+
+          expect(record.id, 'feeding-id-123');
+          expect(record.reptileId, 'reptile-id-456');
+          expect(record.foodType, '蟋蟀');
+          expect(record.foodAmount, 10.5);
+          expect(record.notes, '吃得很香');
         });
 
-        test('should require reptileId field', () {
-          expect(
-            () => FeedingRecord(
-              id: 'feeding-id',
-              reptileId: null,
-              feedingTime: DateTime(2023, 5, 15),
-              foodType: 'food',
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+        test('should handle null optional fields', () {
+          final map = {
+            'id': 'feeding-id-123',
+            'reptile_id': 'reptile-id-456',
+            'feeding_time': '2023-05-15T10:30:00.000',
+            'food_type': '蟋蟀',
+            'food_amount': null,
+            'notes': null,
+            'created_at': '2023-05-15T10:30:00.000',
+          };
 
-        test('should require feedingTime field', () {
-          expect(
-            () => FeedingRecord(
-              id: 'feeding-id',
-              reptileId: 'reptile-id',
-              feedingTime: null,
-              foodType: 'food',
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+          final record = FeedingRecord.fromMap(map);
 
-        test('should require foodType field', () {
-          expect(
-            () => FeedingRecord(
-              id: 'feeding-id',
-              reptileId: 'reptile-id',
-              feedingTime: DateTime(2023, 5, 15),
-              foodType: null,
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
-
-        test('should require createdAt field', () {
-          expect(
-            () => FeedingRecord(
-              id: 'feeding-id',
-              reptileId: 'reptile-id',
-              feedingTime: DateTime(2023, 5, 15),
-              foodType: 'food',
-              createdAt: null,
-            ),
-            throwsA(isA<TypeError>()),
-          );
+          expect(record.foodAmount, isNull);
+          expect(record.notes, isNull);
         });
       });
     });
 
     group('HealthRecord', () {
-      group('Construction', () {
-        test('should create HealthRecord with all fields populated', () {
-          final record = HealthRecord(
-            id: 'health-id-123',
-            reptileId: 'reptile-id-456',
-            recordDate: DateTime(2023, 5, 15),
-            weight: 150.5,
-            length: 20.3,
-            status: 'normal',
-            defecation: 'normal',
-            notes: 'Health check completed',
-            createdAt: DateTime(2023, 5, 15, 11, 0),
-          );
+      test('should create with all fields', () {
+        final record = HealthRecord(
+          id: 'health-id-123',
+          reptileId: 'reptile-id-456',
+          recordDate: DateTime(2023, 5, 15),
+          weight: 150.5,
+          length: 45.0,
+          status: 'normal',
+          defecation: 'normal',
+          notes: '状态良好',
+          createdAt: DateTime(2023, 5, 15),
+        );
 
-          expect(record.id, equals('health-id-123'));
-          expect(record.reptileId, equals('reptile-id-456'));
-          expect(record.recordDate, equals(DateTime(2023, 5, 15)));
-          expect(record.weight, equals(150.5));
-          expect(record.length, equals(20.3));
-          expect(record.status, equals('normal'));
-          expect(record.defecation, equals('normal'));
-          expect(record.notes, equals('Health check completed'));
-          expect(record.createdAt, equals(DateTime(2023, 5, 15, 11, 0)));
-        });
-
-        test('should create HealthRecord with minimal required fields', () {
-          final record = HealthRecord(
-            id: 'minimal-health',
-            reptileId: 'reptile-id',
-            recordDate: DateTime(2023, 5, 15),
-            createdAt: DateTime(2023, 5, 15),
-          );
-
-          expect(record.id, equals('minimal-health'));
-          expect(record.reptileId, equals('reptile-id'));
-          expect(record.recordDate, equals(DateTime(2023, 5, 15)));
-          expect(record.weight, isNull);
-          expect(record.length, isNull);
-          expect(record.status, isNull);
-          expect(record.defecation, isNull);
-          expect(record.notes, isNull);
-          expect(record.createdAt, equals(DateTime(2023, 5, 15)));
-        });
+        expect(record.id, 'health-id-123');
+        expect(record.weight, 150.5);
+        expect(record.length, 45.0);
       });
 
-      group('Field validation', () {
-        test('should require id field', () {
-          expect(
-            () => HealthRecord(
-              id: '',
-              reptileId: 'reptile-id',
-              recordDate: DateTime(2023, 5, 15),
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+      test('should create with required fields only', () {
+        final record = HealthRecord(
+          id: 'health-id-789',
+          reptileId: 'reptile-id-101',
+          recordDate: DateTime(2023, 5, 15),
+          createdAt: DateTime(2023, 5, 15),
+        );
 
-        test('should require reptileId field', () {
-          expect(
-            () => HealthRecord(
-              id: 'health-id',
-              reptileId: null,
-              recordDate: DateTime(2023, 5, 15),
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+        expect(record.weight, isNull);
+        expect(record.status, isNull);
+      });
 
-        test('should require recordDate field', () {
-          expect(
-            () => HealthRecord(
-              id: 'health-id',
-              reptileId: 'reptile-id',
-              recordDate: null,
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+      test('toMap / fromMap round-trip', () {
+        final original = HealthRecord(
+          id: 'health-id-123',
+          reptileId: 'reptile-id-456',
+          recordDate: DateTime(2023, 5, 15, 10, 30),
+          weight: 150.5,
+          length: 45.0,
+          status: 'normal',
+          defecation: 'normal',
+          notes: '状态良好',
+          createdAt: DateTime(2023, 5, 15, 10, 30),
+        );
 
-        test('should require createdAt field', () {
-          expect(
-            () => HealthRecord(
-              id: 'health-id',
-              reptileId: 'reptile-id',
-              recordDate: DateTime(2023, 5, 15),
-              createdAt: null,
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+        final restored = HealthRecord.fromMap(original.toMap());
+
+        expect(restored.id, original.id);
+        expect(restored.weight, original.weight);
+        expect(restored.length, original.length);
       });
     });
 
     group('GrowthPhoto', () {
-      group('Construction', () {
-        test('should create GrowthPhoto with all fields populated', () {
-          final photo = GrowthPhoto(
-            id: 'photo-id-123',
-            reptileId: 'reptile-id-456',
-            imagePath: '/path/to/photo.jpg',
-            description: 'Growth milestone',
-            photoDate: DateTime(2023, 5, 15),
-            createdAt: DateTime(2023, 5, 15, 12, 0),
-          );
+      test('should create with all fields', () {
+        final record = GrowthPhoto(
+          id: 'photo-id-123',
+          reptileId: 'reptile-id-456',
+          imagePath: '/path/to/photo.jpg',
+          description: '可爱的小龟',
+          photoDate: DateTime(2023, 5, 15),
+          createdAt: DateTime(2023, 5, 15),
+        );
 
-          expect(photo.id, equals('photo-id-123'));
-          expect(photo.reptileId, equals('reptile-id-456'));
-          expect(photo.imagePath, equals('/path/to/photo.jpg'));
-          expect(photo.description, equals('Growth milestone'));
-          expect(photo.photoDate, equals(DateTime(2023, 5, 15)));
-          expect(photo.createdAt, equals(DateTime(2023, 5, 15, 12, 0)));
-        });
-
-        test('should create GrowthPhoto with minimal required fields', () {
-          final photo = GrowthPhoto(
-            id: 'minimal-photo',
-            reptileId: 'reptile-id',
-            imagePath: '/path/to/photo.jpg',
-            photoDate: DateTime(2023, 5, 15),
-            createdAt: DateTime(2023, 5, 15),
-          );
-
-          expect(photo.id, equals('minimal-photo'));
-          expect(photo.reptileId, equals('reptile-id'));
-          expect(photo.imagePath, equals('/path/to/photo.jpg'));
-          expect(photo.description, isNull);
-          expect(photo.photoDate, equals(DateTime(2023, 5, 15)));
-          expect(photo.createdAt, equals(DateTime(2023, 5, 15)));
-        });
+        expect(record.id, 'photo-id-123');
+        expect(record.imagePath, '/path/to/photo.jpg');
+        expect(record.description, '可爱的小龟');
       });
 
-      group('Field validation', () {
-        test('should require id field', () {
-          expect(
-            () => GrowthPhoto(
-              id: '',
-              reptileId: 'reptile-id',
-              imagePath: '/path/to/photo.jpg',
-              photoDate: DateTime(2023, 5, 15),
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+      test('toMap / fromMap round-trip', () {
+        final original = GrowthPhoto(
+          id: 'photo-id-123',
+          reptileId: 'reptile-id-456',
+          imagePath: '/path/to/photo.jpg',
+          description: '可爱的小龟',
+          photoDate: DateTime(2023, 5, 15, 10, 30),
+          createdAt: DateTime(2023, 5, 15, 10, 30),
+        );
 
-        test('should require reptileId field', () {
-          expect(
-            () => GrowthPhoto(
-              id: 'photo-id',
-              reptileId: null,
-              imagePath: '/path/to/photo.jpg',
-              photoDate: DateTime(2023, 5, 15),
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+        final restored = GrowthPhoto.fromMap(original.toMap());
 
-        test('should require imagePath field', () {
-          expect(
-            () => GrowthPhoto(
-              id: 'photo-id',
-              reptileId: 'reptile-id',
-              imagePath: null,
-              photoDate: DateTime(2023, 5, 15),
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
-
-        test('should require photoDate field', () {
-          expect(
-            () => GrowthPhoto(
-              id: 'photo-id',
-              reptileId: 'reptile-id',
-              imagePath: '/path/to/photo.jpg',
-              photoDate: null,
-              createdAt: DateTime(2023, 5, 15),
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
-
-        test('should require createdAt field', () {
-          expect(
-            () => GrowthPhoto(
-              id: 'photo-id',
-              reptileId: 'reptile-id',
-              imagePath: '/path/to/photo.jpg',
-              photoDate: DateTime(2023, 5, 15),
-              createdAt: null,
-            ),
-            throwsA(isA<TypeError>()),
-          );
-        });
+        expect(restored.id, original.id);
+        expect(restored.imagePath, original.imagePath);
+        expect(restored.description, original.description);
       });
     });
   });

@@ -6,6 +6,7 @@ import '../../data/models/shedding_record.dart';
 import '../../utils/date_utils.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/delete_confirm_dialog.dart';
+import 'shedding_add_sheet.dart';
 
 class SheddingScreen extends ConsumerStatefulWidget {
   final String reptileId;

@@ -158,6 +158,24 @@ class HabitatStandard {
       ventilationNeed: map['ventilation_need'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'species_id': speciesId,
+      'min_temp': minTemp,
+      'max_temp': maxTemp,
+      'ideal_temp': idealTemp,
+      'min_humidity': minHumidity,
+      'max_humidity': maxHumidity,
+      'ideal_humidity': idealHumidity,
+      'ideal_uv': idealUV,
+      'suitable_substrates': suitableSubstrates,
+      'lighting_need': lightingNeed,
+      'min_tank_size': minTankSize,
+      'heating_recommendation': heatingRecommendation,
+      'ventilation_need': ventilationNeed,
+    };
+  }
 }
 
 // 环境评分

@@ -4,6 +4,7 @@ import '../../app/providers.dart';
 import '../../data/models/feeding_reminder.dart';
 import '../../utils/date_utils.dart';
 import '../../widgets/empty_state.dart';
+import 'reminder_add_sheet.dart';
 
 class ReminderListScreen extends ConsumerStatefulWidget {
   final String? reptileId;
@@ -65,7 +66,7 @@ class _ReminderListScreenState extends ConsumerState<ReminderListScreen> {
               itemCount: _reminders.length,
               itemBuilder: (context, index) {
                 final reminder = _reminders[index];
-                return _buildReminderCard(reminder);
+                return _buildReminderCard(reminder, index);
               },
             ),
       floatingActionButton: FloatingActionButton(
@@ -75,7 +76,7 @@ class _ReminderListScreenState extends ConsumerState<ReminderListScreen> {
     );
   }
 
-  Widget _buildReminderCard(FeedingReminder reminder) {
+  Widget _buildReminderCard(FeedingReminder reminder, int index) {
     final timeString = '${reminder.feedTimeHour.toString().padLeft(2, '0')}:${reminder.feedTimeMinute.toString().padLeft(2, '0')}';
 
     return Card(

@@ -89,7 +89,7 @@ class _GrowthChartScreenState extends ConsumerState<GrowthChartScreen>
     final spots = records
         .map((record) => FlSpot(
               record.recordDate.millisecondsSinceEpoch.toDouble(),
-              record.weight != null && value == 'weight'
+              record.weight != null && type == 'weight'
                   ? record.weight!
                   : record.length!,
             ))

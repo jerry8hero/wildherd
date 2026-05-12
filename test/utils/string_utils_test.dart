@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wildherd/lib/utils/string_utils.dart';
+import 'package:wildherd/utils/string_utils.dart';
 
 void main() {
   group('StringUtils', () {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/qa.dart';
+import '../../data/repositories/qa_repository.dart';
 import '../../app/providers.dart';
 
 class QAScreen extends ConsumerStatefulWidget {
@@ -313,13 +314,13 @@ class _QAScreenState extends ConsumerState<QAScreen> {
 }
 
 // 问题详情页
-class QADetailScreen extends StatefulWidget {
+class QADetailScreen extends ConsumerStatefulWidget {
   final String questionId;
 
   const QADetailScreen({super.key, required this.questionId});
 
   @override
-  State<QADetailScreen> createState() => _QADetailScreenState();
+  ConsumerState<QADetailScreen> createState() => _QADetailScreenState();
 }
 
 class _QADetailScreenState extends ConsumerState<QADetailScreen> {
@@ -613,11 +614,11 @@ class _QADetailScreenState extends ConsumerState<QADetailScreen> {
 }
 
 // 提问页面
-class AskQuestionScreen extends StatefulWidget {
+class AskQuestionScreen extends ConsumerStatefulWidget {
   const AskQuestionScreen({super.key});
 
   @override
-  State<AskQuestionScreen> createState() => _AskQuestionScreenState();
+  ConsumerState<AskQuestionScreen> createState() => _AskQuestionScreenState();
 }
 
 class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
@@ -802,6 +803,9 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
 
 // 搜索代理
 class QASearchDelegate extends SearchDelegate<String> {
+  final QARepository repository;
+
+  QASearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -836,7 +840,7 @@ class QASearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索问题'));
     }
     return FutureBuilder<List<Question>>(
-      future: ref.read(qaRepositoryProvider).searchQuestions(query),
+      future: repository.searchQuestions(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

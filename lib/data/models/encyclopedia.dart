@@ -102,4 +102,24 @@ class CareGuide {
     required this.content,
     required this.category,
   });
+
+  factory CareGuide.fromMap(Map<String, dynamic> map) {
+    return CareGuide(
+      id: map['id'] ?? '',
+      speciesId: map['species_id'] ?? '',
+      title: map['title'] ?? '',
+      content: map['content'] ?? '',
+      category: map['category'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'species_id': speciesId,
+      'title': title,
+      'content': content,
+      'category': category,
+    };
+  }
 }

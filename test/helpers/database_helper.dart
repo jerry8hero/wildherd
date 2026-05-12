@@ -15,7 +15,7 @@ Future<void> clearTable(String table) async {
   final db = DatabaseHelper.instance;
   final records = await db.query(table);
   for (final record in records) {
-    await db.delete(table, record['id'] as String);
+    await db.delete(table, where: 'id = ?', whereArgs: [record['id'] as String]);
   }
 }
 

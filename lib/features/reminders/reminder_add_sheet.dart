@@ -63,8 +63,8 @@ class _ReminderAddSheetState extends ConsumerState<ReminderAddSheet> {
     // For now, using placeholder data
     setState(() {
       _reptiles = [
-        Reptile(id: '1', name: '小龟龟'),
-        Reptile(id: '2', name: '大蜥蜴'),
+        Reptile(id: '1', name: '小龟龟', species: '龟', createdAt: DateTime.now(), updatedAt: DateTime.now()),
+        Reptile(id: '2', name: '大蜥蜴', species: '蜥蜴', createdAt: DateTime.now(), updatedAt: DateTime.now()),
       ];
     });
   }

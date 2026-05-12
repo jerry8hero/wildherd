@@ -109,7 +109,7 @@ void main() {
         reptileId: 'rep-001',
         photoDate: testDate,
         imagePath: '/path/to/photo.jpg',
-        note: '成长记录',
+        description: '成长记录',
         createdAt: testDate,
       );
 

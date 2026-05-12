@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/article.dart';
 import '../../data/models/faq.dart';
 import '../../app/providers.dart';
+import '../../data/repositories/knowledge_repository.dart';
 import '../../data/services/online_encyclopedia_service.dart';
 import 'knowledge_detail_screen.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/article.dart';
+import '../../data/repositories/encyclopedia_repository.dart';
 import '../../app/providers.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
@@ -343,13 +344,13 @@ class _ArticleScreenState extends ConsumerState<ArticleScreen> {
 }
 
 // 文章详情页
-class ArticleDetailScreen extends StatefulWidget {
+class ArticleDetailScreen extends ConsumerStatefulWidget {
   final String articleId;
 
   const ArticleDetailScreen({super.key, required this.articleId});
 
   @override
-  State<ArticleDetailScreen> createState() => _ArticleDetailScreenState();
+  ConsumerState<ArticleDetailScreen> createState() => _ArticleDetailScreenState();
 }
 
 class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
@@ -366,13 +367,15 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
     try {
       await ref.read(encyclopediaRepositoryProvider).initArticleData();
       final article = await ref.read(encyclopediaRepositoryProvider).getArticleDetail(widget.articleId);
-      setState(() {
-        _article = article;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() {
+          _article = article;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('加载失败，请重试'),
@@ -535,6 +538,9 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
 
 // 搜索代理
 class ArticleSearchDelegate extends SearchDelegate<String> {
+  final EncyclopediaRepository repository;
+
+  ArticleSearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -569,7 +575,7 @@ class ArticleSearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索文章'));
     }
     return FutureBuilder<List<Article>>(
-      future: ref.read(encyclopediaRepositoryProvider).searchArticles(query),
+      future: repository.searchArticles(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/medical.dart';
+import '../../data/repositories/medical_repository.dart';
 import '../../app/providers.dart';
 
 class MedicalScreen extends ConsumerStatefulWidget {
@@ -72,7 +73,7 @@ class _MedicalScreenState extends ConsumerState<MedicalScreen> with SingleTicker
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () => _showSearchDialog(context),
+            onPressed: () => _showSearchDialog(context, ref.read(medicalRepositoryProvider)),
           ),
         ],
       ),
@@ -332,10 +333,10 @@ class _MedicalScreenState extends ConsumerState<MedicalScreen> with SingleTicker
     );
   }
 
-  void _showSearchDialog(BuildContext context) {
+  void _showSearchDialog(BuildContext context, MedicalRepository repository) {
     showSearch(
       context: context,
-      delegate: MedicalSearchDelegate(repository: ref.read(medicalRepositoryProvider)),
+      delegate: MedicalSearchDelegate(repository: repository),
     );
   }
 
@@ -452,13 +453,13 @@ class _MedicalScreenState extends ConsumerState<MedicalScreen> with SingleTicker
 }
 
 // 疾病详情页
-class DiseaseDetailScreen extends StatefulWidget {
+class DiseaseDetailScreen extends ConsumerStatefulWidget {
   final String diseaseId;
 
   const DiseaseDetailScreen({super.key, required this.diseaseId});
 
   @override
-  State<DiseaseDetailScreen> createState() => _DiseaseDetailScreenState();
+  ConsumerState<DiseaseDetailScreen> createState() => _DiseaseDetailScreenState();
 }
 
 class _DiseaseDetailScreenState extends ConsumerState<DiseaseDetailScreen> {
@@ -474,13 +475,15 @@ class _DiseaseDetailScreenState extends ConsumerState<DiseaseDetailScreen> {
   Future<void> _loadData() async {
     try {
       final disease = await ref.read(medicalRepositoryProvider).getDiseaseDetail(widget.diseaseId);
-      setState(() {
-        _disease = disease;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() {
+          _disease = disease;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('加载失败，请重试'),
@@ -613,11 +616,11 @@ class _DiseaseDetailScreenState extends ConsumerState<DiseaseDetailScreen> {
 }
 
 // 症状检查器
-class SymptomCheckerScreen extends StatefulWidget {
+class SymptomCheckerScreen extends ConsumerStatefulWidget {
   const SymptomCheckerScreen({super.key});
 
   @override
-  State<SymptomCheckerScreen> createState() => _SymptomCheckerScreenState();
+  ConsumerState<SymptomCheckerScreen> createState() => _SymptomCheckerScreenState();
 }
 
 class _SymptomCheckerScreenState extends ConsumerState<SymptomCheckerScreen> {
@@ -640,12 +643,12 @@ class _SymptomCheckerScreenState extends ConsumerState<SymptomCheckerScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('加载失败，请重试'),
-            action: SnackBarAction(label: '重试', onPressed: _loadData),
+            action: SnackBarAction(label: '重试', onPressed: _loadSymptoms),
           ),
         );
       }
@@ -799,6 +802,9 @@ class _SymptomCheckerScreenState extends ConsumerState<SymptomCheckerScreen> {
 
 // 搜索代理
 class MedicalSearchDelegate extends SearchDelegate<String> {
+  final MedicalRepository repository;
+
+  MedicalSearchDelegate({required this.repository});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -833,7 +839,7 @@ class MedicalSearchDelegate extends SearchDelegate<String> {
       return const Center(child: Text('输入关键词搜索疾病'));
     }
     return FutureBuilder<List<Disease>>(
-      future: ref.read(medicalRepositoryProvider).searchDiseases(query),
+      future: repository.searchDiseases(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz_data;
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._();
@@ -8,6 +10,7 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
+    tz_data.initializeTimeZones();
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings();
     const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
@@ -20,14 +23,13 @@ class NotificationService {
     required String body,
     required DateTime scheduledDate,
   }) async {
-    final millisecondsFromNow = scheduledDate.millisecondsSinceEpoch -
-        DateTime.now().millisecondsSinceEpoch;
+    final tzScheduledDate = tz.TZDateTime.from(scheduledDate, tz.local);
 
-    await _plugin.schedule(
+    await _plugin.zonedSchedule(
       id,
       title,
       body,
-      millisecondsFromNow,
+      tzScheduledDate,
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'feeding_reminders',
@@ -36,6 +38,8 @@ class NotificationService {
         ),
         iOS: DarwinNotificationDetails(),
       ),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 

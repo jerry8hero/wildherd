@@ -132,15 +132,17 @@ class Article {
   String get categoryName {
     switch (category) {
       case 'feeding':
-        return '饲养';
+        return '饲养护理';
       case 'health':
-        return '健康';
+        return '健康医疗';
       case 'housing':
-        return '环境';
+        return '饲养环境';
       case 'breeding':
-        return '繁殖';
+        return '繁殖孵化';
       case 'species':
-        return '物种';
+        return '物种介绍';
+      case 'care':
+        return '饲养护理';
       default:
         return category;
     }

@@ -9,39 +9,41 @@ void main() {
       final batch = BreedingBatch(
         id: 'bb-001',
         reptileId: 'rep-001',
-        maleId: 'rep-002',
-        femaleId: 'rep-003',
+        fatherId: 'rep-002',
+        reptileName: 'Test Reptile',
+        species: 'Test Species',
         matingDate: testDate,
         createdAt: testDate,
+        updatedAt: testDate,
       );
 
       expect(batch.id, 'bb-001');
       expect(batch.reptileId, 'rep-001');
-      expect(batch.status, 'mating');
+      expect(batch.fatherId, 'rep-002');
     });
 
     test('fromMap / toMap round-trip', () {
       final original = BreedingBatch(
         id: 'bb-010',
         reptileId: 'rep-010',
-        maleId: 'rep-011',
-        femaleId: 'rep-012',
+        fatherId: 'rep-011',
+        reptileName: 'Test Reptile',
+        species: 'Test Species',
         matingDate: testDate,
         eggLayingDate: testDate,
         expectedHatchDate: testDate.add(const Duration(days: 60)),
         eggCount: 8,
-        fertileCount: 6,
         hatchedCount: 5,
         status: 'hatched',
         notes: '顺利孵化',
         createdAt: testDate,
+        updatedAt: testDate,
       );
 
       final restored = BreedingBatch.fromMap(original.toMap());
 
       expect(restored.id, original.id);
       expect(restored.eggCount, 8);
-      expect(restored.fertileCount, 6);
       expect(restored.hatchedCount, 5);
       expect(restored.status, 'hatched');
     });
@@ -53,21 +55,22 @@ void main() {
         id: 'be-001',
         batchId: 'bb-001',
         eggNumber: 1,
-        isFertile: true,
+        fertility: 'fertile',
         candlingResult: '正常发育',
         hatchStatus: 'hatched',
         hatchDate: testDate,
         createdAt: testDate,
+        updatedAt: testDate,
       );
 
       final map = original.toMap();
-      expect(map['is_fertile'], 1);
+      expect(map['fertility'], 'fertile');
       expect(map['hatch_status'], 'hatched');
 
       final restored = BreedingEgg.fromMap(map);
 
       expect(restored.id, original.id);
-      expect(restored.isFertile, isTrue);
+      expect(restored.fertility, 'fertile');
       expect(restored.hatchStatus, 'hatched');
     });
   });
@@ -76,11 +79,13 @@ void main() {
     test('fromMap / toMap round-trip', () {
       final original = Offspring(
         id: 'of-001',
-        batchId: 'bb-001',
+        parentBatchId: 'bb-001',
         name: '宝宝一号',
+        species: 'Test Species',
         gender: 'male',
-        status: 'healthy',
+        status: 'alive',
         createdAt: testDate,
+        updatedAt: testDate,
       );
 
       final restored = Offspring.fromMap(original.toMap());
