@@ -69,3 +69,4 @@ scripts/state/
 # LFS (if not using git lfs for these)
 # *.png
 # *.jpg
+.claude/
