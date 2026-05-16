@@ -100,35 +100,139 @@ def parse_review_output(output: str, round_num: int) -> dict:
     # 尝试提取评分
     import re
     score_patterns = [
-        r'评分[：:]\s*(\d+)',
-        r'分数[：:]\s*(\d+)',
-        r'Score[：:]\s*(\d+)',
-        r'(\d+)\s*/\s*10',
-        r'(\d+)\s*分'
+        r'评分[：:]\s*[★⭐]?\s*(\d+(?:\.\d+)?)',
+        r'分数[：:]\s*(\d+(?:\.\d+)?)',
+        r'Score[：:]\s*(\d+(?:\.\d+)?)',
+        r'(\d+(?:\.\d+)?)\s*/\s*10',
+        r'(\d+(?:\.\d+)?)\s*分',
+        r'本轮评分[：:\s]*[★⭐]*\s*(\d+(?:\.\d+)?)',
+        r'评分[：:\s]*[★⭐]*\s*(\d+(?:\.\d+)?)',
+        r'\*\*(\d+(?:\.\d+)?)\s*/\s*10\*\*',
+        r'\*\*(\d+(?:\.\d+)?)\s*分\*\*',
     ]
 
     for pattern in score_patterns:
-        match = re.search(pattern, output)
+        match = re.search(pattern, output, re.IGNORECASE)
         if match:
-            result["score"] = int(match.group(1))
-            break
+            try:
+                score = float(match.group(1))
+                if 0 <= score <= 10:
+                    result["score"] = score
+                    break
+            except ValueError:
+                continue
 
     return result
 
 
 def extract_main_content(content: str) -> str:
-    """提取视频正文文案部分（#之后，---之前）"""
-    parts = content.split('---')
-    if parts:
-        return parts[0].strip()
-    return content
+    """提取完整文案内容（整个文件）"""
+    return content.strip()
+
+
+def extract_optimized_text(review_output: str) -> str:
+    """从 review 输出中提取优化后的完整文案"""
+    import re
+
+    # 策略1: 寻找 "优化后的完整文案" 标记后的内容
+    markers = [
+        r'##\s*优化后的完整文案',
+        r'##\s*完整优化文案',
+        r'##\s*优化后完整文案',
+        r'##\s*最终优化版',
+        r'##\s*最终文案',
+        r'优化后的完整文案[：:]',
+        r'以下是优化后的完整文案',
+    ]
+
+    for marker in markers:
+        match = re.search(marker, review_output, re.IGNORECASE)
+        if match:
+            after = review_output[match.end():]
+            after = re.sub(r'^[\s\n]*[-]{3,}', '', after)
+            after = re.sub(r'^[\s\n]*```markdown', '', after)
+            after = re.sub(r'^[\s\n]*```', '', after)
+            after = re.sub(r'```[\s\n]*$', '', after.strip())
+            lines = after.strip().split('\n')
+            cleaned = []
+            for line in lines:
+                if line.startswith('> '):
+                    line = line[2:]
+                elif line == '>':
+                    line = ''
+                cleaned.append(line)
+            result = '\n'.join(cleaned).strip()
+            if len(result) > 100:
+                return result
+
+    # 策略2: 寻找包含粤语内容的大段文本
+    cantonese_markers = [
+        '嘅', '嘢', '咁', '喔', '喇', '喺', '咗', '佢', '系', '係',
+        '冇', '呢期', '恐龙', '唔', '咗', '哋', '啲', '嘞', '咁',
+        '几巴閉', '走宝', '吹吹水', '记得三连', '评论区'
+    ]
+    blocks = review_output.split('---')
+
+    for i, block in enumerate(blocks):
+        block = block.strip()
+        if not block:
+            continue
+        cantonese_count = sum(1 for m in cantonese_markers if m in block)
+        if cantonese_count >= 1 and len(block) > 20:
+            remaining = '---'.join(blocks[i:])
+            lines = remaining.split('\n')
+            cleaned = []
+            for line in lines:
+                if line.startswith('> '):
+                    line = line[2:]
+                elif line == '>':
+                    line = ''
+                cleaned.append(line)
+            result = '\n'.join(cleaned).strip()
+            if len(result) > 100:
+                return result
+
+    # 策略3: 回退 - 返回整个输出（让后续处理判断）
+    return review_output.strip()
+
+
+def postprocess_content(text: str, original_content: str) -> str:
+    """后处理：清理格式，确保标题存在"""
+    import re
+
+    # 去掉所有加粗标记
+    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)
+
+    # 去掉引用标记
+    text = re.sub(r'^>\s?', '', text, flags=re.MULTILINE)
+
+    # 去掉代码块标记
+    text = re.sub(r'```\w*\n?', '', text)
+    text = re.sub(r'```', '', text)
+
+    # 去掉 emoji（保留几巴閉中的文字）
+    text = re.sub(r'[🔥⭐🎯📌💡🎬🚀✅❌🔴🟡🟢🦕🪙👍👆👇❤️‍🔥👀🤔😏😤🫡]', '', text)
+
+    # 确保有标题行
+    if not text.startswith('# '):
+        # 从原文提取标题
+        orig_title_match = re.match(r'# (.+)', original_content)
+        if orig_title_match:
+            title = orig_title_match.group(1)
+            # 去掉可能重复的标题
+            text = f'# {title}\n\n---\n\n{text}'
+
+    # 清理多余空行（最多保留一个空行）
+    text = re.sub(r'\n{3,}', '\n\n', text)
+
+    # 确保以换行结尾
+    text = text.strip() + '\n'
+
+    return text
 
 
 def reassemble_content(original_content: str, optimized_content: str) -> str:
-    """重新组装完整文案（保留 --- 之后的 B站发布内容）"""
-    parts = original_content.split('---')
-    if len(parts) > 1:
-        return optimized_content + '\n\n---\n\n' + '---'.join(parts[1:])
+    """直接返回优化后的完整文案"""
     return optimized_content
 
 
@@ -153,41 +257,73 @@ def three_round_review(file_path: str, config: ReviewConfig, client: MiniMaxClie
             content = f.read()
 
         original_len = len(content)
-        main_content = extract_main_content(content)
+        original_content = extract_main_content(content)
 
-        print(f"    原文案长度: {len(main_content)} 字符")
+        print(f"    原文案长度: {len(original_content)} 字符")
+
+        # 当前最优文案（每轮在此基础上优化）
+        current_text = original_content
 
         # 第1轮Review - 开场
         print(f"    第1轮Review（开场）...")
-        reviewed_1 = client.call(main_content, prompt_r1, 1)
+        reviewed_1 = client.call(current_text, prompt_r1, 1)
         parsed_1 = parse_review_output(reviewed_1, 1)
         result["rounds"].append(parsed_1)
         print(f"      评分: {parsed_1.get('score', 'N/A')}")
 
+        # 从第1轮输出中提取优化后的文案
+        optimized_1 = extract_optimized_text(reviewed_1)
+        # 验证提取的文案质量：包含粤语标记且足够长
+        cantonese_count = sum(1 for m in ['嘅', '嘢', '咁', '喔', '喇', '喺', '佢', '系', '係', '唔', '啲'] if m in optimized_1)
+        if cantonese_count >= 3 and len(optimized_1) > len(original_content) * 0.6:
+            current_text = optimized_1
+            print(f"      提取到优化文案 ({len(current_text)} 字符)")
+        else:
+            print(f"      提取失败，保留原文案")
+
         # 第2轮Review - 叙事
         print(f"    第2轮Review（叙事）...")
-        reviewed_2 = client.call(reviewed_1, prompt_r2, 2)
+        reviewed_2 = client.call(current_text, prompt_r2, 2)
         parsed_2 = parse_review_output(reviewed_2, 2)
         result["rounds"].append(parsed_2)
         print(f"      评分: {parsed_2.get('score', 'N/A')}")
 
+        # 从第2轮输出中提取优化后的文案
+        optimized_2 = extract_optimized_text(reviewed_2)
+        cantonese_count = sum(1 for m in ['嘅', '嘢', '咁', '喔', '喇', '喺', '佢', '系', '係', '唔', '啲'] if m in optimized_2)
+        if cantonese_count >= 3 and len(optimized_2) > len(original_content) * 0.6:
+            current_text = optimized_2
+            print(f"      提取到优化文案 ({len(current_text)} 字符)")
+        else:
+            print(f"      提取失败，保留上一轮文案")
+
         # 第3轮Review - 结尾
         print(f"    第3轮Review（结尾）...")
-        reviewed_3 = client.call(reviewed_2, prompt_r3, 3)
+        reviewed_3 = client.call(current_text, prompt_r3, 3)
         parsed_3 = parse_review_output(reviewed_3, 3)
         result["rounds"].append(parsed_3)
         print(f"      评分: {parsed_3.get('score', 'N/A')}")
 
-        print(f"    优化后长度: {len(reviewed_3)} 字符")
+        # 从第3轮输出中提取优化后的文案
+        optimized_3 = extract_optimized_text(reviewed_3)
+        cantonese_count = sum(1 for m in ['嘅', '嘢', '咁', '喔', '喇', '喺', '佢', '系', '係', '唔', '啲'] if m in optimized_3)
+        if cantonese_count >= 3 and len(optimized_3) > len(current_text) * 0.6:
+            final_text = optimized_3
+            print(f"      提取到优化文案 ({len(final_text)} 字符)")
+        else:
+            final_text = current_text
+            print(f"      提取失败，保留上一轮文案")
 
-        # 重新组装并保存
-        final_content = reassemble_content(content, reviewed_3)
+        print(f"    最终文案长度: {len(final_text)} 字符")
+
+        # 保存优化后的文案
+        final_text = postprocess_content(final_text, original_content)
         with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(final_content)
+            f.write(final_text)
 
         result["status"] = "completed"
         result["original_length"] = original_len
-        result["final_length"] = len(final_content)
+        result["final_length"] = len(final_text)
         print(f"    ✓ 完成")
 
     except Exception as e:

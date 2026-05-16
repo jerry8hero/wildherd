@@ -69,7 +69,9 @@ class MiniMaxClient:
         """调用 MiniMax API，带重试机制"""
         prompt = f"""{prompt_template}
 
-review 并修改以下文案，直接输出完整修改版：
+---
+
+以下是需要评审和优化的粤语文案，请直接优化并输出完整文案：
 
 {content}"""
 
