@@ -2,6 +2,8 @@
 *.class
 *.log
 *.pyc
+*.pyo
+__pycache__/
 *.swp
 .DS_Store
 .atom/
@@ -58,13 +60,19 @@ linux/
 macos/
 
 # Flutter build outputs
-*.png (generated)
+*.png
 
 # Environment variables
 .env
 
 # Review state
-scripts/state/
+tools/state/
+
+# Binary documents (kept locally only)
+*.epub
+
+# x-cmd shell tool config
+.x-cmd/
 
 # LFS (if not using git lfs for these)
 # *.png
