@@ -1,179 +1,98 @@
-# WildHerd - 爬宠助手
+# WildHerd
 
-一款专为爬宠爱好者打造的移动应用，帮助你记录爬宠的日常生活、健康状况，同时提供丰富的爬宠知识百科和社区交流功能。
+> 爬宠饲养管理助手（Flutter 移动端）+ B 站内容生产工具链
 
-## 功能概览
+WildHerd 是"两栖"仓库：一个 Flutter 移动端应用 + 一套配套的 B 站内容生产工具链。两类工作流在文件系统上共存，但运行时完全分离——Flutter 应用（`lib/`）不依赖 `tools/`。
 
-### 🏠 首页
-- 欢迎卡片，展示你的爬宠数量
-- 爬宠快捷入口
-- 快捷功能按钮（喂食记录、健康记录、成长相册）
-- 日常提醒（湿度、温度等）
+## 项目组成
 
-### 🦎 爬宠管理
-- 添加爬宠档案（名字、种类、性别、出生日期、体重）
-- 支持多种爬宠类型：蛇类、蜥蜴类、龟类、守宫类、两栖类、蜘蛛类
-- 查看爬宠详情
-- 删除爬宠
+- **Flutter 应用** — `lib/`、`android/`、`test/`、`assets/`
+- **内容生产工具链** — `tools/`（review、video、publishing、collector）
+- **文案与素材** — `docs/video/`（2332+ 篇脚本、prompts、reference）
 
-### 📚 知识百科
-- 分类浏览爬宠种类：蛇类、蜥蜴、龟类、守宫、两栖、蜘蛛
-- 物种详情页：学名、习性、饲养难度、寿命、环境要求、食性
-- 龟类支持子分类查看（水龟、半水龟、陆龟）
-- 内置爬宠数据（共31种）：
-
-**蛇类（5种）**: 玉米蛇、球蟒、黑王蛇、奶蛇、猪鼻蛇
-
-**守宫类（3种）**: 豹纹守宫、睫角守宫、巨人守宫
-
-**蜥蜴类（4种）**: 绿鬣蜥、鬃狮蜥、蓝舌石龙子、高冠变色龙
-
-**龟类（11种）**:
-- 水龟：红耳龟、麝香龟、地图龟、草龟、巴西龟
-- 半水龟：黄缘闭壳龟、锯缘摄龟、三线闭壳龟、日本石龟
-- 陆龟：辐射陆龟、豹纹陆龟、赫曼陆龟、印度星龟、红腿陆龟
-
-**两栖类（2种）**: 角蛙、蝾螈
-
-**蜘蛛类（3种）**: 智利红玫瑰、墨西哥红膝、巴西白膝
-
-### 👥 社区
-- 浏览动态
-- 发布爬宠日常
-- 点赞、评论互动
-
-## 技术架构
+## Flutter 应用
 
 ### 技术栈
-- **框架**: Flutter 3.24.0
-- **语言**: Dart 3.5.0
-- **状态管理**: Provider
-- **本地数据库**: SQLite (sqflite)
-- **UI**: Material Design 3
 
-### 项目结构
-```
-lib/
-├── main.dart                 # 应用入口
-├── app/
-│   ├── app.dart              # 应用配置
-│   └── theme.dart            # 主题配置
-├── core/
-│   ├── constants/            # 常量
-│   ├── utils/                # 工具类
-│   └── services/             # 服务层
-├── data/
-│   ├── models/               # 数据模型
-│   ├── repositories/        # 数据仓库
-│   └── local/                # 本地存储
-├── features/
-│   ├── home/                 # 首页
-│   ├── pets/                 # 爬宠管理
-│   ├── encyclopedia/        # 知识百科
-│   └── community/            # 社区
-└── widgets/                  # 通用组件
-```
+- Flutter 3.x / Dart 3.x
+- 状态管理：Riverpod（`flutter_riverpod`）
+- 本地数据库：sqflite
+- 图表：fl_chart
+- 通知：flutter_local_notifications
+- 定位 / 天气：geolocator / http
 
-## 安装说明
+### 模块（features/）
 
-### 环境要求
-- Flutter SDK 3.24.0+
-- Dart SDK 3.5.0+
-- Android SDK (API 21+)
-- iOS 12.0+
+| 模块 | 关键功能 |
+|------|----------|
+| `home/` | 爬宠列表、添加、详情、喂食/健康/成长记录、天气 |
+| `breeding/` | 繁殖批次、蛋、苗子 |
+| `habitat/` | 环境监测、对比、编辑 |
+| `encyclopedia/` | 物种百科 + 物种图鉴 |
+| `knowledge/` | 知识库 + 收藏 + 搜索 |
+| `article/` | 科普文章 |
+| `medical/` | 医疗记录 |
+| `qa/` | 问答 |
+| `reminders/` | 提醒列表 + 添加 |
+| `shedding/` | 蜕皮记录 |
+| `settings/` | 等级、调度设置 |
 
-### 安装步骤
+### 运行
 
-#### 1. 克隆项目
-```bash
-git clone <repository-url>
-cd wildherd
-```
-
-#### 2. 安装依赖
 ```bash
 flutter pub get
-```
-
-#### 3. 运行项目
-```bash
-# 运行调试版本
-flutter run
-
-# 构建 Android APK
-flutter build apk --debug
-
-# 构建 iOS
-flutter build ios
-```
-
-#### 4. 发布版本
-```bash
-# Android release
+flutter run                # Android 调试
+flutter test               # 跑 22 个测试
 flutter build apk --release
-
-# iOS release
-flutter build ios --release
 ```
 
-## 数据模型
+## 内容生产工具链（tools/）
 
-### 爬宠 (Reptile)
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | String | 唯一标识 |
-| name | String | 名字 |
-| species | String | 种类英文标识 |
-| speciesChinese | String | 中文名 |
-| gender | String | 性别 |
-| birthDate | DateTime | 出生日期 |
-| weight | double | 体重(g) |
-| length | double | 体长(cm) |
-| imagePath | String | 头像路径 |
+入口脚本、环境变量、依赖详见 [tools/README.md](tools/README.md)。
 
-### 记录 (Records)
-- **喂食记录**: 时间、食物类型、食物量
-- **健康记录**: 体重、体长、状态、排便情况
-- **成长相册**: 照片、描述、日期
+### 视频文案 Review
 
-## 使用指南
+```bash
+# 主入口：3 轮分维度 Review（含断点续传）
+python tools/review/auto_review.py 5 20
+```
 
-### 添加第一只爬宠
-1. 打开应用，进入"爬宠"页面
-2. 点击右下角 "+" 按钮
-3. 填写爬宠信息（名字、种类、性别等）
-4. 点击"添加"保存
+### 视频生产与发布
 
-### 记录喂食
-1. 在首页点击"喂食记录"
-2. 选择爬宠
-3. 填写喂食信息
+```bash
+python tools/video/video_workflow.py
+python tools/publishing/bilibili_publisher.py upload
+```
 
-### 查看百科
-1. 进入"百科"页面
-2. 选择爬宠类别（蛇类、蜥蜴等）
-3. 点击物种查看详情
+### 知识采集
 
-### 发布动态
-1. 进入"社区"页面
-2. 点击右下角 "+" 按钮
-3. 选择爬宠种类（可选）
-4. 输入内容
-5. 点击"发布"
+```bash
+python tools/collector.py
+```
 
-## 后续开发计划
+## 内容与文档
 
-- [ ] 喂食提醒功能
-- [ ] 健康数据图表展示
-- [ ] 云端数据同步
-- [ ] 用户登录系统
-- [ ] 消息通知
-- [ ] 更多爬宠种类数据
+| 路径 | 内容 |
+|------|------|
+| `docs/video/scripts/` | 2332+ 篇视频脚本（按物种/主题分目录） |
+| `docs/video/prompts/` | LLM 提示词模板 |
+| `docs/video/reference/` | 参考资料（含 龟类生长、龟类价格） |
+| `docs/knowledge/` | 物种养殖资料 |
+| `docs/tutorials/` | Flutter 开发 / 功能文档 |
+| `docs/automation/` | 审核清单、工作流手册 |
+| [`docs/OPTIMIZATION_ROADMAP.md`](docs/OPTIMIZATION_ROADMAP.md) | 迭代路线图 |
+| [`docs/MINI_PROGRAM_ROADMAP.md`](docs/MINI_PROGRAM_ROADMAP.md) | 微信小程序迁移计划 |
+
+## 仓库规范
+
+- **不提交**：`__pycache__/`、`.epub`、`.env`、API key
+- **LFS 跟踪**：`.mp4`、`.png`、`.psd`、`.zip`、`.rar`、`.7z`、`.svg`、音频/视频/压缩包
+- **单次提交按阶段**，便于回滚
+
+## AI 协作
+
+[`CLAUDE.md`](CLAUDE.md) 包含三栈（Flutter / 工具链 / 视频文案）的协作规范。
 
 ## 许可证
 
-MIT License
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
+MIT
