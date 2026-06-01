@@ -24,7 +24,7 @@ import yaml
 sys.stdout.reconfigure(line_buffering=True)
 sys.stderr.reconfigure(line_buffering=True)
 
-SCRIPTS_DIR = Path("/home/pi/workspace/github/private/wildherd/docs/video/scripts/冷到你唔信/第四册-无脊椎动物")
+SCRIPTS_DIR = Path(__file__).parents[2] / "docs" / "video" / "scripts" / "冷到你唔信" / "第四册-无脊椎动物"
 PROMPTS_DIR = Path(__file__).parent / "prompts"
 STATE_DIR = Path(__file__).parent / "state" / "volume4"
 REPORT_PATH = Path(__file__).parent / "state" / f"volume4_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

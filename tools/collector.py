@@ -12,6 +12,7 @@ import re
 import time
 import hashlib
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import quote, urljoin
 
 try:
@@ -22,12 +23,9 @@ except ImportError:
     sys.exit(1)
 
 # 配置
-import os
-# 使用相对于当前工作目录的路径
-KNOWLEDGE_FILE = "assets/data/knowledge_base_v2.json"
-# 如果文件不存在，尝试使用绝对路径
-if not os.path.exists(KNOWLEDGE_FILE):
-    KNOWLEDGE_FILE = "/home/bigrice/workspace/github/private/wildherd/assets/data/knowledge_base_v2.json"
+# 使用相对于项目根目录的路径
+_PROJECT_ROOT = Path(__file__).resolve().parents[1]
+KNOWLEDGE_FILE = _PROJECT_ROOT / "assets/data/knowledge_base_v2.json"
 API_DELAY = 1.5  # 请求间隔(秒)
 
 class KnowledgeCollector:
