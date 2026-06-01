@@ -443,7 +443,7 @@ def main():
 
     if args.all:
         # 检查所有Markdown文件
-        script_dir = Path(__file__).parent.parent / "docs" / "video-scripts"
+        script_dir = Path(__file__).parent.parent.parent / "docs" / "video" / "scripts"
         files = list(script_dir.glob("**/*.md"))
         files = [f for f in files if "B站发布内容" not in f.name and "_小红书" not in f.name]
     elif args.file:

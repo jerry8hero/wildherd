@@ -16,10 +16,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # 配置路径
-SCRIPT_DIR = Path(__file__).parent.parent
-CONFIG_FILE = SCRIPT_DIR / "configs" / "publishing_schedule.yml"
-SCHEDULE_FILE = SCRIPT_DIR / "docs" / "video-scripts" / "发布排期表.md"
-RECORD_FILE = SCRIPT_DIR / "docs" / "video-scripts" / "发布记录.yml"
+SCRIPT_DIR = Path(__file__).parent.parent.parent
+CONFIG_FILE = SCRIPT_DIR / "tools" / "configs" / "publishing_schedule.yml"
+SCHEDULE_FILE = SCRIPT_DIR / "docs" / "video" / "发布排期表.md"
+RECORD_FILE = SCRIPT_DIR / "docs" / "video" / "发布记录.yml"
 
 
 def load_config():
