@@ -65,8 +65,8 @@ macos/
 # Environment variables
 .env
 
-# Review state
-tools/state/
+# Review state (auto_review.py & ad-hoc scripts)
+tools/review/state/
 
 # Binary documents (kept locally only)
 *.epub
