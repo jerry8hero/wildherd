@@ -21,7 +21,7 @@
 
 ## 【标签】
 
-火焰龟鉴别，火焰龟，巴西龟，黄耳彩龟，火焰龟vs巴西龟，龟种鉴别，养龟避坑，新手养龟，火焰龟选购，龟类对比，巴西脸家族，乌龟品种，养龟经验，爬宠鉴别，龟友必看
+火焰龟鉴别，火焰龟，巴西龟，黄耳彩龟，黄腹滑龟，火焰龟vs巴西龟，龟种鉴别，养龟避坑，新手养龟，火焰龟选购，龟类对比，巴西脸家族，乌龟品种，养龟经验，爬宠鉴别，龟友必看，禁止放生，外来入侵物种
 
 ---
 
@@ -29,15 +29,15 @@
 
 你养了三年的"火焰龟"，可能根本不是火焰龟。
 
-扎心吗？但这就是事实。90%的龟友根本分不清火焰龟、巴西龟和黄耳彩龟——它们三兄弟共用一张脸，却有三套完全不同的养法。
+扎心吗？但这就是事实。90%的龟友根本分不清火焰龟、巴西龟和黄耳彩龟（也叫"黄腹滑龟"）——它们三兄弟共用一张脸，却有三套完全不同的养法。
 
-你买的是巴西龟，养法却按火焰龟来；结果它天生就没有发色基因，再怎么养也养不出火焰龟的红——不是你的养功不行，是你从一开始就认错了龟。
+你买的是黄耳龟，养法却按火焰龟来；结果它天生就没有发色基因，再怎么养也养不出火焰龟的红——不是你的养功不行，是你从一开始就认错了龟。
 
-今天这期，我把火焰龟、巴西龟、黄耳彩龟这三兄弟拉出来，从头到脚给你掰扯清楚。不光教你怎么认，更要告诉你——认错了，你的养法可能从一开始就搞反了。
+今天这期，我就把这三兄弟拉出来，从头到脚给你掰扯清楚——不光教你认，更要告诉你：认错了，你的养法可能从一开始就搞反了。
 
 ---
 
-看耳朵、看腹甲、看花纹——三招鉴别，一分钟搞定。尤其是第二招，看完你就知道自己的龟到底是啥。
+看耳朵、看腹甲、看花纹——三招鉴别，一分钟搞定。**特别提醒**：这三兄弟都属于外来物种，绝对不能私自放生到野外！
 
 ---
 
@@ -46,15 +46,15 @@
 00:00 开场：扎心三连问——你养的可能不是火焰龟
 00:30 第一站：三兄弟是什么关系？为什么长得这么像
 01:30 第二站：一分钟鉴别法——看耳朵、看腹甲、看花纹
-04:30 第三站：养法天差地别——一个吃素、一个杂食、一个中间派
-06:30 第四站：买龟防坑——80块"火焰龟"的真实案例
-08:00 顺口溜总结 + 下期预告
+04:30 第三站：养法天差地别——一个吃素、一个杂食、一个中间派（重点讲晒背/UVB）
+06:30 第四站：买龟防坑——80块"火焰龟"的真实案例 + 苗子阶段怎么辨
+08:00 顺口溜总结 + 放生警告 + 下期预告
 
 ---
 
 ## 【下期预告】
 
-下期我来聊聊火焰龟发色的终极秘诀——怎么喂、怎么晒、怎么让它的壳红得像一团火。关注我，下期不见不散。
+下期我来聊聊火焰龟发色的终极秘诀——怎么喂素、怎么晒 UVB、怎么让它的壳红得像一团火。关注我，下期不见不散。
 
 ---
 
@@ -65,7 +65,7 @@
 DANMU_POLL: 你现在养的是哪只"巴西脸"？
 A. 火焰龟（大红背🔥）
 B. 巴西龟（经典红耳）
-C. 黄耳彩龟
+C. 黄耳彩龟（也叫黄腹滑龟）
 D. 分不清，来看视频鉴定的😅
 ```
 
@@ -147,6 +147,14 @@ D. 现在看完视频怀疑自己买错了😅
 
 ---
 
+### 方案八（新增·放生警告）
+
+这三兄弟都是外来物种
+千万别放生野外
+负责任养宠 从你我开始
+
+---
+
 ### 剪映文字成图建议
 
 - 每行文字要短（3-6字）
@@ -164,7 +172,7 @@ D. 现在看完视频怀疑自己买错了😅
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-Three cartoon turtles side by side with exaggerated anime expressions: LEFT is a red-eared slider with obvious red ear patches looking confident, CENTER is a painted turtle (火焰龟) with vibrant red shell and "wing" patterns looking proud, RIGHT is a yellow-bellied turtle looking slightly confused/lost. Above them a large magnifying glass icon.
+Three cartoon turtles side by side with exaggerated anime expressions: LEFT is a red-eared slider with obvious red ear patches looking confident, CENTER is a painted turtle (火焰龟) with vibrant red shell and "wing" patterns looking proud, RIGHT is a yellow-bellied slider (黄耳彩龟) looking slightly confused/lost. Above them a large magnifying glass icon.
 
 Above the turtles, bold Chinese text overlay:
 "养了三年才发现" (top line, large white text with red outline)
@@ -200,7 +208,7 @@ Mood: dramatic reveal, relatable, comedic but educational
 ```
 16:9 realistic illustration for Bilibili video thumbnail
 
-Three photorealistic turtle bellies (plastron) arranged vertically: TOP shows a yellow belly with dark spots (巴西龟), MIDDLE shows a vibrant red-orange patterned belly (火焰龟), BOTTOM shows a plain yellow belly (黄耳彩龟). Clear visual comparison with labels.
+Three photorealistic turtle bellies (plastron) arranged vertically: TOP shows a yellow belly with dark spots (巴西龟), MIDDLE shows a yellow-white base with irregular red-brown/black markings like a painter's palette (火焰龟), BOTTOM shows a plain yellow belly (黄耳彩龟). Clear visual comparison with labels.
 
 Above the bellies, bold Chinese text overlay:
 "看耳朵 看腹甲 看花纹" (top line, bold white text with black shadow)
@@ -285,6 +293,24 @@ Background: solid dark navy with subtle geometric pattern
 Mood: clean, modern, easily understandable at small sizes
 ```
 
+### 方案八（新增·放生警告）
+
+```
+16:9 cartoon illustration for Bilibili video thumbnail
+
+A trio of cartoon turtles (火焰龟 red, 巴西龟 green with red ear, 黄耳彩龟 yellow) standing together looking guilty, with a giant red prohibition "🚫" symbol over a forest/river background. The turtles hold a sign that says "不！不！不放生！" Speech bubbles with "保护本土生态" text.
+
+Above the scene, bold Chinese text overlay:
+"这三兄弟都是" (top line, large white text with red outline)
+"外来物种" (middle line, large red bold text)
+"千万别放生野外！" (bottom line, yellow bold warning text)
+
+Visual style: anime comic with environmental awareness theme, bold outlines
+Color scheme: dark green forest background with red prohibition symbol, high contrast
+Background: lush native Chinese wildlife scene with subtle native species (Chinese pond turtle, Chinese stripe-necked turtle) looking safe
+Mood: serious warning with friendly cartoon style, conservation message
+```
+
 ---
 
 ## 【置顶评论】
@@ -295,25 +321,33 @@ Mood: clean, modern, easily understandable at small sizes
 这期把三兄弟的鉴别方法讲透了！重点回顾：
 
 1. 看耳朵：有红斑的是巴西龟，99%准确率
-2. 看腹甲：带红色/橙色火焰斑块的是火焰龟，纯黄的是黄耳彩龟
+2. 看腹甲：底色黄/乳白 + 不规则红棕色或黑色斑块的是火焰龟，纯黄的是黄耳彩龟
 3. 看背甲：有翅膀花纹的是火焰龟，细条纹的是黄耳彩龟，绿色横纹的是巴西龟
 
-⚠️ 买龟防坑：找能看种龟的商家，苗子腹甲带橙粉色的才是火焰龟
+⚠️ 买龟防坑：刚破壳的火焰龟苗全身偏黄绿色，要养大些才显出红棕色火焰条纹
+⚠️ 火焰龟发色：除了吃素，晒背/UVB 灯是关键，每天必须保证晒背时间
+⚠️ 巴西龟：典型杂食大胃王，鱼虾螺肉来者不拒，偶尔也啃两口菜叶
+
+❌ 这三兄弟都属于外来物种，绝对不能私自放生到野外！不想养了请转赠或联系救助机构
 
 ❓ 你养的到底是哪只？评论区发图，我帮你鉴定！
 
-下期讲火焰龟发色的终极秘诀——怎么喂、怎么晒、怎么让它的壳红得像一团火，点关注不迷路！
+下期讲火焰龟发色的终极秘诀——怎么喂素、怎么晒 UVB、怎么让它的壳红得像一团火，点关注不迷路！
 ```
 
 ---
 
 ## 【特别提醒】
 
-- 黄耳彩龟腹甲天生就是黄的，再怎么养也养不出火焰龟的红色
-- 火焰龟苗子和黄耳彩龟苗子极像，买的时候一定看种龟
+- 黄耳彩龟也叫"黄腹滑龟"，腹甲天生就是黄的，再怎么养也养不出火焰龟的红色
+- 火焰龟腹甲底色多为黄/乳白，上面点缀不规则红棕色或黑色斑块（不是整片红）
+- 火焰龟发色双关键：吃素 + 充足日照/UVB，缺一不可
+- 火焰龟苗子刚破壳时全身偏黄绿色，花纹不明显，长大后才显出红棕色火焰条纹
+- 巴西龟是典型"杂食大胃王"，鱼虾螺肉来者不拒，偶尔也啃两口菜叶
 - 巴西龟攻击性强，不建议和火焰龟混养
 - 火焰龟幼年需要吃肉长身体，成年后才是坚定素食主义者
 - 巴西龟是"给点阳光就灿烂，给点鱼虾就泛滥"，切勿按巴西龟方式喂养火焰龟
+- **三兄弟都是外来物种，绝对不能私自放生野外！**
 
 ---
 
@@ -323,16 +357,21 @@ Mood: clean, modern, easily understandable at small sizes
 
 - 「我养错了吗」
 - 「看了标题慌了」
+- 「黄腹滑龟是新知识」
 - 「干货」
 - 「坐等鉴定」
 
 ### 内容节点
 
 - 红耳=巴西龟
-- 腹甲看颜色
+- 腹甲看底色
+- 红棕色斑块
 - 翅膀花纹
 - 火焰龟吃素
+- 必须晒背
+- UVB 灯不能省
 - 黄耳彩龟不能发红
+- 苗子是黄绿色的
 - 80块买假火焰龟
 
 ### 结尾
@@ -341,13 +380,14 @@ Mood: clean, modern, easily understandable at small sizes
 - 「已三连」
 - 「我要去翻腹甲」
 - 「完了我是黄耳彩龟」
+- 「拒绝放生」
 - 「下期见」
 
 ---
 
 ## 【视频结尾引导语】
 
-好，以上就是火焰龟、巴西龟、黄耳彩龟三兄弟的鉴别方法和养法差异。
+好，以上就是火焰龟、巴西龟、黄耳彩龟（也叫"黄腹滑龟"）三兄弟的鉴别方法和养法差异。
 
 给大家一个顺口溜，记不住的截图保存：
 
@@ -357,10 +397,12 @@ Mood: clean, modern, easily understandable at small sizes
 
 认对了龟，用对了方法，你才能养出你想要的效果！
 
-如果你也曾养错龟白花了三年，这期帮你省下冤枉钱，那就点个赞留个硬币，让更多人别再踩坑。
+最后提醒一句：这三兄弟都属于外来物种，绝对不能私自放生到野外！不想养了请转赠或联系救助机构，保护本土生态，从负责任养宠开始。
 
-养龟路上最大的坑，从来不是龟缸和设备，而是你从一开始就认错了龟。
+如果你也曾养错龟白花了三年，这期帮你省下冤枉钱，那就**点赞 + 收藏 + 一键三连**，让更多人别再踩坑。
 
-下期我来聊聊火焰龟发色的终极秘诀——怎么喂、怎么晒、怎么让它的壳红得像一团火。关注我，下期不见不散。
+养龟路上最大的坑，从来不是设备，是你从一开始就认错了龟。
+
+下期我来聊聊火焰龟发色的终极秘诀——怎么喂素、怎么晒 UVB、怎么让它的壳红得像一团火。关注我，下期不见不散。
 
 你养的是火焰龟、巴西龟还是黄耳彩龟？评论区晒图，我来帮你免费鉴定。
