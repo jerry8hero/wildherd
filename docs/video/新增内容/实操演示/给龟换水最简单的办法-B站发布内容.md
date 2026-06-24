@@ -2,22 +2,22 @@
 
 ## 【标题候选】
 
-1. 给龟换水最简单的办法｜5 分钟搞定，龟不生病人不累
+1. 给龟换水最简单的办法｜几分钟搞定，懒人也能养好龟
 2. 换水像打仗？3 步搞定，懒人也能养好龟
-3. 90% 新手都换错水！龟缸换水的正确打开方式
-4. 养龟 3 年才搞懂：这样换水，龟从来没生过病
+3. 大多数新手都换错水！龟缸换水的正确打开方式
+4. 养龟 3 年才搞懂：这样换水，龟状态一直挺稳
 5. 龟缸换水全套攻略｜误区 + 正确方法 + 懒人流程
 6. 我给龟换水从不费劲，靠的就是这三招
-7. 龟缸异味重、龟腐皮？90% 是换水方法错了
-8. 换水 5 分钟 / 抽底 2 分钟 / 清洗 30 分钟｜懒人养龟时间表
+7. 龟缸异味重、龟腐皮？大多数是换水方法错了
+8. 几首歌时间换水｜懒人养龟时间表
 9. 新手必看！龟缸换水的 3 大误区和正确步骤
-10. 养龟懒人包：从换水到过滤，省力 80% 的全套技巧
+10. 养龟懒人包：从换水到过滤，省一大半功夫的全套技巧
 
 ---
 
 ## 【推荐标题】
 
-给龟换水最简单的办法｜轻松搞定，龟不生病人不累
+给龟换水最简单的办法｜几分钟搞定，人不累
 
 ---
 
@@ -29,9 +29,9 @@
 
 ## 【简介】
 
-你是不是每次换水都像打仗——吸管堵、龟乱窜、两天后又臭了？
+你是不是每次换水都像打仗——虹吸管堵、龟乱窜、两天后又臭了？
 
-今天就把这套最懒、最稳的换水方法教给你。轻轻松松搞定，龟不生病，人不累。
+今天就把最懒、最稳的换水方法教给你。轻轻松松搞定，人不累。
 
 视频大纲：
 00:00 开场：你是不是每次换水都像打仗
@@ -40,7 +40,7 @@
 03:00 省力技巧（困水 / 滴流 / 从源头减污染）
 04:30 换水频率判断（油膜信号）
 06:00 特殊情况：龟生病了怎么换
-07:00 我的懒人流程（2/10/30 分钟时间表）
+07:00 我的懒人流程（每天几分钟抽底 + 每周换水 + 每月洗缸）
 
 ---
 
@@ -54,19 +54,19 @@
 ## 【时间轴】
 
 00:00 开场：你是不是每次换水都像打仗
-00:30 第一站：换水三大误区（全部换 / 从来不换 / 自来水 + 翻车故事）
-01:30 第二站：最简单方法——准备工具 + 抽底动作（45 度贴底） + 补水
-03:00 第三站：省力技巧（提前困水 / 滴流法 / 从源头减少污染）
-04:30 第四站：换水频率判断（水面油膜信号 + 闻味 + 龟的状态）
-06:00 第五站：特殊情况——龟生病了怎么换水
-07:00 第六站：我的懒人流程（每天 2 分钟 + 每周 10 分钟 + 每月 30 分钟）
-08:00 顺口溜总结 + 三件套 + 下期预告
+00:30 换水三大误区（全部换 / 从来不换 / 自来水 + 翻车故事）
+01:30 最简单方法——准备工具 + 抽底动作（45 度贴底） + 补水
+03:00 省力技巧（提前困水 / 滴流法 / 从源头减少污染）
+04:30 换水频率判断（水面油膜信号 + 闻味 + 龟的状态）
+06:00 特殊情况——龟生病了怎么换水
+07:00 我的懒人流程（每天几分钟抽底 + 每周换水 + 每月洗缸）
+08:00 顺口溜总结 + 下期预告
 
 ---
 
 ## 【下期预告】
 
-下期讲《3 招让龟缸半年不换水》——不是标题党，真的能做到。**点赞 + 投币 + 收藏**，下期不见不散。
+下期讲《3 招让龟缸半年不换水》——不是标题党，真的能做到。点赞 + 投币 + 收藏，下期不见不散。
 
 ---
 
@@ -75,7 +75,7 @@
 **问题1** - 00:30 你现在换水最头疼的问题是啥？
 ```
 DANMU_POLL: 你现在换水最头疼的问题是啥？
-A. 吸管老堵 😭
+A. 虹吸管老堵 😭
 B. 龟乱窜，换水变抓龟
 C. 两天水就臭
 D. 我全换，省事！
@@ -113,15 +113,15 @@ D. 看心情 / 看水脏不脏
 
 ### 方案二
 
-5 分钟换水
-龟不生病人不累
+几分钟换水
+轻轻松松搞定
 收藏备用
 
 ---
 
 ### 方案三
 
-90% 新手
+大多数新手
 都换错水了
 正确方法在这里
 
@@ -130,7 +130,7 @@ D. 看心情 / 看水脏不脏
 ### 方案四
 
 养龟 3 年
-龟从来没生过病
+龟状态一直挺稳
 靠的就是这套换水法
 
 ---
@@ -181,8 +181,8 @@ Mood: relatable chaos vs satisfying solution, "aha moment"
 Top-down view of two hands using a gravel vacuum siphon on a turtle tank, the siphon tube showing clean water flowing into a white bucket. A small turtle watches curiously from a basking platform. Tools laid out: gravel siphon, water bucket, water conditioner bottle.
 
 Above the scene, bold Chinese text overlay:
-"5 分钟换水" (top line, large white text with dark shadow)
-"龟不生病人不累" (middle line, large red bold text)
+"几分钟换水" (top line, large white text with dark shadow)
+"轻轻松松搞定" (middle line, large white bold text)
 "收藏备用" (bottom line, smaller yellow text)
 
 Visual style: clean instructional photo style, soft natural lighting
@@ -199,7 +199,7 @@ Mood: educational, clean, beginner-friendly instructional
 A cartoon turtle keeper looking panicked with sweat drops flying, holding a clogged siphon pipe with one hand and chasing a runaway turtle with the other. Speech bubble: "我只是想换水啊！" Question marks and exclamation marks scattered around. Below shows a "calm version" mini-illustration with a small check mark.
 
 Above the scene, bold Chinese text overlay:
-"90% 新手" (top line, large red bold text)
+"大多数新手" (top line, large red bold text)
 "都换错水了" (middle line, yellow text with black outline, shaking effect)
 "正确方法在这里" (bottom line, smaller white text with arrow)
 
@@ -218,7 +218,7 @@ Three numbered circular icons in a horizontal row: ① 准备工具 (icons: siph
 
 Above the icons, bold Chinese text overlay:
 "养龟 3 年" (top line, bold white text with red outline)
-"龟从来没生过病" (middle line, large white text)
+"龟状态一直挺稳" (middle line, large white text)
 "靠的就是这套换水法" (bottom line, smaller yellow text)
 
 Visual style: flat minimalist infographic, clean geometric shapes
@@ -255,8 +255,8 @@ Mood: relatable problem → solution reveal, eye-catching
 这期把换水误区讲透了，重点回顾：
 
 ✅ 正确步骤：
-1. 准备：吸管 + 桶 + 困好的水
-2. 抽底：吸管 45 度角贴缸底，像吸尘器一样慢慢推
+1. 准备：虹吸管 + 桶 + 困好的水
+2. 抽底：虹吸管 45 度角贴缸底，像吸尘器一样慢慢推
 3. 补水：温差不超过 2 度，没温度计用手腕内侧试
 
 ✅ 三个误区：
@@ -267,7 +267,7 @@ Mood: relatable problem → solution reveal, eye-catching
 ✅ 顺口溜：抽底每天两分钟，三分之一是底线；
            困水温差两度内，过滤到位少操心。
 
-⏰ 我的懒人时间表：每天 2 分钟抽底 / 每周 10 分钟换水 / 每月 30 分钟洗缸
+⏰ 我的懒人时间表：每天几分钟抽底 / 每周换水 / 每月洗缸
 
 ❓ 你多久换一次水？评论区打个数字！点赞最高的下期上镜~
 
@@ -280,10 +280,10 @@ Mood: relatable problem → solution reveal, eye-catching
 ## 【特别提醒】
 
 - ⚠️ 不要全部换水，换三分之一到二分之一（龟会应激）
-- ⚠️ 新水必须困过，温度接近
+- ⚠️ 新水建议困过，温度接近（应急可用除氯剂）
 - ⚠️ 温差不超过 2 度，没温度计用手腕内侧试
 - ⚠️ 应急：来不及困水可加除氯剂（宠物店几块钱），但长期建议困水
-- ⚠️ 每天抽底可以减少换水频率，省 80% 工作量
+- ⚠️ 每天抽底可以减少换水频率，省一大半工作量
 - ⚠️ 换水信号：水面出现油膜、缸壁发黏、闻到味道
 - 💡 "过滤到位少操心"——水妖精或外挂瀑布过滤能砍一半换水频率
 
@@ -294,9 +294,9 @@ Mood: relatable problem → solution reveal, eye-catching
 ### 开场
 
 - 「换水像打仗」
-- 「吸管老堵」
+- 「虹吸管老堵」
 - 「终于有人讲换水了」
-- 「3 年没生过病」
+- 「3 年一直挺稳」
 - 「坐等方法」
 
 ### 内容节点
@@ -328,18 +328,17 @@ Mood: relatable problem → solution reveal, eye-catching
 
 好了，换水方法就讲到这里。给大家一个顺口溜，记不住的截图保存：
 
-> 抽底每天两分钟，**三分之一**是底线；
+> 抽底每天两分钟，三分之一是底线；
 > 困水温差两度内，过滤到位少操心。
 
 记住三个要点：
+
 - 不要全部换水，换三分之一到二分之一
 - 新水要困过，温差不超过 2 度
 - 勤快点抽底，可以大大减少换水频率
 
-**点赞 + 投币 + 收藏**，下期讲《3 招让龟缸半年不换水》——不是标题党，真的能做到。
+你在用什么换水工具？评论区秀出来！
 
-你在用什么换水工具？评论区秀出来，点赞最高的下期上镜！
-
-**你一般多久换一次水？评论区打个数字**，让我看看谁是"勤快党"谁是"懒人党"。
+你一般多久换一次水？评论区打个数字，让我看看谁是"勤快党"谁是"懒人党"。
 
 咱们下期见！
