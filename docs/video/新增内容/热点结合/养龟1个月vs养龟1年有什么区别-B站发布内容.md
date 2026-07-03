@@ -31,7 +31,7 @@ desc:
 
 ## 章节设置
 
-` 
+```
 00:00 开场：1个月vs1年
 00:30 龟的状态
 01:30 心态变化
@@ -43,7 +43,8 @@ desc:
 08:00 对龟的认知
 09:00 给新手的建议
 09:30 钱包变化
-` 
+```
+
 ---
 
 ## 特别提醒
@@ -123,6 +124,64 @@ desc:
 养龟1个月vs1年
 看完沉默了
 你中了几条
+
+---
+
+## 封面生图提示词
+
+### 方案一
+
+```
+16:9 horizontal illustration for Bilibili video thumbnail
+
+A cute baby red-eared slider turtle in a small fish tank, looking curious and excited, bright eyes, slightly moving towards viewer.
+
+Above the turtle, bold Chinese text overlay:
+"养龟1个月vs1年" (top line, large white text with blue outline)
+"区别太大了" (middle line, yellow accent text)
+"心态变化" (bottom line, smaller white text)
+
+Visual style: anime comic style, bold outlines, vibrant colors
+Color scheme: light blue background with green/yellow accents, cheerful mood
+Background: small tank with pebbles and water plants, sunny atmosphere
+Mood: light-hearted, informative, comparing beginner vs experienced turtle owner
+```
+
+### 方案二
+
+```
+16:9 horizontal illustration for Bilibili video thumbnail
+
+Two turtles side by side - left side shows a shy turtle hiding in shell, right side shows a confident turtle swimming towards camera.
+
+Above the turtles, bold Chinese text overlay:
+"养龟1个月和1年" (top line, large white text with orange outline)
+"有什么区别" (middle line, orange accent text)
+"太真实了" (bottom line, smaller white text)
+
+Visual style: cartoon illustration, expressive characters, clean composition
+Color scheme: warm orange and green tones, friendly atmosphere
+Background: split design showing small tank vs large aquarium
+Mood: relatable, humorous comparison of turtle owner journey
+```
+
+### 方案三（推荐）
+
+```
+16:9 horizontal illustration for Bilibili video thumbnail
+
+A humorous side-by-side comparison: left side shows a nervous beginner holding a tiny turtle with sweat drops, right side shows a relaxed owner surrounded by multiple turtles with a calm expression.
+
+Above the scene, bold Chinese text overlay:
+"养龟1个月vs1年" (top line, large white text with black outline and red fill)
+"看完沉默了" (middle line, dramatic red warning text)
+"你中了几条" (bottom line, smaller white text with question mark)
+
+Visual style: funny meme illustration, exaggerated expressions, comic style
+Color scheme: dark background with red/white/yellow high contrast accents
+Background: scattered turtle tanks, equipment, and empty wallet symbols
+Mood: humorous, relatable, slightly sarcastic look at turtle keeping evolution
+```
 
 ---
 
