@@ -78,3 +78,6 @@ tools/review/state/
 # *.png
 # *.jpg
 .claude/
+
+# MiMoCode tool directory
+.mimocode/
