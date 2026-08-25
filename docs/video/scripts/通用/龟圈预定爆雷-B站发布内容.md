@@ -143,23 +143,28 @@
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A devastated turtle hobbyist staring at his smartphone screen, which
-displays a giant WeChat-style system message "对方已开启好友验证" with a
-red exclamation mark. Behind the phone, a huge shadowy merchant figure
+A devastated turtle hobbyist staring at his smartphone, holding it with
+both hands. The phone screen shows only a large WeChat transfer record
+with a red exclamation mark and a "send failed" symbol — no readable
+text on the screen. Behind the phone, a huge shadowy merchant figure
 with a money bag dissolves into smoke, running away. At the bottom, an
 empty turtle tank with only a price tag floating in it. A baby turtle
-looks up at the owner with teary eyes.
+standing beside the empty tank looks up at the owner with teary eyes.
 
 Above the scene, bold Chinese text overlay:
 "钱付了 龟呢？" (top line, large white text with dark red outline)
-""对方已开启好友验证"" (middle line, rendered as WeChat system message style, gray bubble with red exclamation)
+"对方已开启好友验证" (middle line, rendered as a giant WeChat system
+message: small gray text centered on a light gray banner across the
+width of the image, with a red exclamation mark icon on the left)
 "龟圈预定爆雷实录" (bottom line, smaller yellow text)
 
 Visual style: anime comic, exaggerated shocked expression, bold outlines
-Color scheme: dark background with WeChat green-gray message bubble, red exclamation accent, high contrast
+Color scheme: dark background with light gray WeChat system banner, red exclamation accent, high contrast
 Background: fleeing merchant shadow with money bag, empty turtle tank with price tag
 Mood: betrayal, absurd injustice, instantly relatable pain
 ```
+
+> 布局逻辑：手机屏幕只承担"钱付了"（转账记录+红感叹号，无小字）；空龟缸承担"龟呢"；中间横幅承担"被拉黑"。三个节拍各占一个元素，互不重复。
 
 ### 方案二（骗子语录式）
 
