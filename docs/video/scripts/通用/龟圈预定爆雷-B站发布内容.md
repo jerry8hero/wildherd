@@ -4,22 +4,22 @@
 
 ## 【标题候选】
 
-1. 龟圈预定爆雷：你以为在买龟，其实在对赌
-2. 大几十万全款预定龟苗，换来一句"龟被偷了"
-3. 预定龟苗的水有多深？看完这期能帮你保住几万块
-4. 龟圈预定就是期货对赌？拆解商家不会告诉你的底层逻辑
-5. 五万八买龟蛋，只收到四千块的龟：龟圈预定避坑必看
-6. 为什么爆雷的永远是你？龟圈预定深度拆解
-7. 龟圈年年爆雷的"预定"，到底是谁在割韭菜？
-8. 新手买龟避坑：预定的四种套路与五条铁律
-9. 龟圈防割指南：能买现货，绝不预定
-10. 你的热爱正在被当成韭菜：龟圈预定爆雷全解析
+1. 被骗五万八，警察却说"不算诈骗"？龟圈预定的水有多深
+2. 养龟5年被骗五万八，跨省追凶，发现骗子才17岁
+3. 准备预定龟苗的兄弟，先别付钱！
+4. 大几十万全款打水漂，换来一句"龟被偷了"
+5. 龟圈预定真相：你出的不是钱，是他赌行情的本金
+6. 2026年拿着钱买不到货的东西：英伟达芯片，和你预定的龟苗
+7. 商家不会告诉你：龟苗预定是场对赌，输的永远是你
+8. 看懂"期货对赌"这层，你就不会预定龟苗了
+9. 为什么龟圈爆雷的，永远是你？
+10. 越便宜越贵：龟圈预定收割全流程拆解
 
 ---
 
 ## 【推荐标题】
 
-龟圈预定爆雷：你以为在买龟，其实在对赌
+被骗五万八，警察却说"不算诈骗"？龟圈预定的水有多深
 
 ---
 
@@ -92,74 +92,117 @@
 
 ## 【封面文案】
 
-### 方案一（推荐）
+### 方案一（推荐）：拉黑瞬间式——泛流量通杀
 
-龟圈预定爆雷
-你以为在买龟 其实在对赌
-新手必看防割指南
+钱付了 龟呢？
+"对方已开启好友验证"
+龟圈预定爆雷实录
+
+> 核心武器：微信拉黑提示 + 红色感叹号，全民 0.3 秒共情，不用读标题就痛
 
 ---
 
-### 方案二
+### 方案二：骗子语录式——圈内共鸣+荒诞幽默
 
-大几十万打水漂
 "龟被偷了"
-预定龟苗的都看看
+"龟死了" "老婆生孩子了"
+反正 定金不退
+
+> 核心武器：借口从可置信一路升级到离谱，被坑过的龟友看到会点进来对线
 
 ---
 
-### 方案三
+### 方案三：等式喊话式——洞察流
 
-五万八买龟蛋
-只收到四千块的龟
-龟圈避坑五条铁律
+先别付定金！
+你的定金 = 他的赌本
+龟圈预定全拆解
+
+> 核心武器：等式 8 个字装下全片核心洞察，配标题5/7效果最佳
+
+---
+
+### 方案四：对号入座式——互动流
+
+预定过龟苗的
+进来对号入座
+4种套路 你中过几个？
+
+> 核心武器：点名+提问，直接把评论区互动预告在封面上
+
+---
+
+**备选**（原方案，配标题1最搭）：被骗五万八 / 警察：不算诈骗 / 骗子 才17岁
 
 ---
 
 ## 封面生图提示词
 
-### 方案一
+### 方案一（拉黑瞬间式）
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A shocked turtle owner holding an empty delivery box, with a wad of cash
-flying away into the dark background. A sly merchant silhouette in the
-distance holds a fishing rod with a small turtle as bait, dangling it over
-a water surface shaped like a gambling roulette wheel. Red warning
-exclamation marks and cracked "contract" paper scattered around.
+A devastated turtle hobbyist staring at his smartphone screen, which
+displays a giant WeChat-style system message "对方已开启好友验证" with a
+red exclamation mark. Behind the phone, a huge shadowy merchant figure
+with a money bag dissolves into smoke, running away. At the bottom, an
+empty turtle tank with only a price tag floating in it. A baby turtle
+looks up at the owner with teary eyes.
 
 Above the scene, bold Chinese text overlay:
-"龟圈预定爆雷" (top line, large white text with red outline)
-"你以为在买龟 其实在对赌" (middle line, yellow warning text)
-"新手必看防割指南" (bottom line, smaller white text)
+"钱付了 龟呢？" (top line, large white text with dark red outline)
+""对方已开启好友验证"" (middle line, rendered as WeChat system message style, gray bubble with red exclamation)
+"龟圈预定爆雷实录" (bottom line, smaller yellow text)
 
-Visual style: anime comic, bold outlines, dramatic lighting
-Color scheme: dark navy background with red and yellow accents, high contrast
-Background: cash bills scattering, fishing rod with turtle bait, roulette wheel water
-Mood: urgent, warning, exposing a scam
+Visual style: anime comic, exaggerated shocked expression, bold outlines
+Color scheme: dark background with WeChat green-gray message bubble, red exclamation accent, high contrast
+Background: fleeing merchant shadow with money bag, empty turtle tank with price tag
+Mood: betrayal, absurd injustice, instantly relatable pain
 ```
 
-### 方案二
+### 方案二（骗子语录式）
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A heartbroken cartoon turtle sitting inside a broken piggy bank, holding
-a torn pre-order contract paper. Behind it, a shadowy merchant figure
-runs away carrying a giant money bag, leaving only a speech bubble that
-says "龟被偷了". Scattered banknotes and an empty turtle shell prop in
-the foreground.
+A sneaky cartoon merchant character shrugging with a sly grin, surrounded
+by floating WeChat speech bubbles containing ridiculous excuses: "龟被偷了",
+"龟死了", "老婆生孩子了". A frustrated turtle owner pulls his hair in the
+foreground, holding a deposit receipt marked "不退" (no refund) with a red
+stamp. A small turtle in the corner facepalms.
 
 Above the scene, bold Chinese text overlay:
-"大几十万打水漂" (top line, large white text with dark red outline)
-""龟被偷了"" (middle line, yellow text in quotation marks)
-"预定龟苗的都看看" (bottom line, smaller white text)
+""龟被偷了"" (top line, large white text with red outline, quoted)
+""龟死了" "老婆生孩子了"" (middle line, smaller white text in speech bubbles)
+"反正 定金不退" (bottom line, yellow warning text with red stamp effect)
 
-Visual style: anime comic, exaggerated expressions, bold outlines
-Color scheme: dark background with gold banknotes and red accents, high contrast
-Background: fleeing merchant silhouette with money bag, scattered cash
-Mood: betrayal, loss, cautionary warning
+Visual style: anime comic, humorous exaggerated expressions, bold outlines
+Color scheme: warm yellow-orange background with red and white accents, high contrast
+Background: floating excuse speech bubbles, deposit receipt with red "不退" stamp, facepalming turtle
+Mood: absurd comedy, dark humor, resonating frustration
+```
+
+### 方案三（等式喊话式）
+
+```
+16:9 horizontal illustration for Bilibili video thumbnail
+
+A giant hand passing a red envelope of cash labeled "定金" toward a turtle
+tank. Inside the tank, the money transforms into poker chips and a dice
+landing on a gambling table where a merchant silhouette grins, holding
+the chips. The buyer's side is dim and blue; the merchant's side glows
+warm gold. A red stop hand sign in the corner.
+
+Above the scene, bold Chinese text overlay:
+"先别付定金！" (top line, large white text with red outline, warning style)
+"你的定金 = 他的赌本" (middle line, yellow bold text with equals sign emphasized)
+"龟圈预定全拆解" (bottom line, smaller white text)
+
+Visual style: anime comic, symbolic split composition, bold outlines
+Color scheme: cold blue buyer side vs golden gambling side, red stop sign accent, high contrast
+Background: turtle tank transforming into gambling table, poker chips and dice
+Mood: eye-opening revelation, urgent warning
 ```
 
 ---
