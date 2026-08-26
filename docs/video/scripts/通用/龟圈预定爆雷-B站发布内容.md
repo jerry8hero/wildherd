@@ -92,129 +92,144 @@
 
 ## 【封面文案】
 
-### 方案一（推荐）：拉黑瞬间式——泛流量通杀
+### 方案一（主推）：崩溃大脸式——情绪直给
 
-钱付了 龟呢？
-"对方已开启好友验证"
-龟圈预定爆雷实录
+钱付了
+龟呢？？
 
-> 核心武器：微信拉黑提示 + 红色感叹号，全民 0.3 秒共情，不用读标题就痛
-
----
-
-### 方案二：骗子语录式——圈内共鸣+荒诞幽默
-
-"龟被偷了"
-"龟死了" "老婆生孩子了"
-反正 定金不退
-
-> 核心武器：借口从可置信一路升级到离谱，被坑过的龟友看到会点进来对线
+> 核心武器：一张崩溃脸占 60% 画面，"？？"制造信息缺口；瞳孔里钱袋飞走的细节放大看才发现
 
 ---
 
-### 方案三：等式喊话式——洞察流
+### 方案二：反派数钱式——愤怒引流
 
-先别付定金！
-你的定金 = 他的赌本
-龟圈预定全拆解
+预定龟苗的钱
+到他兜里了
 
-> 核心武器：等式 8 个字装下全片核心洞察，配标题5/7效果最佳
-
----
-
-### 方案四：对号入座式——互动流
-
-预定过龟苗的
-进来对号入座
-4种套路 你中过几个？
-
-> 核心武器：点名+提问，直接把评论区互动预告在封面上
+> 核心武器：金链墨镜的骗子龟数钱，"这孙子"式愤怒是最强的点击情绪之一
 
 ---
 
-**备选**（原方案，配标题1最搭）：被骗五万八 / 警察：不算诈骗 / 骗子 才17岁
+### 方案三：分屏对比式——不读字也懂
+
+预定前 vs 交货日
+
+> 核心武器：左半金光闪闪的预定承诺，右半灰暗碎裂的交货现实，颜色讲完故事
+
+---
+
+### 方案四：大字报式——兜底最稳
+
+预定龟苗
+就是赌博
+（红章：定金不退）
+
+> 核心武器：纯色底+一个符号+四个大字，任何尺寸下完整可读，B 站最经典的警示流封面
 
 ---
 
 ## 封面生图提示词
 
-### 方案一（拉黑瞬间式·放大镜构图）
+> 设计原则：首页是九宫格小图，0.3 秒决定点击。**一张脸或一个符号占 60% 画面 + 一行大字 + 一处红**。不要多元素叙事插画。
+
+### 方案一（主推）：崩溃大脸 + 瞳孔倒影
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A devastated turtle hobbyist seen from behind at three-quarter angle,
-shoulders slumped, holding his smartphone with both hands — we see the
-BACK of the phone, the screen facing away from viewer. Above the phone,
-a giant magnifying glass floats in the air, its round lens showing an
-enlarged view of the phone screen: a WeChat chat interface where a gray
-system message banner reads "对方已开启好友验证" with a red exclamation
-mark. Only the lens shows the screen content; the phone itself stays
-unreadable.
+EXTREME CLOSE-UP: one single subject fills the frame — a young Chinese
+man's devastated anime face occupying 60% of the image. Wide bloodshot
+eyes, jaw dropped open, cold sweat drops flying off his forehead, hands
+clutching his hair. Inside his glossy pupils: a tiny reflection of a
+money bag with wings flying away. Nothing else in the scene. Flat dark
+navy background, spotlight on the face.
 
-Behind the hobbyist, a huge shadowy merchant figure with a money bag
-dissolves into smoke, running away. At the bottom, an empty turtle tank
-with only a price tag floating in it. A baby turtle standing beside the
-empty tank looks up at the owner with teary eyes.
+Bold Chinese text overlay, occupying the top third of the image:
+"钱付了" (giant white characters with thick red outline, impact font)
+"龟呢？？" (second line, even bigger, yellow with red outline)
+
+Visual style: anime comic, extreme exaggerated breakdown expression,
+thick bold outlines, cel shading
+Color scheme: dark navy background, bright skin tone under spotlight,
+red and yellow text, high contrast
+Mood: instant shock, "what happened to this guy" curiosity
+```
+
+> 一张脸传染情绪，瞳孔倒影埋细节（放大看才发现钱长了翅膀），"？？"制造缺口。手机、龟缸、商家全部删掉。
+
+### 方案二：骗子龟数钱（反派脸）
+
+```
+16:9 horizontal illustration for Bilibili video thumbnail
+
+ONE single subject fills the frame — a smug anthropomorphic snapping
+turtle con-man occupying the center 60%: wearing gold chain and dark
+sunglasses, grinning widely showing teeth, fanning out a thick wad of
+cash bills in one claw, bills printed with tiny turtle shell pattern.
+One eyebrow raised, clearly mocking. Flat golden-yellow background with
+radiating sunburst lines behind him. Nothing else.
 
 Bold Chinese text overlay:
-"钱付了 龟呢？" (top line, large white text with dark red outline)
-"龟圈预定爆雷实录" (bottom line, smaller yellow text)
-(The system message text lives INSIDE the magnifying lens, not as a
-separate overlay)
+"预定龟苗的钱" (top line, white with dark outline)
+"到他兜里了" (second line, red characters, biggest)
 
-Visual style: anime comic, exaggerated shocked posture, bold outlines
-Color scheme: dark background, light gray WeChat banner inside the lens,
-red exclamation accent, high contrast; the lens area is the brightest zone
-Background: fleeing merchant shadow with money bag, empty turtle tank with price tag
-Mood: betrayal, absurd injustice, "zoom in to see the truth" drama
+Visual style: anime comic villain style, exaggerated smug expression,
+thick outlines, cel shading
+Color scheme: golden yellow sunburst background, green turtle, red and
+white text, high contrast
+Mood: mockery, righteous anger, "this scumbag" reaction
 ```
 
-> 布局逻辑：观众看手机背面（真实比例，屏幕不可见）→ 放大镜镜头承载"对方已开启好友验证"（画面最亮焦点）→ 空龟缸+价签承担"龟呢" → 商家剪影跑路交代"钱没了"。三行字变两行叠加，系统消息从"悬浮横幅"改为"镜内内容"，视觉逻辑自洽。
+> 反派脸+数钱动作是最不需要理解成本的冲突画面，引发"想看他怎么被扒"的点击欲。配标题2或骗子语录文案。
 
-### 方案二（骗子语录式）
+### 方案三：分屏对比（不读字也懂）
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A sneaky cartoon merchant character shrugging with a sly grin, surrounded
-by floating WeChat speech bubbles containing ridiculous excuses: "龟被偷了",
-"龟死了", "老婆生孩子了". A frustrated turtle owner pulls his hair in the
-foreground, holding a deposit receipt marked "不退" (no refund) with a red
-stamp. A small turtle in the corner facepalms.
+SPLIT SCREEN, sharp vertical divide down the middle, maximum contrast:
+LEFT half — bright golden scene: a glossy premium baby turtle on a red
+velvet pedestal, a red envelope bursting with gold coins raining down,
+label tag "预定" hanging. RIGHT half — desaturated dark gray scene: the
+exact same pedestal now holding an empty shattered glass tank, one dead
+grey feather floating (no turtle), a phone showing a red exclamation
+mark. The left side is glossy and warm, the right side is cold and
+broken.
 
-Above the scene, bold Chinese text overlay:
-""龟被偷了"" (top line, large white text with red outline, quoted)
-""龟死了" "老婆生孩子了"" (middle line, smaller white text in speech bubbles)
-"反正 定金不退" (bottom line, yellow warning text with red stamp effect)
+Bold Chinese text overlay across the top:
+"预定前 vs 交货日" (giant white text with black outline, spanning both halves)
 
-Visual style: anime comic, humorous exaggerated expressions, bold outlines
-Color scheme: warm yellow-orange background with red and white accents, high contrast
-Background: floating excuse speech bubbles, deposit receipt with red "不退" stamp, facepalming turtle
-Mood: absurd comedy, dark humor, resonating frustration
+Visual style: anime comic, split-screen comparison meme format, bold outlines
+Color scheme: warm gold left vs cold gray right, red envelope accent,
+high contrast between halves
+Mood: dramatic before/after betrayal, no-reading-required storytelling
 ```
 
-### 方案三（等式喊话式）
+> 对比分屏是唯一不需要读字的叙事：金光闪闪 vs 灰暗碎裂，0.3 秒理解"期待 vs 现实"。
+
+### 方案四：大字报极简（转化最稳的兜底）
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A giant hand passing a red envelope of cash labeled "定金" toward a turtle
-tank. Inside the tank, the money transforms into poker chips and a dice
-landing on a gambling table where a merchant silhouette grins, holding
-the chips. The buyer's side is dim and blue; the merchant's side glows
-warm gold. A red stop hand sign in the corner.
+MINIMALIST poster: flat dark charcoal background. Center of frame: one
+single baby turtle hiding fully inside its shell, and stamped diagonally
+across the shell, a huge red official-style seal reading "定金不退"
+(four characters, distressed ink stamp effect, slightly rotated). Nothing
+else in the image. Huge negative space.
 
-Above the scene, bold Chinese text overlay:
-"先别付定金！" (top line, large white text with red outline, warning style)
-"你的定金 = 他的赌本" (middle line, yellow bold text with equals sign emphasized)
-"龟圈预定全拆解" (bottom line, smaller white text)
+Bold Chinese text overlay:
+"预定龟苗" (top, medium white text)
+"就是赌博" (below, giant red characters, three times bigger than the top line)
 
-Visual style: anime comic, symbolic split composition, bold outlines
-Color scheme: cold blue buyer side vs golden gambling side, red stop sign accent, high contrast
-Background: turtle tank transforming into gambling table, poker chips and dice
-Mood: eye-opening revelation, urgent warning
+Visual style: minimalist Japanese poster design, flat colors, huge
+negative space, single focal point
+Color scheme: charcoal black background, warm turtle shell brown, angry
+red seal and text
+Mood: stark warning, blunt statement, premium minimalism
 ```
+
+> 纯色底+一个符号+四个大字，任何缩略图尺寸下都完整可读。"定金不退"红章盖在缩进壳里的龟上——龟都躲了，章还在。
 
 ---
 
