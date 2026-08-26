@@ -138,33 +138,39 @@
 
 ## 封面生图提示词
 
-### 方案一（拉黑瞬间式）
+### 方案一（拉黑瞬间式·放大镜构图）
 
 ```
 16:9 horizontal illustration for Bilibili video thumbnail
 
-A devastated turtle hobbyist staring at his smartphone, holding it with
-both hands. The phone screen shows only a large WeChat transfer record
-with a red exclamation mark and a "send failed" symbol — no readable
-text on the screen. Behind the phone, a huge shadowy merchant figure
-with a money bag dissolves into smoke, running away. At the bottom, an
-empty turtle tank with only a price tag floating in it. A baby turtle
-standing beside the empty tank looks up at the owner with teary eyes.
+A devastated turtle hobbyist seen from behind at three-quarter angle,
+shoulders slumped, holding his smartphone with both hands — we see the
+BACK of the phone, the screen facing away from viewer. Above the phone,
+a giant magnifying glass floats in the air, its round lens showing an
+enlarged view of the phone screen: a WeChat chat interface where a gray
+system message banner reads "对方已开启好友验证" with a red exclamation
+mark. Only the lens shows the screen content; the phone itself stays
+unreadable.
 
-Above the scene, bold Chinese text overlay:
+Behind the hobbyist, a huge shadowy merchant figure with a money bag
+dissolves into smoke, running away. At the bottom, an empty turtle tank
+with only a price tag floating in it. A baby turtle standing beside the
+empty tank looks up at the owner with teary eyes.
+
+Bold Chinese text overlay:
 "钱付了 龟呢？" (top line, large white text with dark red outline)
-"对方已开启好友验证" (middle line, rendered as a giant WeChat system
-message: small gray text centered on a light gray banner across the
-width of the image, with a red exclamation mark icon on the left)
 "龟圈预定爆雷实录" (bottom line, smaller yellow text)
+(The system message text lives INSIDE the magnifying lens, not as a
+separate overlay)
 
-Visual style: anime comic, exaggerated shocked expression, bold outlines
-Color scheme: dark background with light gray WeChat system banner, red exclamation accent, high contrast
+Visual style: anime comic, exaggerated shocked posture, bold outlines
+Color scheme: dark background, light gray WeChat banner inside the lens,
+red exclamation accent, high contrast; the lens area is the brightest zone
 Background: fleeing merchant shadow with money bag, empty turtle tank with price tag
-Mood: betrayal, absurd injustice, instantly relatable pain
+Mood: betrayal, absurd injustice, "zoom in to see the truth" drama
 ```
 
-> 布局逻辑：手机屏幕只承担"钱付了"（转账记录+红感叹号，无小字）；空龟缸承担"龟呢"；中间横幅承担"被拉黑"。三个节拍各占一个元素，互不重复。
+> 布局逻辑：观众看手机背面（真实比例，屏幕不可见）→ 放大镜镜头承载"对方已开启好友验证"（画面最亮焦点）→ 空龟缸+价签承担"龟呢" → 商家剪影跑路交代"钱没了"。三行字变两行叠加，系统消息从"悬浮横幅"改为"镜内内容"，视觉逻辑自洽。
 
 ### 方案二（骗子语录式）
 
